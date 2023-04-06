@@ -1,9 +1,10 @@
 ﻿namespace Eventmi.Infrastructure.Data
 {
     using Eventmi.Infrastructure.Data.Common;
+    using Eventmi.Infrastructure.Data.Data_Models;
     using Microsoft.EntityFrameworkCore;
  
-    internal class EventmiDbContext:DbContext
+    public class EventmiDbContext:DbContext
     {
         public EventmiDbContext()
         {
@@ -16,6 +17,8 @@
         {
 
         }
+
+        public DbSet<Event> Events { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
