@@ -7,7 +7,7 @@
     public class HomeController : ApiController
     {
 
-       //[Authorize]
+        [Authorize]
         public IActionResult Get()
         {
             return Ok("WorksDoesIt?");

@@ -1,9 +1,11 @@
 using _Project_CheatSheet;
+using _Project_CheatSheet.Controllers.Resources;
 using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -12,6 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddTransient<IResourceService,ResourceService>();
+
+
 
 builder.Services.AddDbContext<CheatSheetDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -19,6 +24,16 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<User,IdentityRole>()
     .AddEntityFrameworkStores<CheatSheetDbContext>();
+
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Default Password settings.
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 2;
+});
 
 
 builder.Services.AddControllers();
