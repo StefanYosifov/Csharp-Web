@@ -10,7 +10,7 @@
        //[Authorize]
         public IActionResult Get()
         {
-            return Ok("Works");
+            return Ok("WorksDoesIt?");
         }
 
     }

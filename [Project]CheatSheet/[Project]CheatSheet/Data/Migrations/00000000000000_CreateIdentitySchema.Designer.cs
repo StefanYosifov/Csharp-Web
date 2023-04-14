@@ -9,7 +9,7 @@ namespace _Project_CheatSheet.Data.Migrations
     using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
     using System;
 
-    [DbContext(typeof(CheatSheetDbContent))]
+    [DbContext(typeof(CheatSheetDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]
     partial class CreateIdentitySchema
     {

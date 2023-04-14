@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace _Project_CheatSheet.Data.Models
 {
-    public partial class Category
+    public class Category
     {
         public Category()
         {
