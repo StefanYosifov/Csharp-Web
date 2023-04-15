@@ -16,6 +16,7 @@ namespace _Project_CheatSheet.Data.Models
         public string Title { get; set; } = null!;
         public string ImageUrl { get; set; } = null!;
         public string Content { get; set; } = null!;
+        public DateTime CreateDate { get; set; }
 
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }

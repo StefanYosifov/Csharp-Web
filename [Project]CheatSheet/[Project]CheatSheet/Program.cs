@@ -1,5 +1,6 @@
 using _Project_CheatSheet;
-using _Project_CheatSheet.Controllers.Resources;
+using _Project_CheatSheet.Controllers.Resources.Interfaces;
+using _Project_CheatSheet.Controllers.Resources.Service;
 using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
