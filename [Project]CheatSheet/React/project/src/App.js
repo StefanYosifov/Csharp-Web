@@ -6,9 +6,10 @@ import RegisterPage from './components/Register/Register';
 import HomePage from './components/Home/Home'
 import * as api from './api/requests';
 import { useEffect, useState } from 'react';
+import ResourceItem from './components/Resources/ResourceItem';
+import { ResourceList } from './components/Resources/ResourceList';
 
 function App() {
-
 
     
 
@@ -20,7 +21,7 @@ function App() {
         <Route path='/home' Component={HomePage}/>
         <Route path='/register' Component={RegisterPage} />
         <Route path='/login' Component={LoginPage} />
-        <Route path='/resources' Component={LoginPage} />
+        <Route path='/resource' Component={ResourceList} />
 
       </Routes>
     </div>
