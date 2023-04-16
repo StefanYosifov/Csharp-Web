@@ -17,10 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Profile\Interfaces\" />
-    <Folder Include="Controllers\Profile\Models\" />
     <Folder Include="Controllers\Profile\Services\" />
-    <Folder Include="Models\" />
   </ItemGroup>
 
 </Project>
