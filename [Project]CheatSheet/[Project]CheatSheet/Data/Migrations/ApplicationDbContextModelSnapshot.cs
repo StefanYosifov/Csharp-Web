@@ -39,15 +39,104 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Resource", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Comment", b =>
                 {
                     b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(3000)
-                        .HasColumnType("nvarchar(3000)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LikesCount")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResourceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("_Project_CheatSheet.Data.Models.CommentLike", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CommentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CommentLikes");
+                });
+
+            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Like", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CommentId")
+                        .IsRequired()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ResourceId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("ResourceId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Likes");
+                });
+
+            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Resource", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -58,8 +147,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -67,7 +155,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex(new[] { "UserId" }, "IX_Resources_UserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Resources");
                 });
@@ -83,6 +171,9 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -113,6 +204,9 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ProfilePictureUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -285,12 +379,77 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Comment", b =>
+                {
+                    b.HasOne("_Project_CheatSheet.Data.Models.Resource", "Resource")
+                        .WithMany("Comments")
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("_Project_CheatSheet.Data.Models.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Resource");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("_Project_CheatSheet.Data.Models.CommentLike", b =>
+                {
+                    b.HasOne("_Project_CheatSheet.Data.Models.Comment", "Comment")
+                        .WithMany("CommentLikes")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("_Project_CheatSheet.Data.Models.User", "User")
+                        .WithMany("CommentLikes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Like", b =>
+                {
+                    b.HasOne("_Project_CheatSheet.Data.Models.Comment", "Comment")
+                        .WithMany("Likes")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("_Project_CheatSheet.Data.Models.Resource", "Resource")
+                        .WithMany("Likes")
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("_Project_CheatSheet.Data.Models.User", "User")
+                        .WithMany("Likes")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Resource");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.Resource", b =>
                 {
                     b.HasOne("_Project_CheatSheet.Data.Models.User", "User")
                         .WithMany("Resources")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -362,8 +521,28 @@ namespace _Project_CheatSheet.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Comment", b =>
+                {
+                    b.Navigation("CommentLikes");
+
+                    b.Navigation("Likes");
+                });
+
+            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Resource", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Likes");
+                });
+
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.User", b =>
                 {
+                    b.Navigation("CommentLikes");
+
+                    b.Navigation("Comments");
+
+                    b.Navigation("Likes");
+
                     b.Navigation("Resources");
                 });
 #pragma warning restore 612, 618

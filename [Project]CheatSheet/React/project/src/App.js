@@ -1,12 +1,11 @@
 import './styles/style.css'
-import { Navigation } from './components/Navigation/Navigation';
-import { Route, Router, Routes } from 'react-router-dom';
+import Navigation from './components/Navigation/Navigation';
+import { Route,Routes } from 'react-router-dom';
 import LoginPage from './components/Login/Login';
 import RegisterPage from './components/Register/Register';
 import HomePage from './components/Home/Home'
 import * as api from './api/requests';
 import { useEffect, useState } from 'react';
-import ResourceItem from './components/Resources/ResourceItem';
 import { ResourceList } from './components/Resources/ResourceList';
 
 function App() {
