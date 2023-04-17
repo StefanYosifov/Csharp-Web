@@ -5,8 +5,8 @@ import LoginPage from './components/Login/Login';
 import RegisterPage from './components/Register/Register';
 import HomePage from './components/Home/Home'
 import * as api from './api/requests';
-import { useEffect, useState } from 'react';
 import { ResourceList } from './components/Resources/ResourceList';
+import { Detail } from './components/Detail/Detail';
 
 function App() {
 
@@ -21,7 +21,7 @@ function App() {
         <Route path='/register' Component={RegisterPage} />
         <Route path='/login' Component={LoginPage} />
         <Route path='/resource' Component={ResourceList} />
-
+        <Route path='/details/:id' Component={Detail} />
       </Routes>
     </div>
   );
