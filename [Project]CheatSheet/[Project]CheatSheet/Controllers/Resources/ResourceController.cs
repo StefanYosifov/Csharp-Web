@@ -47,5 +47,14 @@
 
             return Ok(resource);
         }
+
+        [Authorize]
+        [Route("/resource/add")]
+        [HttpPost]
+        public async Task<IActionResult> AddResource([FromBody]ResourceAddModel model)
+        {
+            var result = await services.addResource(model);
+            return result == StatusCode(StatusCodes.Status201Created) ? Ok() : BadRequest();
+        }
     }
 }

@@ -3,7 +3,6 @@
     using _Project_CheatSheet.Controllers.Resources.Models;
     using _Project_CheatSheet.Data;
     using _Project_CheatSheet.Data.Models;
-    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -27,11 +26,16 @@
         }
 
 
- 
-        [HttpPost]
 
-        public async Task<Resource> addResource(ResourceAddModel resourceModel)
+        public async Task<StatusCodeResult> addResource(ResourceAddModel resourceModel)
         {
+            bool isNull = resourceModel.GetType().GetProperties()
+            .Any(p => p.GetValue(resourceModel) == null);
+            if (isNull)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+            }
+
             Resource resource = new Resource()
             {
                 Content = resourceModel.Content,
@@ -41,10 +45,12 @@
                 UserId = getUserId(),
                 Categories = resourceModel.Categories
             };
+            
+
 
             await context.Resources.AddAsync(resource);
             await context.SaveChangesAsync();
-            return resource;
+            return StatusCode(StatusCodes.Status201Created);
         }
 
 
@@ -84,9 +90,10 @@
                     Title = res.Title,
                     CategoryNames = res.Categories.Select(c => c.Name),
                     UserName = res.User.UserName,
-                    DateTime = res.CreateDate.ToString("dd/MM/yy")
+                    DateTime = res.CreateDate.ToString("dd/MM/yy"),
+                    UserId=res.UserId
                 })
-                .Where(c => c.CategoryNames.Contains("Public")).ToArrayAsync();
+                .Where(c => c.CategoryNames.Contains("Public")||c.UserId==getUserId()).ToArrayAsync();
 
             return models;
         }
