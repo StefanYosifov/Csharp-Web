@@ -55,7 +55,7 @@ const onClick=(event)=>{
           <SearchBar />
         </div>
 
-        <div className="flex justify-evenly bg-slate-50 shadow-sm">
+        <div className="flex flex-row justify-evenly bg-slate-50 shadow-sm">
           {isLoading == true ?
             <p>Is loading</p> : resources.map((x) => <ResourceItem props={x} key={x.id} />)
           }

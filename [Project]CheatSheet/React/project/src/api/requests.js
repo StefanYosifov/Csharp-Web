@@ -27,9 +27,18 @@ export function login(userName,password){
 }
 
 export const getPublicResources=()=>{
+  console.log('hi');
     return axios.get(`${baseUrl}/resource`,{headers});
 }
 
 export const getDetails=(id)=>{
  return axios.get(`${baseUrl}/resource/details/${id}`,{headers})
 }
+
+
+export const addResource=(formData)=>{
+    console.log(formData);
+    const {title,imageUrl,content,categories}=formData;
+    console.log(`${title} ${content} ${imageUrl}`);
+    // return axios.post(`${baseUrl}/resource/add`,{data},{headers})
+};

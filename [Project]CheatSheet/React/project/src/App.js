@@ -12,7 +12,45 @@ import ResourceAdd from './components/Add/ResourceAdd';
 
 function App() {
 
-    
+  const index=4;
+  const myObj={
+  'Kiril:BOP-1209':'Fix Minor Bug:ToDo:3',
+  'Mariya:BOP-1213':'New Account Page:In Progress:13',
+  'Mariya:BOP-1213':'New Account Page:In Progress:13',
+  'Mariya:BOP-1213':'New Account Page:In Progress:13',
+  'Mariya:BOP-1213':'New Account Page:In Progress:13',
+  'Mariya:BOP-1210':'Fix Major Bug:In Progress:3',
+  'Peter:BOP-1211':'POC:Code Review:5',
+  'Georgi:BOP-1212':'Investigation Task:Done:2',
+  'Mariya:BOP-1213':'New Account Page:In Progress:13',
+  'Mariya:BOP-1213':'New Account Page:In Progress:13'};
+
+
+
+   const newObject={};
+   for (const key in myObj) {
+    if(!key.includes('Mariya')){
+      newObject[key]=myObj[key];
+    }
+   }
+
+
+
+   console.log(newObject);
+
+    const arr=[];
+    console.log(Object.entries(myObj).forEach((element,index) => {
+      const key=element[0];
+      let value=element[1];
+      if(key.includes('Mariya')){
+        value='';
+      }
+      arr.push({key,value});
+    }));
+  
+
+  
+
 
   return (
     <div className="App">
