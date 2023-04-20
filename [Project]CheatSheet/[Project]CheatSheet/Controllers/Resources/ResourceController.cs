@@ -53,8 +53,7 @@
         [HttpPost]
         public async Task<IActionResult> AddResource([FromBody]ResourceAddModel model)
         {
-            var result = await services.addResource(model);
-            return result == StatusCode(StatusCodes.Status201Created) ? Ok() : BadRequest();
+            return await services.addResource(model);
         }
     }
 }

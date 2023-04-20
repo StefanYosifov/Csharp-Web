@@ -29,6 +29,12 @@
 
         public async Task<StatusCodeResult> addResource(ResourceAddModel resourceModel)
         {
+            if (resourceModel == null)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden);
+
+            }
+
             bool isNull = resourceModel.GetType().GetProperties()
             .Any(p => p.GetValue(resourceModel) == null);
             if (isNull)
@@ -43,10 +49,10 @@
                 Title = resourceModel.Title,
                 ImageUrl = resourceModel.ImageUrl,
                 UserId = getUserId(),
-                Categories = resourceModel.Categories
+                CategoryResources = resourceModel.CategoryResources,
             };
             
-
+            
 
             await context.Resources.AddAsync(resource);
             await context.SaveChangesAsync();
@@ -68,7 +74,7 @@
                     Content = res.Content,
                     ImageUrl = res.ImageUrl,
                     Title = res.Title,
-                    CategoryNames = res.Categories.Select(c => c.Name),
+                    CategoryNames = res.CategoryResources.Select(c => c.Category.Name),
                     UserId = res.User.Id,
                 })
                 .Where(res => res.UserId == userId)
@@ -80,7 +86,7 @@
         [HttpGet]
         public async Task<IEnumerable<ResourceModel>> publicResources()
         {
-            IEnumerable<ResourceModel> models = await context.Resources.Include(res => res.Categories)
+            IEnumerable<ResourceModel> models = await context.Resources.Include(res => res.CategoryResources)
                 .AsNoTracking()
                 .Select(res => new ResourceModel()
                 {
@@ -88,7 +94,7 @@
                     Content = res.Content,
                     ImageUrl = res.ImageUrl,
                     Title = res.Title,
-                    CategoryNames = res.Categories.Select(c => c.Name),
+                    CategoryNames = res.CategoryResources.Select(c => c.Category.Name),
                     UserName = res.User.UserName,
                     DateTime = res.CreateDate.ToString("dd/MM/yy"),
                     UserId=res.UserId
@@ -102,11 +108,11 @@
         [HttpGet]
         public async Task<ResourceModel> resourceById(string? resourceId)
         {
-            IEnumerable<ResourceModel?> resources = await context.Resources.Include(res => res.Categories)
+            IEnumerable<ResourceModel?> resources = await context.Resources.Include(res => res.CategoryResources)
                 .Select(r => new ResourceModel()
                 {
                     Id = r.Id.ToString(),
-                    CategoryNames = r.Categories.Select(c => c.Name),
+                    CategoryNames = r.CategoryResources.Select(c => c.Category.Name),
                     Content = r.Content,
                     DateTime = r.CreateDate.ToString(),
                     ImageUrl = r.ImageUrl,
@@ -127,6 +133,8 @@
             Console.WriteLine("Entered here!");
             return null;
         }
+
+
 
         private string getUserId()
         {
