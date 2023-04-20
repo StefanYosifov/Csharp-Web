@@ -35,15 +35,15 @@ const onClick=(event)=>{
 
   return (
     <>
-      <div className="flex flex-col w-full p-10 bg-red-500">
+      <div className="flex flex-col w-full p-10 bg-red-500 text-2xl">
       <div className="text-center my-2">
-          <h2>Enjoying seeing our resources?</h2>
+          <h2>Enjoying reading our resources?</h2>
         </div>
         <div className="text-center my-2">
           <h2 >Why don't you create one?</h2>
         </div>
         <div className="text-center my-2">
-          <button onClick={onClick} className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow w-24">
+          <button onClick={onClick} className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow w-36">
             Add a resource
           </button>
         </div>
@@ -55,7 +55,7 @@ const onClick=(event)=>{
           <SearchBar />
         </div>
 
-        <div className="flex flex-row justify-evenly bg-slate-50 shadow-sm">
+        <div className="grid grid-cols-4 justify-start bg-slate-50 shadow-sm">
           {isLoading == true ?
             <p>Is loading</p> : resources.map((x) => <ResourceItem props={x} key={x.id} />)
           }

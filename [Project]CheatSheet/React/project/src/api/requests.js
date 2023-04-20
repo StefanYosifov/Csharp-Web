@@ -37,8 +37,20 @@ export const getDetails=(id)=>{
 
 
 export const addResource=(formData)=>{
-    console.log(formData);
-    const {title,imageUrl,content,categories}=formData;
-    console.log(`${title} ${content} ${imageUrl}`);
-    // return axios.post(`${baseUrl}/resource/add`,{data},{headers})
+
+    const data={
+      "Title":formData.title.toString(),
+      "Content":formData.content.toString(),
+      "imageUrl":formData.imageUrl.toString(),
+      "Categories":{"name":formData.categories}
+    }
+
+    console.log(data);
+     return axios.post(`${baseUrl}/resource/add`,JSON.stringify(data),{headers})
+     .then(res=>console.log(res));
 };
+
+
+export const getCategories=()=>{
+ return axios.get(`${baseUrl}/category/get`,{headers});
+}

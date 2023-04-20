@@ -14,11 +14,11 @@ export const ResourceItem = (props) => {
 
     return (
         <>
-            <div className="max-w-sm rounded overflow-hidden shadow-lg order-3 w-80">
-                <div className="h-48">
+            <div className="max-w-sm rounded overflow-hidden shadow-lg w-10/12 m-8 hover:shadow-2xl">
+                <div className="h-96">
                 <img className="w-full h-full object-cover" alt="Use any sample image here..." src={resourcers.imageUrl} />
                 </div>
-                <div className=" text-xs flex bg-gray-700 w-full text-slate-50 justify-evenly h-5">
+                <div className=" text-sm flex bg-gray-700 w-full text-slate-50 justify-evenly h-5">
                     <span>Author: {resourcers.userName}</span>
                     <span>Date: {resourcers.dateTime}</span>
                 </div>
