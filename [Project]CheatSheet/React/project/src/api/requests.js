@@ -32,6 +32,7 @@ export const getPublicResources=()=>{
 }
 
 export const getDetails=(id)=>{
+  console.log(id);
  return axios.get(`${baseUrl}/resource/details/${id}`,{headers})
 }
 

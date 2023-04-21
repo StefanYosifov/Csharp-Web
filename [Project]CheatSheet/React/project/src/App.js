@@ -13,7 +13,7 @@ import ResourceAdd from './components/Add/ResourceAdd';
 function App() {
 
   return (
-    <div className="App bg-lime-300 h-full">
+    <div className="App">
         <Navigation/>
       <Routes>
         <Route path='/home' Component={HomePage}/>
