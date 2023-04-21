@@ -5,23 +5,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _Project_CheatSheet.Data.Models
 {
-    public class Resource
+    public class Resource:BaseEntity
     {
         public Resource()
         {
             this.CategoryResources = new HashSet<CategoryResource>();
-            this.Likes = new HashSet<Like>();
+            this.ResourceLikes = new HashSet<ResourceLike>();
             this.Comments = new HashSet<Comment>();
-
             this.Id = Guid.NewGuid();
         }
-
         [Key]
         public Guid Id { get; set; }
         public string Title { get; set; } = null!;
         public string ImageUrl { get; set; } = null!;
         public string Content { get; set; } = null!;
-        public DateTime CreateDate { get; set; }
 
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }
@@ -29,7 +26,7 @@ namespace _Project_CheatSheet.Data.Models
         public virtual User User { get; set; } = null!;
 
         public virtual ICollection<CategoryResource> CategoryResources { get; set; }
-        public virtual ICollection<Like> Likes { get; set; }
-        public virtual ICollection<Comment> Comments { get; set; }
+        public ICollection<ResourceLike> ResourceLikes { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

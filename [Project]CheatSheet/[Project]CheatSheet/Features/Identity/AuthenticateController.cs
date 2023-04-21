@@ -1,6 +1,7 @@
 ﻿namespace _Project_CheatSheet.Controllers.Identity
 {
     using _Project_CheatSheet.Data.Models;
+    using _Project_CheatSheet.Features.Identity.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -61,9 +62,6 @@
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo
                 });
-
-
-
             }
 
             return Unauthorized("Error while logging in! Check your credentials");
@@ -108,7 +106,7 @@
             var token = new JwtSecurityToken(
                 issuer: configuration["JWT:ValidIssuer"],
                 audience: configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(30),
+                expires: DateTime.Now.AddHours(IdentityConstants.IdentityTokenHoursExpiration),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );

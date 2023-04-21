@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace _Project_CheatSheet.Data.Models
 {
@@ -9,7 +10,7 @@ namespace _Project_CheatSheet.Data.Models
         {
             CategoryResources = new HashSet<CategoryResource>();
         }
-
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; } = null!;
 

@@ -13,6 +13,6 @@
         internal const int PasswordMaxLength = 25;
 
 
-
+        internal const int IdentityTokenHoursExpiration = 48;
     }
 }

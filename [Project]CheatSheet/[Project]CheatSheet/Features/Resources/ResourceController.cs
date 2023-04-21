@@ -5,7 +5,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-
+    [Route("/resource")]
     public class ResourceController : ControllerBase
     {
         private readonly IResourceService services;
@@ -16,7 +16,7 @@
         }
 
         [Authorize]
-        [Route("/resource")]
+        [Route("/test")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
