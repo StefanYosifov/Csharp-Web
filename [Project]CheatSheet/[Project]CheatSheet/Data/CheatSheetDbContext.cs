@@ -4,6 +4,7 @@ using _Project_CheatSheet.Data.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace _Project_CheatSheet.Data
 {
@@ -23,9 +24,9 @@ namespace _Project_CheatSheet.Data
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Resource> Resources { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
-
         public virtual DbSet<Like> Likes { get; set; } = null!;
 
+        public virtual DbSet<CategoryResource> CategoriesResources { get; set; }
         public virtual DbSet<Comment> Comments { get; set; } = null!;
 
         public virtual DbSet<CommentLike> CommentLikes { get; set; } = null!;
@@ -41,23 +42,7 @@ namespace _Project_CheatSheet.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>(entity =>
-            {
-                entity.HasMany(d => d.Resources)
-                    .WithMany(p => p.Categories)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "CategoriesResource",
-                        l => l.HasOne<Resource>().WithMany().HasForeignKey("ResourceId"),
-                        r => r.HasOne<Category>().WithMany().HasForeignKey("CategoryId"),
-                        j =>
-                        {
-                            j.HasKey("CategoryId", "ResourceId");
-
-                            j.ToTable("CategoriesResources");
-
-                            j.HasIndex(new[] { "ResourceId" }, "IX_CategoriesResources_ResourceId");
-                        });
-            });
+            
 
             modelBuilder.Entity<Like>()
         .HasOne(l => l.Resource)
@@ -131,6 +116,9 @@ namespace _Project_CheatSheet.Data
                 .WithOne(c => c.Resource)
                 .HasForeignKey(c => c.ResourceId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<CategoryResource>()
+                .HasKey(k => new { k.CategoryId, k.ResourceId });
 
             base.OnModelCreating(modelBuilder);
         }

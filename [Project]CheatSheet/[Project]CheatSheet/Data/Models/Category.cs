@@ -7,12 +7,12 @@ namespace _Project_CheatSheet.Data.Models
     {
         public Category()
         {
-            Resources = new HashSet<Resource>();
+            CategoryResources = new HashSet<CategoryResource>();
         }
 
         public int Id { get; set; }
         public string Name { get; set; } = null!;
 
-        public virtual ICollection<Resource> Resources { get; set; }
+        public virtual ICollection<CategoryResource> CategoryResources { get; set; }
     }
 }

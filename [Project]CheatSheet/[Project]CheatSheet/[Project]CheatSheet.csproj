@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Profile\Services\" />
+    <Folder Include="Features\Profile\Services\" />
   </ItemGroup>
 
 </Project>

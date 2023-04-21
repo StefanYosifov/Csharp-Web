@@ -9,7 +9,7 @@ namespace _Project_CheatSheet.Data.Models
     {
         public Resource()
         {
-            this.Categories = new HashSet<Category>();
+            this.CategoryResources = new HashSet<CategoryResource>();
             this.Likes = new HashSet<Like>();
             this.Comments = new HashSet<Comment>();
 
@@ -28,7 +28,7 @@ namespace _Project_CheatSheet.Data.Models
 
         public virtual User User { get; set; } = null!;
 
-        public virtual ICollection<Category> Categories { get; set; }
+        public virtual ICollection<CategoryResource> CategoryResources { get; set; }
         public virtual ICollection<Like> Likes { get; set; }
         public virtual ICollection<Comment> Comments { get; set; }
     }

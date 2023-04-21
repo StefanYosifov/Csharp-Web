@@ -36,7 +36,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.Comment", b =>
@@ -69,7 +69,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.CommentLike", b =>
@@ -94,7 +94,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CommentLikes");
+                    b.ToTable("CommentLikes", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.Like", b =>
@@ -125,7 +125,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Likes");
+                    b.ToTable("Likes", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.Resource", b =>
@@ -157,7 +157,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Resources");
+                    b.ToTable("Resources", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.User", b =>

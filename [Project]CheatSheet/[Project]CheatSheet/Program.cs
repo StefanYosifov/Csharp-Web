@@ -1,4 +1,6 @@
 using _Project_CheatSheet;
+using _Project_CheatSheet.Controllers.Category.Interfaces;
+using _Project_CheatSheet.Controllers.Category.Services;
 using _Project_CheatSheet.Controllers.Resources.Interfaces;
 using _Project_CheatSheet.Controllers.Resources.Service;
 using _Project_CheatSheet.Data;
@@ -16,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddTransient<IResourceService,ResourceService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
 
 
 
