@@ -11,6 +11,7 @@
         {
             CategoryNames = new List<string>();
             this.Comments = new HashSet<Comment>();
+            this.CommentModels = new HashSet<CommentModel>();
 
             this.CommentContent = new List<string>();
             this.CommentLikes=new List<int>();
@@ -35,6 +36,8 @@
         public string? UserId { get; set; }
         public string? UserName { get; set; }
         public string? UserImage { get; set; }
+
+        public IEnumerable<CommentModel> CommentModels { get; set; }
 
         public IEnumerable<string> CommentContent { get; set; }
 

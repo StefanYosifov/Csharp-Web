@@ -105,6 +105,7 @@
             return models;
         }
 
+  
         public async Task<DetailResources> resourceById(string? resourceId)
         {
             IEnumerable<DetailResources> details = await context.Resources
@@ -120,7 +121,14 @@
                      UserId = r.UserId,
                      UserName = r.User.UserName,
                      UserImage = r.User.ProfilePictureUrl,
-                     Comments = r.Comments,
+                     CommentModels=r.Comments.Select(c=>new CommentModel()
+                     {
+                         UserName = context.Users.Where(u => u.Id == c.UserId).Select(u => u.UserName).FirstOrDefault(),
+                         UserProfileImage = context.Users.Where(u => u.Id == c.UserId).Select(u => u.ProfilePictureUrl).FirstOrDefault(),
+                         Content = c.Content,
+                         CreatedAt = c.CreatedAt.ToString(dateFormatter),
+                         Id = r.Id.ToString(),
+                     }),
                      Likes = r.ResourceLikes.Count,
                      CategoryNames=r.CategoryResources.Select(c => c.Category.Name),
                      CommentContent=r.Comments.Select(x=>x.Content)
