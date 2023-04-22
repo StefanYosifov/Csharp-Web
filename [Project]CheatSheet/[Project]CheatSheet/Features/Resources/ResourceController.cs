@@ -16,7 +16,6 @@
         }
 
         [Authorize]
-        [Route("/test")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {

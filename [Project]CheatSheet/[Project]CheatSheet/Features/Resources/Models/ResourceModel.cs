@@ -29,8 +29,8 @@
         public string DateTime { get; set; } = null!;
         public string? UserId { get; set; }
         public string? UserName { get; set; }
-        public IEnumerable<string> CategoryNames { get; set; } = null!;
+        public IEnumerable<string>? CategoryNames { get; set; }
 
-        public IEnumerable<Comment> Comments { get; set; } = null;
+        public IEnumerable<Comment> Comments { get; set; } 
     }
 }

@@ -17,6 +17,10 @@
         public string UserId { get; set; }
         public User User { get; set; }
 
+        public string UserName { get; set; }
+
+        public string UserProfileImage { get; set; }
+
         [ForeignKey(nameof(Resource))]
         public Guid ResourceId { get; set; }
         public Resource Resource { get; set; }

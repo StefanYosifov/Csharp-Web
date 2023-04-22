@@ -17,6 +17,8 @@
         private readonly UserManager<User> userManager;
         private readonly IHttpContextAccessor httpContextAccessor;
 
+        private const string dateFormatter = "DD/MM/YYYY";
+
         public ResourceService(CheatSheetDbContext context,
                              UserManager<User> userManager,
                              IHttpContextAccessor httpContextAccessor)
@@ -83,19 +85,21 @@
 
         public async Task<IEnumerable<ResourceModel>> publicResources()
         {
-            IEnumerable<ResourceModel> models = await context.Resources.Include(res => res.CategoryResources)
+            IEnumerable<ResourceModel> models = await context.Resources
+                .Include(res => res.CategoryResources)
+                .Include(res => res.User)
                 .AsNoTracking()
-                .Select(res => new ResourceModel()
-                {
-                    Id = res.Id.ToString(),
-                    Content = res.Content,
-                    ImageUrl = res.ImageUrl,
-                    Title = res.Title,
-                    CategoryNames = res.CategoryResources.Select(c => c.Category.Name),
-                    UserName = res.User.UserName,
-                    DateTime = res.CreatedAt.ToString("dd/MM/yy"),
-                    UserId=res.UserId.ToString(),
-                })
+               .Select(r => new ResourceModel()
+               {
+                   Id = r.Id.ToString(),
+                   Title = r.Title,
+                   Content = r.Content,
+                   DateTime = r.CreatedAt.ToString(dateFormatter),
+                   ImageUrl = r.ImageUrl,
+                   UserId = r.User.Id,
+                   UserName = r.User.UserName,
+                   CategoryNames = r.CategoryResources.Select(c => c.Category.Name),
+               })
                 .Where(c => c.CategoryNames.Contains("Public")||c.UserId==getUserId()).ToArrayAsync();
 
             return models;
@@ -104,6 +108,8 @@
         public async Task<DetailResources> resourceById(string? resourceId)
         {
             IEnumerable<DetailResources> details = await context.Resources
+                .Include(r=>r.User)
+                .Include(r=>r.Comments)
                  .Select(r => new DetailResources()
                  {
                      Id = r.Id.ToString(),
