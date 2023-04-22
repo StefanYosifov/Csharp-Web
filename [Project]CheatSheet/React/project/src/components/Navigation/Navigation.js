@@ -12,9 +12,6 @@ function Navigation() {
   return (
     <nav className="bg-gray-800">
       <ul className="flex justify-start text-lg items-center py-4 px-6 m-0">
-        {getUserData().length == 1 ?
-          <>
-
             <li>
               <NavLink to="/login" className="text-white px-2 py-1 rounded-lg hover:bg-red-700">
                 Login
@@ -23,9 +20,8 @@ function Navigation() {
             <NavLink to="/register" className="text-white px-2 py-1 rounded-lg hover:bg-red-700">
               Register
             </NavLink>
-          </>
-          :
-          <>
+      
+
             <li>
               <NavLink to="/home" className="text-ellipsis text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
                 Home
@@ -65,8 +61,6 @@ function Navigation() {
                 </ul>
               )}
             </li>
-          </>}
-
       </ul>
     </nav>
   );
