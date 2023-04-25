@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Comment\Services\" />
     <Folder Include="Features\Profile\Services\" />
   </ItemGroup>
 

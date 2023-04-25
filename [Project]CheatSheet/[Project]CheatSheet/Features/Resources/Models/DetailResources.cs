@@ -2,6 +2,7 @@
 {
     using _Project_CheatSheet.Controllers.Resources;
     using _Project_CheatSheet.Data.Models;
+    using _Project_CheatSheet.Features.Comment.Models;
     using System.ComponentModel.DataAnnotations;
 
     public class DetailResources
@@ -10,10 +11,8 @@
         public DetailResources()
         {
             CategoryNames = new List<string>();
-            this.Comments = new HashSet<Comment>();
             this.CommentModels = new HashSet<CommentModel>();
 
-            this.CommentContent = new List<string>();
             this.CommentLikes=new List<int>();
         }
 
@@ -39,11 +38,8 @@
 
         public IEnumerable<CommentModel> CommentModels { get; set; }
 
-        public IEnumerable<string> CommentContent { get; set; }
-
         public List<int> CommentLikes { get; set; }
         public IEnumerable<string> CategoryNames { get; set; } = null!;
 
-        public IEnumerable<Comment> Comments { get; set; } = null;
     }
 }

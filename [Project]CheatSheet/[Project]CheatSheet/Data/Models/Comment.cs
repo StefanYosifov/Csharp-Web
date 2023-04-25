@@ -11,6 +11,8 @@
             this.Id = Guid.NewGuid();
         }
         public Guid Id { get; set; }
+        [Required]
+        [MaxLength(ModelConstants.CommentsMaxLength)]
         public string Content { get; set; }
 
         [ForeignKey(nameof(User))]

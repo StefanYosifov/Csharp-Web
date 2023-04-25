@@ -16,8 +16,12 @@ namespace _Project_CheatSheet.Data.Models
         }
         [Key]
         public Guid Id { get; set; }
+        [MaxLength(ModelConstants.ResourceTitleMaxLength)]
         public string Title { get; set; } = null!;
+        [MaxLength(ModelConstants.ResourceImageUrlMaxLength)]
         public string ImageUrl { get; set; } = null!;
+
+        [MaxLength(ModelConstants.ResourceContentMaxLength)]
         public string Content { get; set; } = null!;
 
         [ForeignKey(nameof(User))]

@@ -17,7 +17,7 @@
         private readonly UserManager<User> userManager;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        private const string dateFormatter = "DD/MM/YYYY";
+        private const string dateFormatter = "dd/MM/yyyy HH:mm";
 
         public ResourceService(CheatSheetDbContext context,
                              UserManager<User> userManager,
@@ -127,11 +127,10 @@
                          UserProfileImage = context.Users.Where(u => u.Id == c.UserId).Select(u => u.ProfilePictureUrl).FirstOrDefault(),
                          Content = c.Content,
                          CreatedAt = c.CreatedAt.ToString(dateFormatter),
-                         Id = r.Id.ToString(),
+                         Id = c.Id.ToString(),
                      }),
                      Likes = r.ResourceLikes.Count,
                      CategoryNames=r.CategoryResources.Select(c => c.Category.Name),
-                     CommentContent=r.Comments.Select(x=>x.Content)
                  }).Where(r=>r.Id==resourceId).ToListAsync();
 
             return details
