@@ -4,34 +4,34 @@
 
 namespace _Project_CheatSheet.Data.Migrations
 {
-    public partial class UserDataToComments : Migration
+    public partial class CommentsFix : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.DropColumn(
                 name: "UserName",
-                table: "Comments",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
+                table: "Comments");
 
-            migrationBuilder.AddColumn<string>(
+            migrationBuilder.DropColumn(
                 name: "UserProfileImage",
-                table: "Comments",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
+                table: "Comments");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
+            migrationBuilder.AddColumn<string>(
                 name: "UserName",
-                table: "Comments");
+                table: "Comments",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
 
-            migrationBuilder.DropColumn(
+            migrationBuilder.AddColumn<string>(
                 name: "UserProfileImage",
-                table: "Comments");
+                table: "Comments",
+                type: "nvarchar(max)",
+                nullable: false,
+                defaultValue: "");
         }
     }
 }

@@ -12,8 +12,8 @@ using _Project_CheatSheet.Data;
 namespace _Project_CheatSheet.Data.Migrations
 {
     [DbContext(typeof(CheatSheetDbContext))]
-    [Migration("20230422133815_UserDataToComments")]
-    partial class UserDataToComments
+    [Migration("20230425221448_CommentsFix")]
+    partial class CommentsFix
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -64,7 +64,8 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -75,14 +76,6 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserProfileImage")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -122,6 +115,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
+                        .HasMaxLength(5000)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -129,11 +123,13 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(60)
+                        .HasColumnType("nvarchar(60)");
 
                     b.Property<string>("UserId")
                         .IsRequired()

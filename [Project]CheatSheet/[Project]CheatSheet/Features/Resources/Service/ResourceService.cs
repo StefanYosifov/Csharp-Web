@@ -3,6 +3,7 @@
     using _Project_CheatSheet.Controllers.Resources.Models;
     using _Project_CheatSheet.Data;
     using _Project_CheatSheet.Data.Models;
+    using _Project_CheatSheet.Features.Comment.Models;
     using _Project_CheatSheet.Features.Resources.Models;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@
         private readonly UserManager<User> userManager;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        private const string dateFormatter = "dd/MM/yyyy HH:mm";
+        
 
         public ResourceService(CheatSheetDbContext context,
                              UserManager<User> userManager,
@@ -94,13 +95,13 @@
                    Id = r.Id.ToString(),
                    Title = r.Title,
                    Content = r.Content,
-                   DateTime = r.CreatedAt.ToString(dateFormatter),
+                   DateTime = r.CreatedAt.ToString(ModelConstants.dateFormatter),
                    ImageUrl = r.ImageUrl,
                    UserId = r.User.Id,
                    UserName = r.User.UserName,
                    CategoryNames = r.CategoryResources.Select(c => c.Category.Name),
                })
-                .Where(c => c.CategoryNames.Contains("Public")||c.UserId==getUserId()).ToArrayAsync();
+                .Where(c => c.CategoryNames!.Contains("Public")||c.UserId==getUserId()).ToArrayAsync();
 
             return models;
         }
@@ -126,7 +127,7 @@
                          UserName = context.Users.Where(u => u.Id == c.UserId).Select(u => u.UserName).FirstOrDefault(),
                          UserProfileImage = context.Users.Where(u => u.Id == c.UserId).Select(u => u.ProfilePictureUrl).FirstOrDefault(),
                          Content = c.Content,
-                         CreatedAt = c.CreatedAt.ToString(dateFormatter),
+                         CreatedAt = c.CreatedAt.ToString(ModelConstants.dateFormatter),
                          Id = c.Id.ToString(),
                      }),
                      Likes = r.ResourceLikes.Count,

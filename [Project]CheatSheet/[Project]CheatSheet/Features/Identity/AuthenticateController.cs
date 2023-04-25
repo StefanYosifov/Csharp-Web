@@ -75,12 +75,12 @@
             var usernameExists = await userManager.FindByNameAsync(registerModel.UserName);
             if (usernameExists != null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status403Forbidden, new Response { Message = "User already exists!" });
             }
             var emailExists = await userManager.FindByEmailAsync(registerModel.Email);
             if (emailExists != null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Message = "Email already exists!" });
+                return StatusCode(StatusCodes.Status403Forbidden, new Response { Message = "Email already exists!" });
             }
 
             User user = new User()

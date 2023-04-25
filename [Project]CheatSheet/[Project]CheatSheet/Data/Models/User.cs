@@ -11,7 +11,7 @@ namespace _Project_CheatSheet.Data.Models
             this.CommentLikes = new HashSet<CommentLike>();
             this.Comments = new HashSet<Comment>();
         }
-
+         
         public DateTime CreatedOn { get; set; }
 
         public string? ProfilePictureUrl { get; set; }

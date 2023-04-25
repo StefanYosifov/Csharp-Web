@@ -5,6 +5,8 @@ using _Project_CheatSheet.Controllers.Resources.Interfaces;
 using _Project_CheatSheet.Controllers.Resources.Service;
 using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Data.Models;
+using _Project_CheatSheet.Features.Comment.Interfaces;
+using _Project_CheatSheet.Features.Comment.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,6 +21,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddTransient<IResourceService,ResourceService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
+builder.Services.AddTransient<ICommentService, CommentService>();
 
 
 
