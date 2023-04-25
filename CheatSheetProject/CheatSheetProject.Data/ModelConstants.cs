@@ -20,6 +20,8 @@
         public const int ResourceTitleMinLength = 5;
         public const int ResourceTitleMaxLength = 50;
 
+        public const int ResourceImageUrlMaxLength = 100;
+
         public const int ResourceContentMinLnegth = 10;
         public const int ResourceContentMaxLength = 3000;
 

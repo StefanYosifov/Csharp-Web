@@ -17,13 +17,13 @@
 
         }
 
-        public DbSet<Category> Categories { get; set; }
+        public DbSet<Category> Categories { get; set; } = null!;
 
-        public DbSet<Resource> Resources { get; set; }
+        public DbSet<Resource> Resources { get; set; } = null!;
 
-        public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; } = null!;
 
-        public DbSet<CategoryResource> CategoriesResources { get; set; }
+        public DbSet<CategoryResource> CategoriesResources { get; set; } = null!;
 
 
 
