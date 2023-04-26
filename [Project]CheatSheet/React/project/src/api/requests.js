@@ -36,6 +36,22 @@ export const getDetails=(id)=>{
  return axios.get(`${baseUrl}/resource/details/${id}`,{headers})
 }
 
+export const getComments=(id)=>{
+  console.log(id);
+  return axios.get(`${baseUrl}/comment/get/${id}`,{headers});
+}
+
+export const sendAComment=(comment)=>{
+  console.log(comment);
+  const data={
+    "resourceId":comment.id,
+    "Content":comment.comment,
+  }
+  return axios.post(`${baseUrl}/comment/send`,data,{headers})
+  .then((response)=>console.log(response));
+
+}
+
 
 export const addResource=(formData)=>{
 

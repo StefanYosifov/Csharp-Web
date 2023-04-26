@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
-import { getDetails } from "../../api/requests";
+import { getComments, getDetails,sendAComment } from "../../api/requests";
 import { Comments } from '../Helper components/Comments'
 import CommentForm from "../Helper components/CommentForm";
 
@@ -9,25 +9,27 @@ export const Detail = () => {
 
 
     const [details, setDetails] = useState([]);
+    const [comment,setComments]=useState([]);
     const { id } = useParams();
 
-   
-    const handleSubmitComment = (comment) => {
-        const newComment = {text: comment};
-        setDetails(prevDetails => {
-            return {
-                ...prevDetails,
-                commentModels: [...prevDetails.commentModels, newComment]
-            };
-        });
-    }
+
+
     useEffect(() => {
         getDetails(id)
             .then(res => setDetails(res.data));
 
     }, [])
 
-    console.log(details.commentModels);
+    useEffect(()=>{
+        getComments(id)
+        .then(res=>setComments(res.data))
+    },[])
+   
+    console.log(comment);
+
+    const handleSubmitComment = (comment) => {
+        sendAComment({comment,id});
+    }
 
     return (
 
@@ -67,9 +69,8 @@ export const Detail = () => {
                 <div className="w-full">
                     <h3 className="text-lg font-bold mb-2">Comments</h3>
                     <ul className="list-disc">
-                        {details &&
-                            details.commentModels &&
-                            details.commentModels.map((comment) => (
+                        {comment &&
+                            comment.map((comment) => (
                                 <Comments key={comment.id} commentModels={comment} />
                             ))}
                     </ul>
