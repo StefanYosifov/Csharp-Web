@@ -9,7 +9,6 @@
         public ResourceModel()
         {
             CategoryNames = new List<string>();
-            this.Comments = new HashSet<Comment>();
         }
 
         [Required]
@@ -30,7 +29,5 @@
         public string? UserId { get; set; }
         public string? UserName { get; set; }
         public IEnumerable<string>? CategoryNames { get; set; }
-
-        public IEnumerable<Comment> Comments { get; set; } 
     }
 }

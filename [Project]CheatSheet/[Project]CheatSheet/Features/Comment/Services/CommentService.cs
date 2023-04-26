@@ -1,16 +1,15 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Services
 {
     using _Project_CheatSheet.Data;
+    using _Project_CheatSheet.Data.Models;
     using _Project_CheatSheet.Features.Comment.Interfaces;
     using _Project_CheatSheet.Features.Comment.Models;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-
-    using _Project_CheatSheet.Data.Models;
+    using System.Collections.Generic;
     using System.Security.Claims;
+    using System.Threading.Tasks;
 
     public class CommentService : ICommentService
     {
@@ -59,9 +58,26 @@
             return new StatusCodeResult(StatusCodes.Status201Created);
         }
 
-        public Task<IEnumerable<CommentModel>> getCommentsFromResource(string resourceId)
+        public async Task<IEnumerable<CommentModel>> getCommentsFromResource(string resourceId)
         {
-            throw new NotImplementedException();
+            if (resourceId.Length != 36)
+            {
+                return Enumerable.Empty<CommentModel>();
+            }
+
+            IEnumerable<CommentModel> comments=await context.Comments
+                .OrderBy(c=>c.CreatedAt)
+                .Select(c=>new CommentModel()
+            {
+                Id=c.Id.ToString(),
+                Content=c.Content,
+                CreatedAt=c.CreatedAt.ToString(ModelConstants.dateFormatter),
+                ResourceId=c.ResourceId.ToString(),
+                UserName=c.User.UserName,
+                UserProfileImage=c.User.ProfilePictureUrl,
+            }).ToArrayAsync();
+
+            return comments;
         }
 
         private async Task<User> GetUser()

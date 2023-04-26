@@ -19,9 +19,27 @@
         [Authorize]
         [HttpPost]
         [Route("/comment/send")]
-        public async Task<StatusCodeResult> PostAComment(CommentModel comment)
+        public async Task<ActionResult> PostAComment(CommentModel comment)
         {
-            return await service.createAComment(comment);
+            var postComment = await service.createAComment(comment);
+            if (postComment.StatusCode != 201)
+            {
+                return BadRequest("Couldn't create a comment");
+            }
+            return Ok("You have sucessfully created a comment");
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("/comment/get/{id}")]
+        public async Task<ActionResult<IEnumerable<CommentModel>>> GetComments(string id)
+        {
+            var comments = await service.getCommentsFromResource(id);
+            if (comments == null || comments.Count() == 0)
+            {
+                return NotFound(comments);
+            }
+            return Ok(comments);
         }
 
 

@@ -12,7 +12,6 @@
         {
             CategoryNames = new List<string>();
             this.CommentModels = new HashSet<CommentModel>();
-
             this.CommentLikes=new List<int>();
         }
 
