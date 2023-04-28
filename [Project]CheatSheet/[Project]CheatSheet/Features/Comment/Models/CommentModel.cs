@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Models
 {
+    using _Project_CheatSheet.Common.ModelConstants;
     using _Project_CheatSheet.Data.Models;
     using System.ComponentModel.DataAnnotations;
 
