@@ -35,6 +35,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddIdentity<User,IdentityRole>()
     .AddEntityFrameworkStores<CheatSheetDbContext>();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Default Password settings.
