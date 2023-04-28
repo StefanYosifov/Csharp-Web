@@ -18,7 +18,9 @@
         private readonly UserManager<User> userManager;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public CommentService(CheatSheetDbContext context, UserManager<User> userManager,IHttpContextAccessor httpContextAccessor)
+        public CommentService(CheatSheetDbContext context, 
+                              UserManager<User> userManager,
+                              IHttpContextAccessor httpContextAccessor)
         {
             this.context = context;
             this.userManager = userManager;
@@ -75,7 +77,8 @@
                 ResourceId=c.ResourceId.ToString(),
                 UserName=c.User.UserName,
                 UserProfileImage=c.User.ProfilePictureUrl,
-            }).ToArrayAsync();
+                CommentLikes=c.CommentLikes
+            }).Where(c=>c.ResourceId==resourceId).ToArrayAsync();
 
             return comments;
         }
