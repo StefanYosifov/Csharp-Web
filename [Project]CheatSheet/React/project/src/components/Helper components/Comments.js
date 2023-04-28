@@ -1,5 +1,11 @@
-export const Comments = ({commentModels}) => {
+import { useState } from "react";
 
+export const Comments = ({commentModels}) => {
+  const [numLikes, setNumLikes] = useState(commentModels.commentLikes.length);
+
+  function handleLikeClick() {
+    setNumLikes((oldLikes)=>oldLikes+1);
+  }
   console.log(commentModels);
  
   
@@ -12,7 +18,14 @@ export const Comments = ({commentModels}) => {
           <p className="text-sm text-gray-600">{commentModels.createdAt}</p>
         </div>
       </div>
-      <p className="text-gray-800 leading-7 ml-4">{commentModels.content}</p>
+      <p className="text-gray-800 break-words ml-4">{commentModels.content}</p>
+      <div className="flex justify-end mt-2">
+        <button className="text-gray-600 hover:text-gray-800" onClick={handleLikeClick}>
+         
+          <span className="ml-1">{numLikes}</span>
+        </button>
+          <span className="ml-1">{numLikes}</span>
+      </div>
     </div>
   );
   };
