@@ -1,6 +1,7 @@
 ﻿namespace _Project_CheatSheet.Data.Models
 {
     using _Project_CheatSheet;
+    using _Project_CheatSheet.Common.ModelConstants;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 

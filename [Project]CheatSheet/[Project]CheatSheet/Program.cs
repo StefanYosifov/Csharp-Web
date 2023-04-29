@@ -9,6 +9,8 @@ using _Project_CheatSheet.Features.Comment.Interfaces;
 using _Project_CheatSheet.Features.Comment.Services;
 using _Project_CheatSheet.Features.Likes.Interfaces;
 using _Project_CheatSheet.Features.Likes.Services;
+using _Project_CheatSheet.Features.Statistics.Interfaces;
+using _Project_CheatSheet.Features.Statistics.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +27,7 @@ builder.Services.AddTransient<IResourceService,ResourceService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<ILikeService, LikeService>();
+builder.Services.AddTransient<IStatisticsService, StatisticService>();
 
 
 

@@ -78,5 +78,14 @@
             }
             return Ok(likedResourceResult);
         }
+
+        [Authorize]
+        [HttpGet]
+        [Route("/like/resource/all")]
+        public async Task<ActionResult<IEnumerable<LikeResourceModel>>> GetAllResourceLikes()
+        {
+            var likeResourceResults = await likeService.ResourcesLikes();
+            return Ok(likeResourceResults);
+        }
     }
 }

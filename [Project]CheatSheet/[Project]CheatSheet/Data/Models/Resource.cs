@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _Project_CheatSheet.Common.ModelConstants;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

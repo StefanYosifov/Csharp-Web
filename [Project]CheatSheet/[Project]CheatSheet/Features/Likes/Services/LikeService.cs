@@ -33,7 +33,6 @@
                 .Where(c=>c.Id.ToString()==commentModel.CommentId)
                 .Count();   
         }
-
         public async Task<StatusCodeResult> LikeAComment(LikeCommentModel likeComment)
         {
             var currentUser = await GetUser();
@@ -53,8 +52,6 @@
             await context.SaveChangesAsync();
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
-
-
         public async Task<StatusCodeResult> RemoveLikeFromComment(LikeCommentModel likeComment)
         {
             var currentUser = await GetUser();
@@ -68,7 +65,6 @@
             await context.SaveChangesAsync();
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
-
         public int getCommentResourceCount(LikeResourceModel likeResource)
         {
             return context.ResourceLikes
@@ -91,7 +87,6 @@
             await context.SaveChangesAsync();
             return new StatusCodeResult(StatusCodes.Status201Created);
         }
-
         public async Task<StatusCodeResult> RemoveLikeFromResource(LikeResourceModel likeResource)
         {
             var currentUser = await GetUser();
@@ -104,11 +99,35 @@
             await context.SaveChangesAsync();
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
-
         private async Task<User> GetUser()
         {
             var id = httpContext.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
             return await context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+
+        public async Task<StatusCodeResult> CheckIfResourceIsLikedByUser(string resourceId)
+        {
+            var currentUser = await GetUser();
+            var resourceLikeResult = await context.ResourceLikes.FirstOrDefaultAsync(rl => rl.Id.ToString() == resourceId);
+            if (resourceLikeResult == null)
+            {
+                return new StatusCodeResult(StatusCodes.Status404NotFound);
+            }
+            return new StatusCodeResult(StatusCodes.Status200OK);
+        }
+
+        public async Task<IEnumerable<LikeResourceModel>> ResourcesLikes(string resourceId)
+        {
+            var currentUser = await GetUser();
+            var resourceLikes = await context.ResourceLikes
+                .Select(rl => new LikeResourceModel()
+                {
+                    ResourceId = rl.ResourceId.ToString(),
+                    hasLiked = context.ResourceLikes.Any(x => x.Id.ToString() == currentUser.Id),
+                    TotaLikes = context.ResourceLikes.Where(x=>x.Id.ToString()==resourceId).ToArray().Count()
+                })
+                .ToArrayAsync();
+            return resourceLikes;
         }
     }
 }

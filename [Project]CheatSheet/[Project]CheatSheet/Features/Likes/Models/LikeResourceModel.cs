@@ -5,6 +5,9 @@
 
         public string ResourceId { get; set; }
 
+        public bool hasLiked { get; set; }
+
+        public int TotaLikes { get; set; }
 
     }
 }

@@ -18,5 +18,6 @@
 
         public Task<StatusCodeResult> RemoveLikeFromResource(LikeResourceModel likeResource);
 
+        public Task<IEnumerable<LikeResourceModel>> ResourcesLikes();
     }
 }
