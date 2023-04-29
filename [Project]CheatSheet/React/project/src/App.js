@@ -19,7 +19,7 @@ function App() {
         <Route path='/home' Component={HomePage}/>
         <Route path='/register' Component={RegisterPage} />
         <Route path='/login' Component={LoginPage} />
-        <Route path='/resource' Component={ResourceList} />
+        <Route path='/resources' Component={ResourceList} />
         <Route path='/details/:id' Component={Detail} />
         <Route path='/resource/add' Component={ResourceAdd} />
 

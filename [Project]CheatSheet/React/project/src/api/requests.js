@@ -68,6 +68,10 @@ export const addResource=(formData)=>{
 };
 
 
+export const GetStatistics=()=>{
+  return axios.get(`${baseUrl}/statistics/all`,{headers});
+}
+
 export const getCategories=()=>{
  return axios.get(`${baseUrl}/category/get`,{headers});
 }

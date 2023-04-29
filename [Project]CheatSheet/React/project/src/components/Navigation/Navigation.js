@@ -9,9 +9,20 @@ function Navigation() {
     setMenuOpen(!menuOpen);
   };
 
+  const isLoggedIn = () => {
+    const token = getUserData();
+    if (!token) {
+      return false;
+    }
+    //Maybe a validation is still required to check wether to token is actually valid
+    return true;
+  };
+
   return (
     <nav className="bg-gray-800">
       <ul className="flex justify-start text-lg items-center py-4 px-6 m-0">
+        {!isLoggedIn() && (
+          <>
             <li>
               <NavLink to="/login" className="text-white px-2 py-1 rounded-lg hover:bg-red-700">
                 Login
@@ -20,15 +31,18 @@ function Navigation() {
             <NavLink to="/register" className="text-white px-2 py-1 rounded-lg hover:bg-red-700">
               Register
             </NavLink>
-      
+          </>
+        )}
 
+        {isLoggedIn() && (
+          <>
             <li>
               <NavLink to="/home" className="text-ellipsis text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
                 Home
               </NavLink>
             </li>
             <li>
-              <NavLink to="/resource" className="text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
+              <NavLink to="/resources" className="text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
                 Resource
               </NavLink>
             </li>
@@ -61,6 +75,8 @@ function Navigation() {
                 </ul>
               )}
             </li>
+          </>
+        )}
       </ul>
     </nav>
   );
