@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Services
 {
+    using _Project_CheatSheet.Common.CurrentUser.Interfaces;
     using _Project_CheatSheet.Common.ModelConstants;
     using _Project_CheatSheet.Data;
     using _Project_CheatSheet.Data.Models;
@@ -17,15 +18,15 @@
 
         private readonly CheatSheetDbContext context;
         private readonly UserManager<User> userManager;
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ICurrentUser currentUserService;
 
         public CommentService(CheatSheetDbContext context, 
                               UserManager<User> userManager,
-                              IHttpContextAccessor httpContextAccessor)
+                              ICurrentUser currentUserService)
         {
             this.context = context;
             this.userManager = userManager;
-            this.httpContextAccessor = httpContextAccessor;
+            this.currentUserService = currentUserService;
         }
 
         public async Task<StatusCodeResult> createAComment(CommentModel comment)
@@ -35,9 +36,7 @@
                 return new StatusCodeResult(StatusCodes.Status400BadRequest);
             }
 
-            var user = GetUser();
-            Console.WriteLine(user.Result.UserName);
-            Console.WriteLine(comment.Id);
+            var user = await currentUserService.GetUser();
             if (user == null)
             {
                 return new StatusCodeResult(StatusCodes.Status403Forbidden);
@@ -50,7 +49,7 @@
 
             Comment dbComment = new Comment()
             { 
-                UserId = user.Result.Id,
+                UserId = user.Id,
                 Content = comment.Content,
                 ResourceId = Guid.Parse(comment.ResourceId.ToString()),  
                 CreatedAt = DateTime.Now,
@@ -82,12 +81,6 @@
             }).Where(c=>c.ResourceId==resourceId).ToArrayAsync();
 
             return comments;
-        }
-
-        private async Task<User> GetUser()
-        {
-            var id=httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return await context.Users.FirstOrDefaultAsync(u=>u.Id==id);
         }
 
         private async Task<Resource> GetResource(string resourceId)

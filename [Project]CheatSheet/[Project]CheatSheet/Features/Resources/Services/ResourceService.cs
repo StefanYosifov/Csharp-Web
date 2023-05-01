@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Controllers.Resources.Service
 {
+    using _Project_CheatSheet.Common.CurrentUser.Interfaces;
     using _Project_CheatSheet.Common.ModelConstants;
     using _Project_CheatSheet.Controllers.Resources.Models;
     using _Project_CheatSheet.Data;
@@ -16,17 +17,17 @@
 
         private readonly CheatSheetDbContext context;
         private readonly UserManager<User> userManager;
-        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ICurrentUser currentUserService;
 
         
 
         public ResourceService(CheatSheetDbContext context,
                              UserManager<User> userManager,
-                             IHttpContextAccessor httpContextAccessor)
+                             ICurrentUser currentUserService)
         {
             this.context = context;
             this.userManager = userManager;
-            this.httpContextAccessor = httpContextAccessor;
+            this.currentUserService = currentUserService;
         }
 
 
@@ -36,15 +37,16 @@
             if (resourceModel == null)
             {
                 return StatusCode(StatusCodes.Status403Forbidden);
-
             }
 
             bool isNull = resourceModel.GetType().GetProperties()
             .Any(p => p.GetValue(resourceModel) == null);
-            if (isNull)
+            if (isNull || resourceModel.CategoryIds.Count==0)
             {
                 return StatusCode(StatusCodes.Status403Forbidden);
             }
+
+            string userId = await currentUserService.GetUserId();
 
             Resource resource = new Resource()
             {
@@ -52,21 +54,33 @@
                 CreatedAt = DateTime.Now,
                 Title = resourceModel.Title,
                 ImageUrl = resourceModel.ImageUrl,
-                UserId = getUserId(),
-                CategoryResources = resourceModel.CategoryResources,
+                UserId = userId
             };
-            
-            
 
-            await context.Resources.AddAsync(resource);
+            var categories = await context.Categories
+                .Where(c => resourceModel.CategoryIds.Contains(c.Id))
+                .ToArrayAsync();
+
+
+            await context.Resources.AddRangeAsync(resource);
             await context.SaveChangesAsync();
+            foreach (var category in categories)
+            {
+                CategoryResource categoryResource = new CategoryResource()
+                {
+                    CategoryId = category.Id,
+                    ResourceId = resource.Id
+                };
+                await context.CategoriesResources.AddAsync(categoryResource);
+                context.SaveChanges();
+            }
             return StatusCode(StatusCodes.Status201Created);
         }
 
         public async Task<IEnumerable<ResourceModel>> myResources()
         {
 
-            string userId = getUserId();
+            string userId = await currentUserService.GetUserId();
 
             IEnumerable<ResourceModel> resources = await context.Resources.Include(res => res.User)
                 .Select(res => new ResourceModel()
@@ -86,6 +100,9 @@
 
         public async Task<IEnumerable<ResourceModel>> publicResources()
         {
+
+            string userId = await currentUserService.GetUserId();
+
             IEnumerable<ResourceModel> models = await context.Resources
                 .Include(res => res.CategoryResources)
                 .Include(res => res.User)
@@ -101,7 +118,7 @@
                    UserName = r.User.UserName,
                    CategoryNames = r.CategoryResources.Select(c => c.Category.Name),
                })
-                .Where(c => c.CategoryNames!.Contains("Public")||c.UserId==getUserId()).ToArrayAsync();
+                .Where(c => c.CategoryNames!.Contains("Public")||c.UserId== userId).ToArrayAsync();
 
             return models;
         }
@@ -126,15 +143,13 @@
                      CategoryNames=r.CategoryResources.Select(c => c.Category.Name),
                  }).Where(r=>r.Id==resourceId).ToListAsync();
 
+
+            string userId = await currentUserService.GetUserId();
+
             return details
-            .Where(x=>x.CategoryNames.Any(cn=>cn=="Public" || details.Any(x=>x.UserId.ToLower()==getUserId().ToLower())))
-            .FirstOrDefault();
+            .Where(x=>x.CategoryNames.Any(cn=>cn=="Public" || details.Any(x=>x.UserId.ToLower()==userId.ToLower())))
+            .FirstOrDefault()!;
 
-        }
-
-        private string getUserId()
-        {
-            return httpContextAccessor.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

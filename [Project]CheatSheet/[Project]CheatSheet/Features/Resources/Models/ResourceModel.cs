@@ -8,7 +8,7 @@
 
         public ResourceModel()
         {
-            CategoryNames = new List<string>();
+            this.CategoryNames = new List<string>();
         }
 
         [Required]

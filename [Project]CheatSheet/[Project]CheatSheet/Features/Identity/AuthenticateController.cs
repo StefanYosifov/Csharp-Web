@@ -38,7 +38,7 @@
         [AllowAnonymous]
         [HttpPost]
         [Route("/authenticate/register")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
+        public async Task<IActionResult> Register(RegisterModel registerModel)
         {
 
             var authenticateResult = await service.AuthenticateRegsiter(registerModel);

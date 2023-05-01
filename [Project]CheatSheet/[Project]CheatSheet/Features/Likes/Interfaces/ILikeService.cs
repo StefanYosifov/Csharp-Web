@@ -6,18 +6,17 @@
     public interface ILikeService
     {
 
-        public int getCommentLikeCount(LikeCommentModel likeComment);
+        public int GetCommentLikesCount(LikeCommentModel likeComment);
 
         public Task<StatusCodeResult> LikeAComment(LikeCommentModel likeComment);
 
         public Task<StatusCodeResult> RemoveLikeFromComment(LikeCommentModel likeComment);
 
-        public int getCommentResourceCount(LikeResourceModel likeResource);
+        public int GetResourceLikesCount(string id);
 
         public Task<StatusCodeResult> LikeAResult(LikeResourceModel likeResource);
 
         public Task<StatusCodeResult> RemoveLikeFromResource(LikeResourceModel likeResource);
-
         public Task<IEnumerable<LikeResourceModel>> ResourcesLikes();
     }
 }

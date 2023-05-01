@@ -1,6 +1,8 @@
-using _Project_CheatSheet;
+using _Project_CheatSheet.Common.CurrentUser;
+using _Project_CheatSheet.Common.CurrentUser.Interfaces;
 using _Project_CheatSheet.Controllers.Category.Interfaces;
 using _Project_CheatSheet.Controllers.Category.Services;
+using _Project_CheatSheet.Controllers.Profile.Interfaces;
 using _Project_CheatSheet.Controllers.Resources.Interfaces;
 using _Project_CheatSheet.Controllers.Resources.Service;
 using _Project_CheatSheet.Data;
@@ -11,12 +13,12 @@ using _Project_CheatSheet.Features.Identity.Interfaces;
 using _Project_CheatSheet.Features.Identity.Services;
 using _Project_CheatSheet.Features.Likes.Interfaces;
 using _Project_CheatSheet.Features.Likes.Services;
+using _Project_CheatSheet.Features.Profile.Services;
 using _Project_CheatSheet.Features.Statistics.Interfaces;
 using _Project_CheatSheet.Features.Statistics.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -25,13 +27,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+
+
 builder.Services.AddTransient<IAuthenticateService, AuthenticateService>();
 builder.Services.AddTransient<IResourceService,ResourceService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<ILikeService, LikeService>();
 builder.Services.AddTransient<IStatisticsService, StatisticService>();
+builder.Services.AddTransient<IProfileService, ProfileService>();
 
+builder.Services.AddTransient<ICurrentUser, CurrentUser>();
 
 
 builder.Services.AddDbContext<CheatSheetDbContext>(options =>

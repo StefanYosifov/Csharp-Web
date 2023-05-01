@@ -50,9 +50,9 @@
         [Authorize]
         [Route("/resource/add")]
         [HttpPost]
-        public async Task<IActionResult> AddResource([FromBody]ResourceAddModel model)
+        public async Task<IActionResult> AddResource([FromBody] ResourceAddModel resourceAdd)
         {
-            return await services.addResource(model);
+            return await services.addResource(resourceAdd);
         }
     }
 }

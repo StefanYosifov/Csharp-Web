@@ -2,5 +2,12 @@
 {
     public class ProfileModel
     {
+
+        public int PostCount { get; set; }
+
+        public int ResourceLikes { get; set; }
+
+        public int CommentLikes { get; set; }
+
     }
 }

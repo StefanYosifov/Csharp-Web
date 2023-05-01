@@ -65,12 +65,12 @@
         public async Task<string> AuthenticateRegsiter(RegisterModel registerModel)
         {
             var userNameExists = await userManager.FindByNameAsync(registerModel.UserName);
-            if (userNameExists == null)
+            if (userNameExists != null)
             {
                 return null;
             }
             var emailExists = await userManager.FindByEmailAsync(registerModel.Email);
-            if (emailExists == null)
+            if (emailExists != null)
             {
                 return null;
             }

@@ -21,7 +21,7 @@
         [Route("/like/comment/{id}")]
         public int CommentLikesCount(LikeCommentModel likeComment)
         {
-            return likeService.getCommentLikeCount(likeComment);
+            return likeService.GetCommentLikesCount(likeComment);
         }
 
 
@@ -51,6 +51,14 @@
             }
 
             return Ok(removedLikedCommentResult);
+        }
+
+        [Authorize]
+        [HttpGet]
+        [Route("/like/resource/{id}")]
+        public async Task<ActionResult> GetResourceLikes(string id)
+        {
+            return Ok(likeService.GetResourceLikesCount(id));
         }
 
         [Authorize]

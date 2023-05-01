@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Likes.Services
 {
+    using _Project_CheatSheet.Common.CurrentUser.Interfaces;
     using _Project_CheatSheet.Data;
     using _Project_CheatSheet.Data.Models;
     using _Project_CheatSheet.Features.Likes.Interfaces;
@@ -14,20 +15,20 @@
     {
 
         private readonly CheatSheetDbContext context;
-        private readonly IHttpContextAccessor httpContext;
         private readonly IMapper mapper;
+        private readonly ICurrentUser currentUserService;
 
         public LikeService(
             CheatSheetDbContext context,
-            IHttpContextAccessor httpContext,
+            ICurrentUser currentUserService,
             IMapper mapper)
         {
             this.context = context;
-            this.httpContext = httpContext;
+            this.currentUserService = currentUserService;
             this.mapper = mapper;
         }
 
-        public int getCommentLikeCount(LikeCommentModel commentModel)
+        public int GetCommentLikesCount(LikeCommentModel commentModel)
         {
             return context.CommentLikes
                 .Where(c=>c.Id.ToString()==commentModel.CommentId)
@@ -35,7 +36,8 @@
         }
         public async Task<StatusCodeResult> LikeAComment(LikeCommentModel likeComment)
         {
-            var currentUser = await GetUser();
+            
+            var currentUser = await currentUserService.GetUser();
             if (context.CommentLikes.Any(u => u.UserId == currentUser.Id.ToString()))
             {
                 return new StatusCodeResult(StatusCodes.Status404NotFound);
@@ -54,7 +56,7 @@
         }
         public async Task<StatusCodeResult> RemoveLikeFromComment(LikeCommentModel likeComment)
         {
-            var currentUser = await GetUser();
+            var currentUser = await currentUserService.GetUser();
             var commentLike = await context.CommentLikes.FirstOrDefaultAsync(c=>c.CommentId.ToString()==likeComment.CommentId);
             if(commentLike == null || currentUser.Id!=commentLike.UserId)
             {
@@ -65,15 +67,15 @@
             await context.SaveChangesAsync();
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
-        public int getCommentResourceCount(LikeResourceModel likeResource)
+        public int GetResourceLikesCount(string id)
         {
             return context.ResourceLikes
-                .Where(rl => rl.Id.ToString() == likeResource.ResourceId)
+                .Where(rl => rl.ResourceId.ToString() == id)
                 .Count();
         }
         public async Task<StatusCodeResult> LikeAResult(LikeResourceModel likeResource)
         {
-            var currentUser = await GetUser();
+            var currentUser = await currentUserService.GetUser();
             if (context.ResourceLikes.Any(rl => rl.UserId == currentUser.Id.ToString()))
             {
                 return new StatusCodeResult(StatusCodes.Status404NotFound);
@@ -89,7 +91,7 @@
         }
         public async Task<StatusCodeResult> RemoveLikeFromResource(LikeResourceModel likeResource)
         {
-            var currentUser = await GetUser();
+            var currentUser = await currentUserService.GetUser();
             var resourceLike=await context.ResourceLikes.FirstOrDefaultAsync(rl => rl.Id.ToString() == likeResource.ResourceId);
             if(resourceLike==null || resourceLike.UserId != currentUser.Id)
             {
@@ -99,15 +101,9 @@
             await context.SaveChangesAsync();
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
-        private async Task<User> GetUser()
-        {
-            var id = httpContext.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return await context.Users.FirstOrDefaultAsync(u => u.Id == id);
-        }
-
         public async Task<StatusCodeResult> CheckIfResourceIsLikedByUser(string resourceId)
         {
-            var currentUser = await GetUser();
+            var currentUser = await currentUserService.GetUser();
             var resourceLikeResult = await context.ResourceLikes.FirstOrDefaultAsync(rl => rl.Id.ToString() == resourceId);
             if (resourceLikeResult == null)
             {
@@ -115,10 +111,9 @@
             }
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
-
         public async Task<IEnumerable<LikeResourceModel>> ResourcesLikes()
         {
-            var currentUser = await GetUser();
+            var currentUser = await currentUserService.GetUser();
             var resourceLikes = await context.ResourceLikes
                 .Include(rl => rl.User)
                 .Select(rl => new LikeResourceModel()

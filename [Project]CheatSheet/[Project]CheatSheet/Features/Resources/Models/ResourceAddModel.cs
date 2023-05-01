@@ -8,7 +8,7 @@
 
         public ResourceAddModel()
         {
-            this.CategoryResources = new List<CategoryResource>();
+            this.CategoryIds = new List<int>();
         }
 
 
@@ -23,6 +23,6 @@
         [StringLength(ResourceConstants.ContentMaxLength, MinimumLength = ResourceConstants.ContentMinLength)]
         public string Content { get; set; } = null!;
 
-        public ICollection<CategoryResource> CategoryResources { get; set; } = null!;
+        public ICollection<int> CategoryIds { get; set; } = null!;
     }
 }
