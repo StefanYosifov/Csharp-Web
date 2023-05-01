@@ -27,12 +27,10 @@ export function login(userName,password){
 }
 
 export const getPublicResources=()=>{
-  console.log('hi');
     return axios.get(`${baseUrl}/resource`,{headers});
 }
 
 export const getDetails=(id)=>{
-  console.log(id);
  return axios.get(`${baseUrl}/resource/details/${id}`,{headers})
 }
 
@@ -66,6 +64,11 @@ export const addResource=(formData)=>{
      return axios.post(`${baseUrl}/resource/add`,JSON.stringify(data),{headers})
      .then(res=>console.log(res));
 };
+
+export const getResourceLikes=()=>{
+  return axios.get(`${baseUrl}/like/resource/all`,{headers});
+}
+
 
 
 export const GetStatistics=()=>{

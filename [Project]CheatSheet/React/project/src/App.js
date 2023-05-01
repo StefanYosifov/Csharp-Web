@@ -8,6 +8,7 @@ import * as api from './api/requests';
 import { ResourceList } from './components/Resources/ResourceList';
 import { Detail } from './components/Detail/Detail';
 import ResourceAdd from './components/Add/ResourceAdd';
+import Profile from './components/Profile/Profile'
 
 
 function App() {
@@ -22,6 +23,8 @@ function App() {
         <Route path='/resources' Component={ResourceList} />
         <Route path='/details/:id' Component={Detail} />
         <Route path='/resource/add' Component={ResourceAdd} />
+        <Route path='/profile' Component={Profile} />
+
 
       </Routes>
     </div>

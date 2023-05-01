@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getPublicResources } from '../../api/requests'
+import { getPublicResources,getResourceLikes } from '../../api/requests'
 import ResourceItem from "./ResourceItem";
 import SearchBar from "../Helper components/SearchBar";
 import { useNavigate } from "react-router-dom";
@@ -7,16 +7,27 @@ import { useNavigate } from "react-router-dom";
 
 export function ResourceList() {
   const [resources, setResources] = useState();
+  const [resourceLikes,setResourceLikes] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    getResourceLikes()
+      .then(response => {
+        console.log(response);
+        setResourceLikes(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
   useEffect(() => {
     getPublicResources()
       .then(response => {
-        console.log(response);
-        const data = response.data;
-        setResources(data);
-        console.log(data);
+        console.log(response.data);
+        setResources(response.data);
         setIsLoading((state) => state = false);
       })
       .catch(error => {
@@ -30,6 +41,7 @@ export function ResourceList() {
     console.log(event.target);
     navigate('/resource/add');
   }
+
 
   return (
     <>
