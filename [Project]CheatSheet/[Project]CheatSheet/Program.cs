@@ -7,6 +7,8 @@ using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Data.Models;
 using _Project_CheatSheet.Features.Comment.Interfaces;
 using _Project_CheatSheet.Features.Comment.Services;
+using _Project_CheatSheet.Features.Identity.Interfaces;
+using _Project_CheatSheet.Features.Identity.Services;
 using _Project_CheatSheet.Features.Likes.Interfaces;
 using _Project_CheatSheet.Features.Likes.Services;
 using _Project_CheatSheet.Features.Statistics.Interfaces;
@@ -23,6 +25,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
+builder.Services.AddTransient<IAuthenticateService, AuthenticateService>();
 builder.Services.AddTransient<IResourceService,ResourceService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<ICommentService, CommentService>();

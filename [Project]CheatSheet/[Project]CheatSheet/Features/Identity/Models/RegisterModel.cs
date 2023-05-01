@@ -7,17 +7,17 @@ namespace _Project_CheatSheet.Features.Identity.Models
     public class RegisterModel
     {
         [Required]
-        [StringLength(IdentityConstants.UserNameMaxLength, MinimumLength = IdentityConstants.UserNameMinLength)]
+        [StringLength(IdentityConstantsModels.UserNameMaxLength, MinimumLength = IdentityConstantsModels.UserNameMinLength)]
         public string UserName { get; set; } = null!;
 
         [Required]
-        [StringLength(IdentityConstants.EmailMaxLength, MinimumLength = IdentityConstants.EmailMinLength)]
+        [StringLength(IdentityConstantsModels.EmailMaxLength, MinimumLength = IdentityConstantsModels.EmailMinLength)]
         [EmailAddress]
 
         public string Email { get; set; } = null!;
 
         [Required]
-        [StringLength(IdentityConstants.PasswordMaxLength, MinimumLength = IdentityConstants.PasswordMinLength)]
+        [StringLength(IdentityConstantsModels.PasswordMaxLength, MinimumLength = IdentityConstantsModels.PasswordMinLength)]
         public string Password { get; set; } = null!;
 
     }

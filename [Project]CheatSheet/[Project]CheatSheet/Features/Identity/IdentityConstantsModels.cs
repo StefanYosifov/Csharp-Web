@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Controllers.Identity
 {
-    public class IdentityConstants
+    public class IdentityConstantsModels
     {
 
         internal const int UserNameMinLength = 4;

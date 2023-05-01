@@ -1,6 +1,8 @@
 ﻿namespace _Project_CheatSheet.Controllers.Identity
 {
     using _Project_CheatSheet.Data.Models;
+    using _Project_CheatSheet.Features.Identity;
+    using _Project_CheatSheet.Features.Identity.Interfaces;
     using _Project_CheatSheet.Features.Identity.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
@@ -15,103 +17,36 @@
     public class AuthenticateController:ApiController
     {
 
-        public IActionResult Index()
-        {
-            return Ok("Works");
-        }
+        private readonly IAuthenticateService service;
 
-        private readonly UserManager<User> userManager;
-        private readonly RoleManager<IdentityRole> roleManager;
-        private readonly IConfiguration configuration;
+        public AuthenticateController(IAuthenticateService service)
+           => this.service = service;
 
-        public AuthenticateController
-            (UserManager<User> userManager,
-            RoleManager<IdentityRole> roleManager, 
-            IConfiguration configuration)
-        {
-            this.userManager = userManager;
-            this.roleManager = roleManager;
-            this.configuration = configuration;
-        }
-
+        [AllowAnonymous]
         [HttpPost]
         [Route("/authenticate/login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+        public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            var user = await userManager.FindByNameAsync(loginModel.Username);
-            if (user != null && await userManager.CheckPasswordAsync(user, loginModel.Password))
+            var authenticateResult = await service.AuthenticateLogin(loginModel);
+            if (string.IsNullOrWhiteSpace(authenticateResult))
             {
-                var userRoles = await userManager.GetRolesAsync(user);
-
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.NameIdentifier,user.Id),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-
-                foreach (var userRole in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-                }
-
-                var token = GetToken(authClaims);
-
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
-                });
+                return BadRequest(IdentityMessages.onFailedRegister);
             }
-
-            return Unauthorized("Error while logging in! Check your credentials");
+            return Ok(authenticateResult);
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("/authenticate/register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel registerModel)
         {
 
-            var usernameExists = await userManager.FindByNameAsync(registerModel.UserName);
-            if (usernameExists != null)
+            var authenticateResult = await service.AuthenticateRegsiter(registerModel);
+            if (string.IsNullOrWhiteSpace(authenticateResult))
             {
-                return StatusCode(StatusCodes.Status403Forbidden, new Response { Message = "User already exists!" });
+                return BadRequest(IdentityMessages.onFailedRegister);
             }
-            var emailExists = await userManager.FindByEmailAsync(registerModel.Email);
-            if (emailExists != null)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden, new Response { Message = "Email already exists!" });
-            }
-
-            User user = new User()
-            {
-                Email = registerModel.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerModel.UserName
-            };
-
-            var result = await userManager.CreateAsync(user, registerModel.Password);
-            if (!result.Succeeded)
-            {
-                return BadRequest(new Response { Message = "Bad request" });
-            }
-            return Ok(new Response { Message = "Succesfully logged in!" });
-        }
-
-
-        private JwtSecurityToken GetToken(List<Claim> authClaims)
-        {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]));
-
-            var token = new JwtSecurityToken(
-                issuer: configuration["JWT:ValidIssuer"],
-                audience: configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(IdentityConstants.IdentityTokenHoursExpiration),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
-
-            return token;
+            return Ok(authenticateResult);
         }
     }
 }
