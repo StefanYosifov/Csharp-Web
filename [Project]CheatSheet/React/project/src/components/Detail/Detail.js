@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
-import { getComments, getDetails,sendAComment } from "../../api/requests";
+import { getDetails } from "../../api/Requests/details";
+import {getComments,sendAComment} from '../../api/Requests/comments'
 import { Comments } from '../Helper components/Comments'
 import CommentForm from "../Helper components/CommentForm";
 

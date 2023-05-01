@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getPublicResources,getResourceLikes } from '../../api/requests'
+import {getResourceLikes,getPublicResources} from '../../api/Requests/resources'
 import ResourceItem from "./ResourceItem";
 import SearchBar from "../Helper components/SearchBar";
 import { useNavigate } from "react-router-dom";

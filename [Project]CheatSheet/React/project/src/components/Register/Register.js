@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
 import { Link,useNavigate } from 'react-router-dom';
+import {register} from '../../api/Requests/authentication'
 import LoginPage from '../Login/Login';
 
 function RegisterPage() {
@@ -17,9 +18,33 @@ function RegisterPage() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        // register(formData.userName, formData.password);
-        navigate('/');
-    }
+        for (const value of Object.values(formData)) {
+          if (value.length < 3) {
+            alert("WEEE WOOO");
+            return;
+          }
+        }
+        if (formData.password !== formData.repeatPass) {
+          alert("WEEEE WOOO PASSWORD");
+          return;
+        }
+      
+        const userData = {
+          userName: formData.userName,
+          email: formData.email,
+          password: formData.password
+        };
+      
+        register(userData)
+          .then((data) => {
+            console.log("Registration successful!", data);
+            navigate('/home');
+          })
+          .catch((error) => {
+            console.log("Error registering:", error);
+          });
+      };
+      
 
 
 

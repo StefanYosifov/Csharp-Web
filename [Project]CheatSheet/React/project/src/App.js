@@ -4,7 +4,7 @@ import { Route,Routes } from 'react-router-dom';
 import LoginPage from './components/Login/Login';
 import RegisterPage from './components/Register/Register';
 import HomePage from './components/Home/Home'
-import * as api from './api/requests';
+import * as api from './api/Requests/requests'
 import { ResourceList } from './components/Resources/ResourceList';
 import { Detail } from './components/Detail/Detail';
 import ResourceAdd from './components/Add/ResourceAdd';

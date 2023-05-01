@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import RegisterPage from '../Register/Register';
-import { Link, Navigate, Router, useNavigate } from 'react-router-dom';
-import { login } from '../../api/requests';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../../api/Requests/authentication';
 
 export function LoginPage() {
-
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -12,14 +11,11 @@ export function LoginPage() {
         password: "",
     });
 
-
     const handleSubmit = (event) => {
         event.preventDefault();
         login(formData.userName, formData.password);
         navigate('/');
     }
-
-
 
     const handleChange = (event) => {
         const { name, value } = event.target;
