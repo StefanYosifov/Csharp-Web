@@ -116,17 +116,17 @@
             return new StatusCodeResult(StatusCodes.Status200OK);
         }
 
-        public async Task<IEnumerable<LikeResourceModel>> ResourcesLikes(string resourceId)
+        public async Task<IEnumerable<LikeResourceModel>> ResourcesLikes()
         {
             var currentUser = await GetUser();
             var resourceLikes = await context.ResourceLikes
+                .Include(rl => rl.User)
                 .Select(rl => new LikeResourceModel()
                 {
                     ResourceId = rl.ResourceId.ToString(),
-                    hasLiked = context.ResourceLikes.Any(x => x.Id.ToString() == currentUser.Id),
-                    TotaLikes = context.ResourceLikes.Where(x=>x.Id.ToString()==resourceId).ToArray().Count()
-                })
-                .ToArrayAsync();
+                    hasLiked = rl.Resource.ResourceLikes.Any(u => u.UserId == currentUser.Id),
+                    TotaLikes = context.ResourceLikes.Count(x=>x.ResourceId==rl.ResourceId),
+                }).Distinct().ToArrayAsync();
             return resourceLikes;
         }
     }
