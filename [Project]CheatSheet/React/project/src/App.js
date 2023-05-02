@@ -9,6 +9,7 @@ import { ResourceList } from './components/Resources/ResourceList';
 import { Detail } from './components/Detail/Detail';
 import ResourceAdd from './components/Add/ResourceAdd';
 import Profile from './components/Profile/Profile'
+import { Footer } from './components/Footer/Footer';
 
 
 function App() {
@@ -24,9 +25,8 @@ function App() {
         <Route path='/details/:id' Component={Detail} />
         <Route path='/resource/add' Component={ResourceAdd} />
         <Route path='/profile' Component={Profile} />
-
-
       </Routes>
+      <Footer/>
     </div>
   );
 }

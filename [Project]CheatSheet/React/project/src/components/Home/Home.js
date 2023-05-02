@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
-import { GetStatistics } from '../../api/Requests/requests'
+import { GetStatistics } from '../../api/Requests/statistics'
 
 
 const HomePage = () => {
