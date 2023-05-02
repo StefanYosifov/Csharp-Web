@@ -1,0 +1,31 @@
+﻿@model ChatViewModel
+
+@if(Model.Messages.Count>0)
+{
+    @foreach(var message in Model.Messages)
+    {
+        <p>@message.Sender</p>
+        <h4>@message.Message</h4>
+    }
+}
+else{
+    <p>No messages yet!</p>
+}
+
+
+<form asp-controller="Chat" asp-action="Send" method="post">
+    <div>
+        <div class="form-group">
+            <h4>Send messages</h4>
+            <span>Message:</span>
+            <textarea asp-for="CurrentMessage.Message" rows="3"></textarea>
+            
+            <div
+            <span>Sender:</span>
+            <input asp-for="CurrentMessage.Sender"/>
+            </div>
+
+        </div>
+
+    </div>
+</form>
