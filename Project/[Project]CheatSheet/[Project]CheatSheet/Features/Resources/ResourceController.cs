@@ -43,7 +43,6 @@
             {
                 return NotFound("You do not have access to the resource or it does not exist");
             }
-
             return Ok(resource);
         }
 

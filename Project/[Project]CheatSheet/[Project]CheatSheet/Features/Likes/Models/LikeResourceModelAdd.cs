@@ -2,12 +2,10 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    public class LikeCommentModel
+    public class LikeResourceModelAdd
     {
 
         [Required]
-        public string CommentId { get; set; } = null!;
-
-
+        public string ResourceId { get; set; } = null!;
     }
 }

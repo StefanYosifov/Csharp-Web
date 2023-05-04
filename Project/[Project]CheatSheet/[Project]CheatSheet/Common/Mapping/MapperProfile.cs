@@ -15,6 +15,9 @@
             this.CreateMap<LikeResourceModel, ResourceLike>()
                 .ForMember(dest => dest.ResourceId, opt => opt.MapFrom(src => Guid.Parse(src.ResourceId)));
 
+            this.CreateMap< LikeResourceModelAdd,ResourceLike >()
+                .ForMember(dest=>dest.ResourceId, opt => opt.MapFrom(src => Guid.Parse(src.ResourceId)));
+
             this.CreateMap<RegisterModel, User>();
 
             //Resources

@@ -117,11 +117,15 @@
                 .Where(r=>r.Id==resourceId).ToListAsync();
 
             string userId = await currentUserService.GetUserId();
-
-            return details
-            .Where(x=>x.CategoryNames.Any(cn=>cn=="Public" || details.Any(x=>x.UserId.ToLower()==userId.ToLower())))
-            .FirstOrDefault()!;
-
+            
+            var detailResource=details
+                .FirstOrDefault(x=>x.CategoryNames.Any(cn=>cn.Contains("Public")) || details.Any(x=>x.UserId==userId));
+            
+            if (detailResource.ResourceLikes.Any(rl => rl.UserId == userId))
+            {
+                detailResource.HasLiked = true;
+            }
+            return detailResource;
         }
     }
 }

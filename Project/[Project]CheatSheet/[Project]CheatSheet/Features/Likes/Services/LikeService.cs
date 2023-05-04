@@ -73,10 +73,11 @@
                 .Where(rl => rl.ResourceId.ToString() == id)
                 .Count();
         }
-        public async Task<StatusCodeResult> LikeAResult(LikeResourceModel likeResource)
+        public async Task<StatusCodeResult> LikeAResource(LikeResourceModelAdd likeResource)
         {
             var currentUser = await currentUserService.GetUser();
-            if (context.ResourceLikes.Any(rl => rl.UserId == currentUser.Id.ToString()))
+            if (context.ResourceLikes.Any(rl => rl.UserId == currentUser.Id.ToString() 
+                && rl.ResourceId.ToString()==likeResource.ResourceId))
             {
                 return new StatusCodeResult(StatusCodes.Status404NotFound);
             }
@@ -92,7 +93,7 @@
         public async Task<StatusCodeResult> RemoveLikeFromResource(LikeResourceModel likeResource)
         {
             var currentUser = await currentUserService.GetUser();
-            var resourceLike=await context.ResourceLikes.FirstOrDefaultAsync(rl => rl.Id.ToString() == likeResource.ResourceId);
+            var resourceLike=await context.ResourceLikes.FirstOrDefaultAsync(rl => rl.ResourceId.ToString() == likeResource.ResourceId);
             if(resourceLike==null || resourceLike.UserId != currentUser.Id)
             {
                 return new StatusCodeResult(StatusCodes.Status404NotFound);

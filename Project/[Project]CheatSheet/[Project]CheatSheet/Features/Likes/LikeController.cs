@@ -63,10 +63,10 @@
 
         [Authorize]
         [HttpPost]
-        [Route("/like/resource/like")]
-        public async Task<ActionResult> LikeAResource(LikeResourceModel likeResource)
+        [Route("/like/resource/like/{id}")]
+        public async Task<ActionResult> LikeAResource(LikeResourceModelAdd likeResource)
         {
-            var likeResourceResult=await likeService.LikeAResult(likeResource);
+            var likeResourceResult=await likeService.LikeAResource(likeResource);
             if (likeResourceResult.StatusCode == 404)
             {
                 return BadRequest(LikesConstants.onFailedLikedResource);
@@ -76,7 +76,7 @@
 
         [Authorize]
         [HttpPost]
-        [Route("/like/resource/remove")]
+        [Route("/like/resource/remove/{id}")]
         public async Task<ActionResult> RemoveLikeResource(LikeResourceModel likeResource)
         {
             var likedResourceResult=await likeService.RemoveLikeFromResource(likeResource);

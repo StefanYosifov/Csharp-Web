@@ -14,7 +14,7 @@
 
         public int GetResourceLikesCount(string id);
 
-        public Task<StatusCodeResult> LikeAResult(LikeResourceModel likeResource);
+        public Task<StatusCodeResult> LikeAResource(LikeResourceModelAdd likeResource);
 
         public Task<StatusCodeResult> RemoveLikeFromResource(LikeResourceModel likeResource);
         public Task<IEnumerable<LikeResourceModel>> ResourcesLikes();

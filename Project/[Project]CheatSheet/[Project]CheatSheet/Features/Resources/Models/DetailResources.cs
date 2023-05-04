@@ -10,6 +10,7 @@
 
         public DetailResources()
         {
+            this.ResourceLikes = new HashSet<ResourceLike>();
             CategoryNames = new List<string>();
         }
 
@@ -26,13 +27,14 @@
         [Required]
         [StringLength(ResourceConstants.ContentMaxLength, MinimumLength = ResourceConstants.ContentMinLength)]
         public string Content { get; set; } = null!;
-
         public string DateTime { get; set; } = null!;
         public int Likes { get; set; }
+        public bool HasLiked { get; set; }
         public string? UserId { get; set; }
         public string? UserName { get; set; }
         public string? UserImage { get; set; }
 
+        public IEnumerable<ResourceLike> ResourceLikes { get; set; }
         public IEnumerable<string> CategoryNames { get; set; } = null!;
 
     }
