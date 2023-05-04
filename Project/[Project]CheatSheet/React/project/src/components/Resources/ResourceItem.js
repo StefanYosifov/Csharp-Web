@@ -21,7 +21,7 @@ export const ResourceItem = (props) => {
           <div className="flex justify-between items-center bg-gray-700 py-2">
             <span className="text-sm font-light text-gray-50 px-4">Date: {resourcers.dateTime}</span>
             <div className="flex items-end">
-              <span className="text-sm font-light text-gray-50 mr-8 overflow-hidden" >Total likes: </span>
+              <span className="text-sm font-light text-gray-50 mr-8 overflow-hidden" >Total likes: {resourcers.likes}</span>
             </div>
           </div>
           <div className="relative h-64 sm:h-80 border-b border-gray-100">

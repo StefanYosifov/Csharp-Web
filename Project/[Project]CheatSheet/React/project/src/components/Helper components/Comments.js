@@ -3,7 +3,6 @@ import { dislikeComment, likeComment } from "../../api/Requests/likes";
 
 
 export const Comments = ({ commentModels }) => {
-  console.log(commentModels.commentLikes.length);
   const [numLikes, setNumLikes] = useState(commentModels.commentLikes.length);
   const [hasLiked, setHasLikes] = useState(commentModels.hasLiked)
 
@@ -23,7 +22,6 @@ export const Comments = ({ commentModels }) => {
     setHasLikes(state => !state);
   }
 
-console.log(commentModels);
 
 
 return (
