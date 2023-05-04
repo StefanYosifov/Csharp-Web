@@ -29,9 +29,11 @@ export const Detail = () => {
     };
 
     const handleLike=()=>{
-
+      console.log(details);
     };
   
+
+
     return (
         <div className="bg-red-400 min-h-screen flex flex-col justify-between">
         <div className="w-10/12 mx-auto pt-12">

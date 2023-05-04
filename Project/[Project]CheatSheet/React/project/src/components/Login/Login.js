@@ -11,10 +11,11 @@ export function LoginPage() {
         password: "",
     });
 
-    const handleSubmit = (event) => {
+    
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        login(formData.userName, formData.password);
-        navigate('/');
+        await login(formData.userName, formData.password);
+        navigate('/home');
     }
 
     const handleChange = (event) => {

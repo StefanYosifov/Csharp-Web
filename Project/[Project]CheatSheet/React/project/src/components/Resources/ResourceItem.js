@@ -27,7 +27,6 @@ export const ResourceItem = (props) => {
           <div className="relative h-64 sm:h-80 border-b border-gray-100">
             <img className="w-full h-full object-cover" src={resourcers.imageUrl} alt="resourceImage" />
           </div>
-
           <div className="p-4">
             <h1 className="text-3xl text-gray-700 font-bold hover:text-gray-700 my-2">{resourcers.title}</h1>
             <p className="text-gray-700 text-base max-h-36 overflow-hidden">{resourcers.content}</p>
@@ -39,7 +38,7 @@ export const ResourceItem = (props) => {
               <CategoryItem {...resourcers} key={unique_id} />
             </div>
             <div className="flex items-center">
-              <img className="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src={resourcers.imageUrl} alt="avatar" />
+              <img className="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src={resourcers.userProfileImage} alt="avatar" />
               <h1 className="text-gray-700 font-bold">{resourcers.userName}</h1>
             </div>
           </div>
