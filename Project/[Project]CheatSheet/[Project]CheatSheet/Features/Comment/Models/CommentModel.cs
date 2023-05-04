@@ -26,6 +26,8 @@
 
         public string? ResourceId { get; set; }
 
+        public bool HasLiked { get; set; }
+
         public ICollection<CommentLike> CommentLikes { get; set; }
     }
 }

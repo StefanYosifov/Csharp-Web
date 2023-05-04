@@ -67,18 +67,21 @@
                 return Enumerable.Empty<CommentModel>();
             }
 
-            IEnumerable<CommentModel> comments=await context.Comments
-                .OrderBy(c=>c.CreatedAt)
-                .Select(c=>new CommentModel()
-            {
-                Id=c.Id.ToString(),
-                Content=c.Content,
-                CreatedAt=c.CreatedAt.ToString(ModelConstants.dateFormatter),
-                ResourceId=c.ResourceId.ToString(),
-                UserName=c.User.UserName,
-                UserProfileImage=c.User.ProfilePictureUrl,
-                CommentLikes=c.CommentLikes
-            }).Where(c=>c.ResourceId==resourceId).ToArrayAsync();
+            var userId = await currentUserService.GetUserId();
+
+            IEnumerable<CommentModel> comments = await context.Comments
+                .OrderBy(c => c.CreatedAt)
+                .Select(c => new CommentModel()
+                {
+                    Id = c.Id.ToString(),
+                    Content = c.Content,
+                    CreatedAt = c.CreatedAt.ToString(ModelConstants.dateFormatter),
+                    ResourceId = c.ResourceId.ToString(),
+                    UserName = c.User.UserName,
+                    UserProfileImage = c.User.ProfilePictureUrl,
+                    CommentLikes = c.CommentLikes,
+                    HasLiked = c.CommentLikes.Select(cl => cl.UserId).Any(c=>c==userId)
+                }).Where(c => c.ResourceId == resourceId).ToArrayAsync();
 
             return comments;
         }

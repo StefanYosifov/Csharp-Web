@@ -11,8 +11,6 @@
         public DetailResources()
         {
             CategoryNames = new List<string>();
-            this.CommentModels = new HashSet<CommentModel>();
-            this.CommentLikes=new List<int>();
         }
 
         [Required]
@@ -35,9 +33,6 @@
         public string? UserName { get; set; }
         public string? UserImage { get; set; }
 
-        public IEnumerable<CommentModel> CommentModels { get; set; }
-
-        public List<int> CommentLikes { get; set; }
         public IEnumerable<string> CategoryNames { get; set; } = null!;
 
     }
