@@ -5,6 +5,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+
+    [Route("/category")]
     public class CategoryController : ApiController
     {
         private readonly ICategoryService service;
@@ -14,9 +16,8 @@
         }
 
 
-        [HttpGet]
         [Authorize]
-        [Route("/category/get")]
+        [HttpGet("get")]
         public async Task<IEnumerable<CategoryModel>> GetCategory()
         {
             var resources = await service.getCategories();

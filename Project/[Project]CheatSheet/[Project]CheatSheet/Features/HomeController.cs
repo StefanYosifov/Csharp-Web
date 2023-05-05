@@ -8,6 +8,7 @@
     {
 
         [Authorize]
+        [HttpGet]
         public IActionResult Get()
         {
             return Ok("WorksDoesIt?");

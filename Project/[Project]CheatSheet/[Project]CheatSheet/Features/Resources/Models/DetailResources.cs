@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Resources.Models
 {
+    using _Project_CheatSheet.Common.ModelConstants;
     using _Project_CheatSheet.Controllers.Resources;
     using _Project_CheatSheet.Data.Models;
     using _Project_CheatSheet.Features.Comment.Models;
@@ -22,6 +23,7 @@
         public string Title { get; set; } = null!;
 
         [Required]
+        [StringLength(ModelConstants.ResourceContentMaxLength, MinimumLength =ModelConstants.ResourceImageUrlMinLength)]
         public string ImageUrl { get; set; } = null!;
 
         [Required]

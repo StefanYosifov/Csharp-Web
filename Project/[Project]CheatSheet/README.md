@@ -4,7 +4,7 @@ ASP .NET Core API application designed to create an enviroment for people who ar
 
 Project Introduction
 --
-CheatSheetProject is a ASP.NET Core MVC project I am currently working on.
+CheatSheetProject is an ASP.NET Core API project I am currently working on.
 The goal is to build a full stack app whilst maintaing quality code and good architecture.
 
 Built With

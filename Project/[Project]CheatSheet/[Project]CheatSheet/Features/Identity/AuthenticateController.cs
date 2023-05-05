@@ -12,7 +12,7 @@
     using System.Security.Claims;
     using System.Text;
 
-
+    [AllowAnonymous]
     [Route("/authenticate")]
     public class AuthenticateController:ApiController
     {
@@ -22,9 +22,7 @@
         public AuthenticateController(IAuthenticateService service)
            => this.service = service;
 
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("/authenticate/login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
             var authenticateResult = await service.AuthenticateLogin(loginModel);
@@ -35,9 +33,7 @@
             return Ok(authenticateResult);
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        [Route("/authenticate/register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterModel registerModel)
         {
 

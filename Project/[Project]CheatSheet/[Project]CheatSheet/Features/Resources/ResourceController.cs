@@ -6,52 +6,45 @@
     using Microsoft.AspNetCore.Mvc;
 
     [Route("/resource")]
+    [Authorize]
     public class ResourceController : ControllerBase
     {
-        private readonly IResourceService services;
+        private readonly IResourceService resourceService;
 
-        public ResourceController(IResourceService services)
+        public ResourceController(IResourceService resourceService)
         {
-            this.services = services;
+            this.resourceService = resourceService;
         }
 
-        [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult> GetAllResources()
         {
-            var resources = await services.publicResources();
+            var resources = await resourceService.GetPublicResources();
             return Ok(resources);
         }
 
-        [Authorize]
-        [Route("/resource/my")]
-        [HttpGet]
-        public async Task<IActionResult> MyResources()
+        [HttpGet("my")]
+        public async Task<ActionResult> GetMyResources()
         {
-            var resources = await services.myResources();
+            var resources = await resourceService.GetMyResources();
             return Ok(resources);
         }
 
-
-        [Authorize]
-        [Route("/resource/details/{id?}")]
-        [HttpGet]
-        public async Task<IActionResult> ResourceDetails(string? id)
+        [HttpGet("details/{id}")]
+        public async Task<ActionResult> GetResourceDetails(string id)
         {
-            var resource = await services.resourceById(id);
-            if(resource == null)
+            var resource = await resourceService.GetResourceById(id);
+            if (resource == null)
             {
                 return NotFound("You do not have access to the resource or it does not exist");
             }
             return Ok(resource);
         }
 
-        [Authorize]
-        [Route("/resource/add")]
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<IActionResult> AddResource([FromBody] ResourceAddModel resourceAdd)
         {
-            return await services.addResource(resourceAdd);
+            return await resourceService.AddResources(resourceAdd);
         }
     }
 }

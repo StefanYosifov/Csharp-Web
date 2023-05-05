@@ -13,21 +13,16 @@
             this.CommentLikes = new HashSet<CommentLike>();
         }
 
+        [Required]
         public string Id { get; set; } = null!;
-
         public string? UserName { get; set; } = null!;
 
-
         [StringLength(ModelConstants.ResourceContentMaxLength, MinimumLength = ModelConstants.ResourceContentMinLength)]
-
         public string Content { get; set; }= null!;
         public string? UserProfileImage { get; set; }
         public string? CreatedAt { get; set; } = null!;
-
         public string? ResourceId { get; set; }
-
         public bool HasLiked { get; set; }
-
         public ICollection<CommentLike> CommentLikes { get; set; }
     }
 }

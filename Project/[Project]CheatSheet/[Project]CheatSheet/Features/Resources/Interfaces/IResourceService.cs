@@ -7,13 +7,13 @@
 
     public interface IResourceService
     {
-        public Task<IEnumerable<ResourceModel>> publicResources();
+        public Task<IEnumerable<ResourceModel>> GetPublicResources();
 
-        public Task<IEnumerable<ResourceModel>> myResources();
+        public Task<IEnumerable<ResourceModel>> GetMyResources();
 
-        public Task<StatusCodeResult> addResource(ResourceAddModel resourceModel);
+        public Task<StatusCodeResult> AddResources(ResourceAddModel resourceModel);
 
-        public Task<DetailResources> resourceById(string? resourceId);
+        public Task<DetailResources> GetResourceById(string? resourceId);
 
     }
 }

@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Route("/profile")]
     public class ProfileController:ApiController
     {
 
@@ -18,7 +19,6 @@
 
         [Authorize]
         [HttpGet]
-        [Route("/profile")]
         public async Task<ActionResult<ProfileModel>> GetProfileData()
         {
             var dataResult = await service.getProfileData();

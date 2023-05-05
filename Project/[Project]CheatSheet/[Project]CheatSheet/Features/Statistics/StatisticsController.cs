@@ -5,6 +5,9 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+
+    [Authorize]
+    [Route("/statistics")]
     public class StatisticsController:ApiController
     {
         private readonly IStatisticsService service;
@@ -15,8 +18,7 @@
         }
 
         [Authorize]
-        [HttpGet]
-        [Route("/statistics/all")]
+        [HttpGet("all")]
         public async Task<ActionResult> GetAllStatistics()
         {
             var statistics = service.GetAllStatistics();

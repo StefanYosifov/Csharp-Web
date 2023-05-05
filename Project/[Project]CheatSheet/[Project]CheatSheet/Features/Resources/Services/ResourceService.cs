@@ -20,8 +20,6 @@
         private readonly IMapper mapper;
         private readonly ICurrentUser currentUserService;
 
-        
-
         public ResourceService(CheatSheetDbContext context,
                              IMapper mapper,
                              ICurrentUser currentUserService)
@@ -31,10 +29,10 @@
             this.currentUserService = currentUserService;
         }
 
-
-
-        public async Task<StatusCodeResult> addResource(ResourceAddModel resourceModel)
+        [HttpPost]
+        public async Task<StatusCodeResult> AddResources(ResourceAddModel resourceModel)
         {
+
             if (resourceModel == null)
             {
                 return StatusCode(StatusCodes.Status403Forbidden);
@@ -80,7 +78,9 @@
             return StatusCode(StatusCodes.Status201Created);
         }
 
-        public async Task<IEnumerable<ResourceModel>> myResources()
+
+        [HttpGet("getMy")]
+        public async Task<IEnumerable<ResourceModel>> GetMyResources()
         {
             string userId = await currentUserService.GetUserId();
 
@@ -94,7 +94,9 @@
             return resources;
         }
 
-        public async Task<IEnumerable<ResourceModel>> publicResources()
+        [HttpGet("getPublic")]
+
+        public async Task<IEnumerable<ResourceModel>> GetPublicResources()
         {
             string userId = await currentUserService.GetUserId();
 
@@ -107,8 +109,9 @@
 
             return models;
         }
+        [HttpGet("getById")]
 
-        public async Task<DetailResources> resourceById(string? resourceId)
+        public async Task<DetailResources> GetResourceById(string? resourceId)
         {
             IEnumerable<DetailResources> details = await context.Resources
                 .Include(r=>r.User)

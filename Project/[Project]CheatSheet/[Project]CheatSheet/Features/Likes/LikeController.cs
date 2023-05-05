@@ -6,6 +6,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
+    [Authorize]
+    [Route("/like")]
     public class LikeController:ApiController
     {
 
@@ -16,18 +18,16 @@
             this.likeService = likeService;
         }
 
-        [Authorize]
-        [HttpGet]
-        [Route("/like/comment/{id}")]
+
+        [HttpGet("comment/{id}")]
         public int CommentLikesCount(LikeCommentModel likeComment)
         {
             return likeService.GetCommentLikesCount(likeComment);
         }
 
 
-        [Authorize]
-        [HttpPost]
-        [Route("/like/comment/like")]
+
+        [HttpPost("comment/like")]
         public async Task<ActionResult> LikeAComment(LikeCommentModel commentModel)
         {
             
@@ -39,9 +39,8 @@
             return Ok(likeCommentResult);
         }
 
-        [Authorize]
-        [HttpPost]
-        [Route("/like/comment/remove")]
+
+        [HttpPost("comment/remove")]
         public async Task<ActionResult> RemoveLikeFromComment(LikeCommentModel commentModel)
         {
             var removedLikedCommentResult = await likeService.RemoveLikeFromComment(commentModel);
@@ -53,17 +52,15 @@
             return Ok(removedLikedCommentResult);
         }
 
-        [Authorize]
-        [HttpGet]
-        [Route("/like/resource/{id}")]
+
+        [HttpGet("resource/{id}")]
         public async Task<ActionResult> GetResourceLikes(string id)
         {
             return Ok(likeService.GetResourceLikesCount(id));
         }
 
-        [Authorize]
-        [HttpPost]
-        [Route("/like/resource/like/{id}")]
+
+        [HttpPost("resource/like/{id}")]
         public async Task<ActionResult> LikeAResource(LikeResourceModelAdd likeResource)
         {
             var likeResourceResult=await likeService.LikeAResource(likeResource);
@@ -74,9 +71,8 @@
             return Ok(likeResourceResult);
         }
 
-        [Authorize]
-        [HttpPost]
-        [Route("/like/resource/remove/{id}")]
+
+        [HttpPost("resource/remove/{id}")]
         public async Task<ActionResult> RemoveLikeResource(LikeResourceModel likeResource)
         {
             var likedResourceResult=await likeService.RemoveLikeFromResource(likeResource);
@@ -87,9 +83,7 @@
             return Ok(likedResourceResult);
         }
 
-        [Authorize]
-        [HttpGet]
-        [Route("/like/resource/all")]
+        [HttpGet("resource/all")]
         public async Task<ActionResult<IEnumerable<LikeResourceModel>>> GetAllResourceLikes()
         {
             var likeResourceResults = await likeService.ResourcesLikes();

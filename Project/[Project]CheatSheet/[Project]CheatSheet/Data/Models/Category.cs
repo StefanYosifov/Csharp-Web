@@ -1,4 +1,5 @@
-﻿using System;
+﻿using _Project_CheatSheet.Common.ModelConstants;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,6 +13,9 @@ namespace _Project_CheatSheet.Data.Models
         }
         [Key]
         public int Id { get; set; }
+
+        [Required]
+        [MaxLength(ModelConstants.CategoryNameMaxCategory)]
         public string Name { get; set; } = null!;
 
         public virtual ICollection<CategoryResource> CategoryResources { get; set; }

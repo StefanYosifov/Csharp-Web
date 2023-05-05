@@ -1,3 +1,4 @@
+using _Project_CheatSheet;
 using _Project_CheatSheet.Common.CurrentUser;
 using _Project_CheatSheet.Common.CurrentUser.Interfaces;
 using _Project_CheatSheet.Controllers.Category.Interfaces;
@@ -20,6 +21,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -96,7 +98,11 @@ builder.Services.AddAuthentication(options =>
      };
  });
 
-
+builder.Services.AddMvc(c => c.Conventions.Add(new ApiExplorerIgnore()));
+builder.Services.AddSwaggerGen(s =>
+{
+    s.SwaggerDoc("v1", new OpenApiInfo { Title = "Cheat sheet swagger API", Version = "v1" });
+});
 
 
 
@@ -107,8 +113,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
     app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI(s =>
+    {
+        s.SwaggerEndpoint("/swagger/v1/swagger.json", "Cheat sheet swagger API");
+    });
 }
-
 
 
 app.UseCors();

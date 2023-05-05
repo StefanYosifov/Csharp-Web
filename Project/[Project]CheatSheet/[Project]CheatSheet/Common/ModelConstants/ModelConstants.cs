@@ -16,10 +16,13 @@
         public const int ResourceContentMaxLength = 5000;
 
 
-
         //Comments
         public const int CommentsMinLength = 10;
         public const int CommentsMaxLength = 500;
+
+        //Categories
+        public const int CategoryNameMinCategory = 5;
+        public const int CategoryNameMaxCategory = 50;
 
 
 

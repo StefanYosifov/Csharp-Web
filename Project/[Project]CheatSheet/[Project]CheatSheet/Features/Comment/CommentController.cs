@@ -5,7 +5,10 @@
     using _Project_CheatSheet.Features.Comment.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    
 
+    [Route("comment")]
+    [Authorize]
     public class CommentController:ApiController
     {
 
@@ -16,9 +19,7 @@
         }
 
 
-        [Authorize]
-        [HttpPost]
-        [Route("/comment/send")]
+        [HttpPost("send")]
         public async Task<ActionResult> PostAComment(CommentModel comment)
         {
             var postComment = await service.createAComment(comment);
@@ -29,9 +30,7 @@
             return Ok("You have sucessfully created a comment");
         }
 
-        [Authorize]
-        [HttpGet]
-        [Route("/comment/get/{id}")]
+        [HttpGet("get/{id}")]
         public async Task<ActionResult<IEnumerable<CommentModel>>> GetComments(string id)
         {
             var comments = await service.getCommentsFromResource(id);

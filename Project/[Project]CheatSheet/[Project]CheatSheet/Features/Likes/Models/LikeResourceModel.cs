@@ -9,6 +9,7 @@
 
         public bool hasLiked { get; set; }
 
+        [Range(LikesConstants.minTotalLikes,int.MaxValue)]
         public int TotaLikes { get; set; }
 
     }
