@@ -7,7 +7,9 @@
 
     public interface IResourceService
     {
-        public Task<IEnumerable<ResourceModel>> GetPublicResources();
+
+        public Task<int> GetTotalPage();
+        public Task<IEnumerable<ResourceModel>> GetPublicResources(int id);
 
         public Task<IEnumerable<ResourceModel>> GetMyResources();
 

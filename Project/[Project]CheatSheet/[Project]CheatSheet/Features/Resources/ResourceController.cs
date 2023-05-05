@@ -15,11 +15,16 @@
         {
             this.resourceService = resourceService;
         }
-
-        [HttpGet]
-        public async Task<ActionResult> GetAllResources()
+        [HttpGet("pages")]
+        public async Task<ActionResult<int>> GetPageCount()
         {
-            var resources = await resourceService.GetPublicResources();
+            return Ok(await resourceService.GetTotalPage());
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult> GetAllResources(int id)
+        {
+            var resources = await resourceService.GetPublicResources(id);
             return Ok(resources);
         }
 

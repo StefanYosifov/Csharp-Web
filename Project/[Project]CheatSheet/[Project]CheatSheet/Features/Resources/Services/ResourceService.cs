@@ -19,6 +19,7 @@
         private readonly CheatSheetDbContext context;
         private readonly IMapper mapper;
         private readonly ICurrentUser currentUserService;
+        private const int resourcesPerPage = 12;
 
         public ResourceService(CheatSheetDbContext context,
                              IMapper mapper,
@@ -96,15 +97,34 @@
 
         [HttpGet("getPublic")]
 
-        public async Task<IEnumerable<ResourceModel>> GetPublicResources()
+        public async Task<IEnumerable<ResourceModel>> GetPublicResources(int pageNumber)
         {
+            pageNumber = pageNumber - 1;
             string userId = await currentUserService.GetUserId();
+
+            //12*1=12-12=0
+            int resourcesToSkip = (pageNumber * resourcesPerPage)-pageNumber;
+            int resourcesCount = await context.Resources.CountAsync();
+
+            if (resourcesToSkip > resourcesCount || pageNumber<0)
+            {
+                return Enumerable.Empty<ResourceModel>();
+            }
+
+            //45 = 3*12=32 
+            int resourcesToTake = 
+                resourcesCount - (pageNumber*resourcesPerPage)>resourcesPerPage
+                ?resourcesToTake=resourcesPerPage
+                : resourcesToTake = resourcesCount - (pageNumber * resourcesPerPage);
+            Console.WriteLine($"{resourcesToSkip} {resourcesToTake}");
 
             IEnumerable<ResourceModel> models = await context.Resources
                 .Include(res => res.CategoryResources)
                 .Include(res => res.User)
                 .ProjectTo<ResourceModel>(mapper.ConfigurationProvider)
                 .Where(c => c.CategoryNames!.Contains("Public")||c.UserId== userId)
+                .Skip(resourcesToSkip)
+                .Take(resourcesToTake)
                 .ToArrayAsync();
 
             return models;
@@ -129,6 +149,13 @@
                 detailResource.HasLiked = true;
             }
             return detailResource;
+        }
+
+        public async Task<int> GetTotalPage()
+        {
+            double pages=(double)context.Resources.CountAsync().Result/resourcesPerPage;
+            int totalPages=(int)Math.Ceiling(pages);
+            return totalPages;
         }
     }
 }
