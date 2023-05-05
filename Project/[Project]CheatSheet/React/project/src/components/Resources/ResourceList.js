@@ -1,21 +1,30 @@
 import { useEffect, useState } from "react"
-import {getResourceLikes,getPublicResources} from '../../api/Requests/resources'
+import { getResourceLikes, getPublicResources, getTotalPages } from '../../api/Requests/resources'
 import ResourceItem from "./ResourceItem";
 import SearchBar from "../Helper components/SearchBar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { Pagination } from "../Helper components/Pagination";
 
 
 export function ResourceList() {
   const [resources, setResources] = useState();
-  const [resourceLikes,setResourceLikes] = useState();
+  const [totalPages, setTotalPages] = useState();
+  const [resourceLikes, setResourceLikes] = useState();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { id } = useParams();
+
+
+  useEffect(() => {
+    getTotalPages().then((res) => {
+      setTotalPages(res)
+    });
+  }, []);
 
 
   useEffect(() => {
     getResourceLikes()
       .then(response => {
-        console.log(response);
         setResourceLikes(response);
       })
       .catch(error => {
@@ -24,9 +33,8 @@ export function ResourceList() {
   }, []);
 
   useEffect(() => {
-    getPublicResources()
+    getPublicResources(id)
       .then(response => {
-        console.log(response.data);
         setResources(response.data);
         setIsLoading((state) => state = false);
       })
@@ -36,12 +44,25 @@ export function ResourceList() {
   }, []);
 
 
+  useEffect(() => {
+    setIsLoading(true); // set isLoading to true before making the request
+    getPublicResources(id)
+      .then(response => {
+        setResources(response.data);
+        setIsLoading(false); // set isLoading to false after receiving the response
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [id]);
+
+  console.log(totalPages);
   const onClick = (event) => {
     event.preventDefault();
-    console.log(event.target);
     navigate('/resource/add');
   }
 
+  console.log(totalPages);
 
   return (
     <>
@@ -59,6 +80,12 @@ export function ResourceList() {
         </div>
       </div>
 
+      <Pagination
+          currentPage={Number(id)}
+          totalPages={Number(totalPages)}
+          onPageChange={(pageNumber) => navigate(`/resources/${pageNumber}`)}
+        />
+
       <div className="flex flex-col w-full p-10">
         <div className="flex justify-center items-center">
           <SearchBar />
@@ -73,8 +100,13 @@ export function ResourceList() {
             ))
           )}
         </div>
-      </div>
+        <Pagination
+          currentPage={Number(id)}
+          totalPages={Number(totalPages)}
+          onPageChange={(pageNumber) => navigate(`/resources/${pageNumber}`)}
+        />
 
+      </div>
     </>
   )
 

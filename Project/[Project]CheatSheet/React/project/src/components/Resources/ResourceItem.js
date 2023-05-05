@@ -8,7 +8,6 @@ export const ResourceItem = (props) => {
   const unique_id = v4();
   const resourcers = props.props
   const navigate = useNavigate();
-  console.log(props);
   function navigationHandle(event) {
     event.preventDefault();
     navigate(`/details/${resourcers.id}`)

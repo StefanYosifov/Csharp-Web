@@ -46,7 +46,7 @@ const HomePage = () => {
               View Courses
             </Link>
             <Link
-              to="/resources"
+              to="/resources/1"
               className="bg-green-500 hover:bg-green-600 text-white font-bold py-4 px-8 rounded transition duration-200 ease-in-out transform hover:-translate-y-1 hover:scale-110"
             >
               View Resources

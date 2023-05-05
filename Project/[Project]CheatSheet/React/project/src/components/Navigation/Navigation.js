@@ -42,7 +42,7 @@ function Navigation() {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/resources" className="text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
+              <NavLink to="/resources/1" className="text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
                 Resource
               </NavLink>
             </li>

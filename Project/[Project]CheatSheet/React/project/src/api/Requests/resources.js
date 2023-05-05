@@ -1,15 +1,18 @@
 import {get,post} from '../Requests/requests'
 
+export const getTotalPages=()=>{
+   return get('resource/pages').then(res=>res.data);
+}
+
 export const getResourceLikes=()=>{
     return get(`like/resource/all`);
 }
 
-export const getPublicResources=()=>{
-    return get(`resource`);
+export const getPublicResources=(id)=>{
+    return get(`resource/${id}`);
 }
 
 export const addResource=(formData)=>{
-    console.log(formData.categoryIds);
     const data={
         "Title":formData.title.toString(),
         "Content":formData.content.toString(),

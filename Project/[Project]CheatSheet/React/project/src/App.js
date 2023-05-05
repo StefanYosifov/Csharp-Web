@@ -21,7 +21,7 @@ function App() {
         <Route path='/home' Component={HomePage}/>
         <Route path='/register' Component={RegisterPage} />
         <Route path='/login' Component={LoginPage} />
-        <Route path='/resources' Component={ResourceList} />
+        <Route path='/resources/:id' Component={ResourceList} />
         <Route path='/details/:id' Component={Detail} />
         <Route path='/resource/add' Component={ResourceAdd} />
         <Route path='/profile' Component={Profile} />
