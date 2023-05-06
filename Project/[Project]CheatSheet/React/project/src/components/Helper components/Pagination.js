@@ -3,12 +3,6 @@
 export const Pagination=({ currentPage, totalPages, onPageChange })=> {
   const pageNumbers = [];
 
-
-  console.log(`${currentPage} ${totalPages}`);
-  console.log(`${currentPage} ${totalPages}`);
-  console.log(`${currentPage} ${totalPages}`);
-
-
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
   }

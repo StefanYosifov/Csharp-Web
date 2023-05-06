@@ -62,8 +62,6 @@ export function ResourceList() {
     navigate('/resource/add');
   }
 
-  console.log(totalPages);
-
   return (
     <>
       <div className="flex flex-col w-full p-10 bg-gray-100">
@@ -96,6 +94,7 @@ export function ResourceList() {
             <p>Loading...</p>
           ) : (
             resources.map((resource) => (
+             
               <ResourceItem key={resource.id} props={resource} />
             ))
           )}

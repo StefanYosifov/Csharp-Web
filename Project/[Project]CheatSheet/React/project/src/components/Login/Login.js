@@ -11,12 +11,20 @@ export function LoginPage() {
         password: "",
     });
 
-    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        await login(formData.userName, formData.password);
-        navigate('/home');
-    }
+        try {
+            const response = await login(formData.userName, formData.password);
+            console.log(response);
+            if (response === 200) {
+                navigate('/home', { replace: true });
+            } else {
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     const handleChange = (event) => {
         const { name, value } = event.target;

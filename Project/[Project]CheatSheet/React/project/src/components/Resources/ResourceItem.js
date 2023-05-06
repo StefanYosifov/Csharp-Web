@@ -13,6 +13,7 @@ export const ResourceItem = (props) => {
     navigate(`/details/${resourcers.id}`)
   }
 
+
   return (
     <>
       <div className="">

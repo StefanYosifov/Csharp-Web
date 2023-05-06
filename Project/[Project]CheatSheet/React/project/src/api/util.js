@@ -1,14 +1,14 @@
 
 export const getUserData=()=>{
-    return (sessionStorage.getItem('Authorization'));
+    return (localStorage.getItem('Authorization'));
 }
 
 export const setUserData=(data)=>{
     const token='Bearer '+data;
-    return sessionStorage.setItem('Authorization',token);
+    return localStorage.setItem('Authorization',token);
 }
 
-export const clearUserData=()=>{
-    return sessionStorage.removeItem('Authorization');
+export const clearUserData= ()=>{
+    return  localStorage.removeItem('Authorization');
 }
 

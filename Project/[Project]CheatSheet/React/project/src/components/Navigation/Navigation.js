@@ -1,27 +1,37 @@
-import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { getUserData } from '../../api/util';
+import { getUserId } from '../../api/Requests/profile';
 
 function Navigation() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [userId, setUserId] = useState();
+  const [isLoggedIn,setIsLoggedIn]=useState(false);
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    const token = getUserData();
+    if (!token) {
+      return setIsLoggedIn(false);
+    }
+    return setIsLoggedIn(true);
+  },[]);
+
+  useEffect(()=>{
+      getUserId()
+      .then((res)=>{setUserId(res),console.log(res.data)});
+  },[isLoggedIn])
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
   };
 
-  const isLoggedIn = () => {
-    const token = getUserData();
-    if (!token) {
-      return false;
-    }
-    //Maybe a validation is still required to check wether to token is actually valid
-    return true;
-  };
+
 
   return (
     <nav className="bg-gray-800">
       <ul className="flex justify-start text-lg items-center py-4 px-6 m-0">
-        {!isLoggedIn() && (
+        {!isLoggedIn && (
           <>
             <li>
               <NavLink to="/login" className="text-white px-2 py-1 rounded-lg hover:bg-red-700">
@@ -34,7 +44,7 @@ function Navigation() {
           </>
         )}
 
-        {isLoggedIn() && (
+        {isLoggedIn && (
           <>
             <li>
               <NavLink to="/home" className="text-ellipsis text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
@@ -58,7 +68,7 @@ function Navigation() {
               {menuOpen  && (
                 <ul className="absolute right-0 mt-2 py-2 w-40 bg-white rounded-lg shadow-xl">
                   <li>
-                    <NavLink to="/profile" className="text-gray-800 hover:bg-red-700 hover:text-white px-3 py-2 rounded-lg block">
+                    <NavLink to={`/profile/${userId.data}`} className="text-gray-800 hover:bg-red-700 hover:text-white px-3 py-2 rounded-lg block">
                       My Profile
                     </NavLink>
                   </li>

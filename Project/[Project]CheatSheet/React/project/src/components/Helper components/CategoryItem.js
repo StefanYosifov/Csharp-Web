@@ -1,5 +1,4 @@
 export const CategoryItem = (category) => {
-    console.log(category);
     const categoryNames = category.categoryNames;
     return (
         <>
