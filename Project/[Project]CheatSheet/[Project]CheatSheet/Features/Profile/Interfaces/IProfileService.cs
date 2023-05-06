@@ -5,7 +5,7 @@
     public interface IProfileService
     {
 
-        public Task<ProfileModel> getProfileData();
+        public Task<ProfileModel> getProfileData(string id);
 
     }
 }

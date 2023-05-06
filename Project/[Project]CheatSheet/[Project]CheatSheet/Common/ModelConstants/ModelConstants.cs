@@ -4,6 +4,23 @@
     {
         public const string dateFormatter = "dd/MM/yyyy HH:mm";
 
+        //Users
+
+        public const int UserNameMinLength = 4;
+        public const int UserNameMaxLength = 20;
+
+        public const int UserEmailMinLength = 8;
+        public const int UserEmailMaxLength = 45;
+
+        public const int UserPasswordMinLength = 8;
+        public const int UserPasswordMaxLength = 25;
+
+
+        public const int UserDescriptionMinLength = 3;
+        public const int UserDescriptionMaxLength = 500;
+
+        public const int UserBackGroundImageMinLenght = 10;
+        public const int UserBackGroundImageMaxLenght = 100;
 
         //Resources
         public const int ResourceTitleMinLength = 5;

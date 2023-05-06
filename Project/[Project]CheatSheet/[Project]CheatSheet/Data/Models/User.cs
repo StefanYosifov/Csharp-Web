@@ -15,6 +15,8 @@ namespace _Project_CheatSheet.Data.Models
         public DateTime CreatedOn { get; set; }
 
         public string? ProfilePictureUrl { get; set; }
+
+        public string ProfileDescription { get; set; }
         public ICollection<Resource> Resources { get; set; }
         public ICollection<ResourceLike> ResourceLikes { get; set; }
         public ICollection<Comment> Comments { get; set; }

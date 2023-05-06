@@ -4,6 +4,9 @@
     using _Project_CheatSheet.Controllers.Profile.Interfaces;
     using _Project_CheatSheet.Controllers.Profile.Models;
     using _Project_CheatSheet.Data;
+    using _Project_CheatSheet.Data.Models;
+    using _Project_CheatSheet.Features.Profile.Models;
+    using AutoMapper;
     using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
 
@@ -11,18 +14,19 @@
     {
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
+        private readonly IMapper mapper;
 
         public ProfileService(CheatSheetDbContext context,
-                              ICurrentUser currentUserService)
+                              ICurrentUser currentUserService,
+                              IMapper mapper)
         {
             this.context = context;
             this.currentUserService = currentUserService;
+            this.mapper = mapper;
         }
 
-        public async Task<ProfileModel> getProfileData()
+        public async Task<ProfileModel> getProfileData(string userId)
         {
-            var currentUser = await currentUserService.GetUser();
-            string userId = await currentUserService.GetUserId();
 
             var postCount = await context.Resources.CountAsync(p => p.UserId == userId);
             var likedResourceIds = await context.ResourceLikes
@@ -42,11 +46,15 @@
                 .Where(cl => cl.Comment.UserId == userId)
                 .Count();
 
+            User findUser = await context.Users.FindAsync(userId);
+            UserModel user=mapper.Map<UserModel>(findUser);
+
             var ProfileModel = new ProfileModel()
             {
                 PostCount = postCount,
                 ResourceLikes = totalResourceLikes,
                 CommentLikes = totalLikedComments,
+                User=user
             };
 
             return ProfileModel;

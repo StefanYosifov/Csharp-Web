@@ -26,7 +26,7 @@ namespace _Project_CheatSheet.Data.Models
         public string Content { get; set; } = null!;
 
         [ForeignKey(nameof(User))]
-        public string UserId { get; set; }
+        public string UserId { get; set; } = null!;
 
         public virtual User User { get; set; } = null!;
 

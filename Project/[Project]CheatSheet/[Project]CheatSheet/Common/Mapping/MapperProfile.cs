@@ -7,18 +7,31 @@
     using _Project_CheatSheet.Common.ModelConstants;
     using AutoMapper;
     using _Project_CheatSheet.Features.Resources.Models;
+    using _Project_CheatSheet.Features.Profile.Models;
 
     public class MapperProfile:Profile
     {
         public MapperProfile()
         {
+            //Likes
             this.CreateMap<LikeResourceModel, ResourceLike>()
                 .ForMember(dest => dest.ResourceId, opt => opt.MapFrom(src => Guid.Parse(src.ResourceId)));
 
             this.CreateMap< LikeResourceModelAdd,ResourceLike >()
                 .ForMember(dest=>dest.ResourceId, opt => opt.MapFrom(src => Guid.Parse(src.ResourceId)));
 
+
+            //Authentication
             this.CreateMap<RegisterModel, User>();
+
+            //Profile
+            this.CreateMap<User, UserModel>()
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id.ToString()))
+                .ForMember(dest => dest.UserDescription, opt => opt.MapFrom(src => src.ProfileDescription))
+                .ForMember(dest => dest.UserProfilePicture, opt => opt.MapFrom(src => src.ProfilePictureUrl));
+
+
 
             //Resources
 
