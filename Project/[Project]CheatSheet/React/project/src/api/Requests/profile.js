@@ -1,10 +1,15 @@
-import {get,post} from '../Requests/requests'
+import {get,patch,post} from '../Requests/requests'
 
+const path='profile/';
 
 export const getProfileData=(userId)=>{
-    return get(`profile/${userId}`).then((res)=>res.data);
+    return get(`${path}${userId}`).then((res)=>res.data);
 }
 
 export const getUserId=()=>{
-    return get('profile/myuserId')
+    return get(`${path}myuserId`)
+}
+
+export const updateProfile=(profileData)=>{
+    return patch(`${path}update`,profileData);
 }

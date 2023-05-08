@@ -12,6 +12,10 @@ export const getPublicResources=(id)=>{
     return get(`resource/${id}`);
 }
 
+export const getMyResource=()=>{
+    return get(`resource/my`);
+}
+
 export const addResource=(formData)=>{
     const data={
         "Title":formData.title.toString(),

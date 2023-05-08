@@ -17,3 +17,8 @@ export const post = (endpoint, data) => {
   console.log(data);
   return axios.post(`${baseUrl}/${endpoint}`, data, { headers });
 };
+
+export const patch=(endpoint,data)=>{
+  console.log(data);
+  return axios.patch(`${baseUrl}/${endpoint}`,data,{headers});
+}
