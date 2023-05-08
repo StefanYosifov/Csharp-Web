@@ -8,6 +8,7 @@
     using _Project_CheatSheet.Features.Profile.Models;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
+    using System.Diagnostics;
     using System.Threading.Tasks;
 
     public class ProfileService : IProfileService
@@ -25,9 +26,19 @@
             this.mapper = mapper;
         }
 
-        public Task<UserEditModel> editProfileData()
+        public async Task<UserEditModel> editProfileData(UserEditModel userEdit)
         {
-            throw new NotImplementedException();
+            User currentUser = await currentUserService.GetUser();
+            context.Entry(currentUser).CurrentValues.SetValues(userEdit);
+            try
+            {
+                await context.SaveChangesAsync();
+                return userEdit;
+            }
+            catch (DbUpdateException)
+            {
+                return null!;
+            }
         }
 
         public async Task<ProfileModel> getProfileData(string userId)

@@ -29,8 +29,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-
-
 builder.Services.AddTransient<IAuthenticateService, AuthenticateService>();
 builder.Services.AddTransient<IResourceService,ResourceService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
@@ -39,8 +37,7 @@ builder.Services.AddTransient<ILikeService, LikeService>();
 builder.Services.AddTransient<IStatisticsService, StatisticService>();
 builder.Services.AddTransient<IProfileService, ProfileService>();
 
-builder.Services.AddTransient<ICurrentUser, CurrentUser>();
-
+builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
 builder.Services.AddDbContext<CheatSheetDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -61,9 +58,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredLength = 2;
 });
 
-
 builder.Services.AddControllers();
-
 
 var provider = builder.Services.BuildServiceProvider();
 var configuration=provider.GetRequiredService<IConfiguration>();
@@ -106,7 +101,6 @@ builder.Services.AddSwaggerGen(s =>
 });
 
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -120,7 +114,6 @@ if (app.Environment.IsDevelopment())
         s.SwaggerEndpoint("/swagger/v1/swagger.json", "Cheat sheet swagger API");
     });
 }
-
 
 app.UseCors();
 

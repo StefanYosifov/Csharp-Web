@@ -4,6 +4,7 @@
     using _Project_CheatSheet.Controllers;
     using _Project_CheatSheet.Controllers.Profile.Interfaces;
     using _Project_CheatSheet.Controllers.Profile.Models;
+    using _Project_CheatSheet.Features.Profile.Models;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -32,10 +33,22 @@
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProfileModel>> GetProfileData(string id)
+        public async Task<IActionResult> GetProfileData(string id)
         {
             var dataResult = await service.getProfileData(id);
             return Ok(dataResult);
+        }
+
+        [Authorize]
+        [HttpPatch("update")]
+        public async Task<IActionResult> UpdateProfileData(UserEditModel userModel)
+        {
+            var updateResult = await service.editProfileData(userModel);
+            if (updateResult==null)
+            {
+                return BadRequest(ProfileConstants.onUnsuccessfulUserChange);
+            }
+            return Ok(ProfileConstants.onSuccessfulUserChange);    
         }
     }
 }

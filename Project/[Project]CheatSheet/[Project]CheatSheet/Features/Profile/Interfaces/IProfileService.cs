@@ -8,7 +8,7 @@
 
         public Task<ProfileModel> getProfileData(string id);
 
-        public Task<UserEditModel> editProfileData();
+        public Task<UserEditModel> editProfileData(UserEditModel user);
 
     }
 }

@@ -6,7 +6,7 @@
 
     public class ProfileModel
     {
-        [Range(ProfileConstants.minValue,int.MaxValue)]
+        [Range(ProfileConstants.minValue, int.MaxValue)]
         public int PostCount { get; set; }
         [Range(ProfileConstants.minValue, int.MaxValue)]
         public int ResourceLikes { get; set; }
