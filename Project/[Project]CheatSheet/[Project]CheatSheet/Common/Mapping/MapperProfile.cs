@@ -28,8 +28,11 @@
             this.CreateMap<User, UserModel>()
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.UserDescription, opt => opt.MapFrom(src => src.ProfileDescription))
-                .ForMember(dest => dest.UserProfilePicture, opt => opt.MapFrom(src => src.ProfilePictureUrl));
+                .ForMember(dest => dest.UserProfileDescription, opt => opt.MapFrom(src => src.ProfileDescription))
+                .ForMember(dest => dest.ProfilePictureUrl, opt => opt.MapFrom(src => src.ProfilePictureUrl))
+                .ForMember(dest => dest.UserJob, opt => opt.MapFrom(src => src.UserJob))
+                .ForMember(dest => dest.UserEducation, opt => opt.MapFrom(src => src.UserEducation))
+                .ForMember(dest => dest.UserProfileBackground, opt => opt.MapFrom(src => src.ProfileBackground));
 
 
 

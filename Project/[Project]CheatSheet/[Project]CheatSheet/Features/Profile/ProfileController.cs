@@ -23,9 +23,9 @@
 
         [Authorize]
         [HttpGet("myuserId")]
-        public async Task<ActionResult> GetMyUserId()
+        public  ActionResult GetMyUserId()
         {
-            var userId = await currentUser.GetUserId();
+            var userId = currentUser.GetUserId();
             return Ok(userId);
         }
 

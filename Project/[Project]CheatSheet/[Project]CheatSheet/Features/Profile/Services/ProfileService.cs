@@ -25,6 +25,11 @@
             this.mapper = mapper;
         }
 
+        public Task<UserEditModel> editProfileData()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<ProfileModel> getProfileData(string userId)
         {
 

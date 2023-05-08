@@ -7,7 +7,7 @@
 
         public Task<User> GetUser();
 
-        public Task<string> GetUserId();
+        public string GetUserId();
 
     }
 }

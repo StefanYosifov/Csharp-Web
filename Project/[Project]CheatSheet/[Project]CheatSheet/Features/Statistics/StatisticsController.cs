@@ -21,7 +21,7 @@
         [HttpGet("all")]
         public async Task<ActionResult> GetAllStatistics()
         {
-            var statistics = service.GetAllStatistics();
+            var statistics =  service.GetAllStatistics();
             if(statistics == null)
             {
                 return Forbid();

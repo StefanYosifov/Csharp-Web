@@ -19,8 +19,14 @@
         public const int UserDescriptionMinLength = 3;
         public const int UserDescriptionMaxLength = 500;
 
-        public const int UserBackGroundImageMinLenght = 10;
-        public const int UserBackGroundImageMaxLenght = 100;
+        public const int UserBackGroundImageMinLength = 10;
+        public const int UserBackGroundImageMaxLength = 100;
+
+        public const int UserEducationMinLength = 2;
+        public const int UserEducationMaxLength = 50;
+
+        public const int UserJobMinLength = 2;
+        public const int UserJobMaxLength = 50;
 
         //Resources
         public const int ResourceTitleMinLength = 5;

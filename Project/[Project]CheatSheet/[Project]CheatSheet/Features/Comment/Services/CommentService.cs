@@ -66,7 +66,7 @@
                 return Enumerable.Empty<CommentModel>();
             }
 
-            var userId = await currentUserService.GetUserId();
+            var userId = currentUserService.GetUserId();
 
             IEnumerable<CommentModel> comments = await context.Comments
                 .OrderBy(c => c.CreatedAt)

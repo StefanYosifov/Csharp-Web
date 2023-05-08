@@ -49,7 +49,7 @@
                 return StatusCode(StatusCodes.Status403Forbidden);
             }
 
-            string userId = await currentUserService.GetUserId();
+            string userId = currentUserService.GetUserId();
 
             Resource resource = new Resource()
             {
@@ -83,7 +83,7 @@
         [HttpGet("getMy")]
         public async Task<IEnumerable<ResourceModel>> GetMyResources()
         {
-            string userId = await currentUserService.GetUserId();
+            string userId = currentUserService.GetUserId();
 
             IEnumerable<ResourceModel> resources = await context.Resources
                 .Include(res => res.CategoryResources)
@@ -100,7 +100,7 @@
         public async Task<IEnumerable<ResourceModel>> GetPublicResources(int pageNumber)
         {
             pageNumber = pageNumber - 1;
-            string userId = await currentUserService.GetUserId();
+            string userId = currentUserService.GetUserId();
 
             //12*1=12-12=0
             int resourcesToSkip = (pageNumber * resourcesPerPage)-pageNumber;
@@ -139,7 +139,7 @@
                 .ProjectTo<DetailResources>(mapper.ConfigurationProvider)
                 .Where(r=>r.Id==resourceId).ToListAsync();
 
-            string userId = await currentUserService.GetUserId();
+            string userId = currentUserService.GetUserId();
             
             var detailResource=details
                 .FirstOrDefault(x=>x.CategoryNames.Any(cn=>cn.Contains("Public")) || details.Any(x=>x.UserId==userId));

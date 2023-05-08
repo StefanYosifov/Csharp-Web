@@ -8,7 +8,6 @@
     using AutoMapper;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
-    using System.Security.Claims;
     using System.Threading.Tasks;
 
     public class LikeService : ILikeService

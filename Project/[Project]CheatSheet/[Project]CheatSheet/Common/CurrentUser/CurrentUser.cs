@@ -9,26 +9,25 @@
 
     public class CurrentUser : ICurrentUser
     {
-
-        private readonly IHttpContextAccessor httpContext;
+        private readonly ClaimsPrincipal user;
         private readonly CheatSheetDbContext context;
 
         public CurrentUser(IHttpContextAccessor httpContext,
                             CheatSheetDbContext context)
         {
-            this.httpContext = httpContext;
+            this.user = httpContext.HttpContext.User;
             this.context = context;
         }
 
         public async Task<User> GetUser()
         {
-            var id = httpContext.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var id = this.user.FindFirstValue(ClaimTypes.NameIdentifier);
             return await context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public async Task<string> GetUserId()
+        public string GetUserId()
         {
-            return httpContext.HttpContext!.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return this.user.FindFirstValue(ClaimTypes.NameIdentifier);
         }
     }
 }

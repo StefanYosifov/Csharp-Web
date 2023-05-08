@@ -3,20 +3,14 @@
     using _Project_CheatSheet.Common.ModelConstants;
     using System.ComponentModel.DataAnnotations;
 
-    public class UserModel
+    public class UserEditModel
     {
-        [Required]
-        public string UserName { get; set; } = null!;
-
-        [Required]
-        public string UserId { get; set; } = null!;
-
         public string? ProfilePictureUrl { get; set; }
-        [MaxLength(ModelConstants.UserDescriptionMaxLength)]
+        [StringLength(ModelConstants.UserDescriptionMaxLength,MinimumLength =ModelConstants.UserDescriptionMinLength)]
         public string? UserProfileDescription { get; set; }
-        [MaxLength(ModelConstants.UserBackGroundImageMaxLength)]
+        [StringLength(ModelConstants.UserBackGroundImageMaxLength,MinimumLength =ModelConstants.UserBackGroundImageMinLength)]
         public string? UserProfileBackground { get; set; }
-        [MaxLength(ModelConstants.UserEducationMaxLength)]
+        [StringLength(ModelConstants.UserEducationMaxLength,MinimumLength =ModelConstants.UserEducationMinLength)]
         public string? UserEducation { get; set; }
         [MaxLength(ModelConstants.UserJobMaxLength)]
         public string? UserJob { get; set; }
