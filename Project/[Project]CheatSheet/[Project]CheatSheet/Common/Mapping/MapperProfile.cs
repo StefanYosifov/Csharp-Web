@@ -48,12 +48,12 @@
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest=>dest.UserName,opt=>opt.MapFrom(src=>src.User.UserName.ToString()))
                 .ForMember(dest=>dest.UserProfileImage,opt=>opt.MapFrom(src=>src.User.ProfilePictureUrl))
-                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.CreatedAt.ToString(ModelConstants.dateFormatter)))
+                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.CreatedOn.ToString(ModelConstants.dateFormatter)))
                 .ForMember(dest => dest.CategoryNames, opt => opt.MapFrom(src => src.CategoryResources.Select(cr => cr.Category.Name)));
 
             CreateMap<Resource, DetailResources>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.CreatedAt.ToString(ModelConstants.dateFormatter)))
+                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.CreatedOn.ToString(ModelConstants.dateFormatter)))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName.ToString()))
                 .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.User.ProfilePictureUrl))
                 .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.ResourceLikes.Count))

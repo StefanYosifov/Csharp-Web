@@ -13,7 +13,6 @@
 
         [ForeignKey(nameof(Resource))]
         public Guid ResourceId { get; set; } 
-
         public virtual Resource Resource { get; set; } = null!;
 
     }

@@ -54,7 +54,7 @@
             Resource resource = new Resource()
             {
                 Content = resourceModel.Content,
-                CreatedAt = DateTime.Now,
+                CreatedOn = DateTime.Now,
                 Title = resourceModel.Title,
                 ImageUrl = resourceModel.ImageUrl,
                 UserId = userId

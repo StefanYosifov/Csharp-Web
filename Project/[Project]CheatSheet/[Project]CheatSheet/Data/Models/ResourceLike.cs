@@ -1,9 +1,10 @@
 ﻿namespace _Project_CheatSheet.Data.Models
 {
+    using _Project_CheatSheet.Data.Models.Base;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class ResourceLike : BaseEntity
+    public class ResourceLike
     {
         public ResourceLike()
         {
@@ -20,5 +21,6 @@
         [ForeignKey(nameof(Resource))]
         public Guid ResourceId { get; set; }
         public Resource Resource { get; set; }=null!;
+        public DateTime CreatedAt { get; set; }
     }
 }

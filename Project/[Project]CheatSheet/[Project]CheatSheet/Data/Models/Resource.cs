@@ -1,4 +1,5 @@
 ﻿using _Project_CheatSheet.Common.ModelConstants;
+using _Project_CheatSheet.Data.Models.Base;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _Project_CheatSheet.Data.Models
 {
-    public class Resource:BaseEntity
+    public class Resource:Entity
     {
         public Resource()
         {

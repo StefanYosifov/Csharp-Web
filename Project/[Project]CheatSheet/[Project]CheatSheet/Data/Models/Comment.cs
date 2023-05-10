@@ -2,10 +2,11 @@
 {
     using _Project_CheatSheet;
     using _Project_CheatSheet.Common.ModelConstants;
+    using _Project_CheatSheet.Data.Models.Base;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Comment:BaseEntity
+    public class Comment:Entity
     {
         public Comment()
         {

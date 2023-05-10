@@ -51,7 +51,7 @@
                 UserId = user.Id,
                 Content = comment.Content,
                 ResourceId = Guid.Parse(comment.ResourceId.ToString()),  
-                CreatedAt = DateTime.Now,
+                CreatedOn = DateTime.Now,
             };
 
             await context.Comments.AddAsync(dbComment);
@@ -69,12 +69,12 @@
             var userId = currentUserService.GetUserId();
 
             IEnumerable<CommentModel> comments = await context.Comments
-                .OrderBy(c => c.CreatedAt)
+                .OrderBy(c => c.CreatedOn)
                 .Select(c => new CommentModel()
                 {
                     Id = c.Id.ToString(),
                     Content = c.Content,
-                    CreatedAt = c.CreatedAt.ToString(ModelConstants.dateFormatter),
+                    CreatedAt = c.CreatedOn.ToString(ModelConstants.dateFormatter),
                     ResourceId = c.ResourceId.ToString(),
                     UserName = c.User.UserName,
                     UserProfileImage = c.User.ProfilePictureUrl,

@@ -46,7 +46,7 @@
             {
                 UserId=currentUser.Id.ToString(),
                 CommentId=Guid.Parse(likeComment.CommentId),
-                CreatedAt=DateTime.Now
+                CreatedOn =DateTime.Now
             };
 
             await context.CommentLikes.AddAsync(commentLike);

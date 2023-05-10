@@ -7,7 +7,6 @@
     {
         public CommentLike()
         {
-
             this.Id = Guid.NewGuid();
         }
         public Guid Id { get; set; }
