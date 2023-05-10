@@ -2,7 +2,7 @@
 {
     using _Project_CheatSheet.Data.Models.Base.Interfaces;
 
-    public class DeletableEntity : IDeletableEntity
+    public abstract class DeletableEntity : Entity
     {
 
         public DateTime DeletedOn { get; set; }

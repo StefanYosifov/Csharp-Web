@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Data.Models.Base.Interfaces
 {
-    public interface IEntity:IDeletableEntity
+    public interface IEntity
     {
         public DateTime CreatedOn { get; set; }
 

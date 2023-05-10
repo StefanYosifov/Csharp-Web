@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Data.Models.Base.Interfaces
 {
-    public interface IDeletableEntity 
+    public interface IDeletableEntity :IEntity
     {
         public DateTime DeletedOn { get; set; }
 

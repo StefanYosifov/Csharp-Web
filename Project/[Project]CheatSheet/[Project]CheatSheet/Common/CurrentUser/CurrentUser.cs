@@ -29,5 +29,10 @@
         {
             return this.user.FindFirstValue(ClaimTypes.NameIdentifier);
         }
+
+        public string GetUserName()
+        {
+            return this.user.Identity!.Name!;
+        }
     }
 }

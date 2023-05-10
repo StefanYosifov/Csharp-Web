@@ -1,24 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
 using _Project_CheatSheet.Data.Models;
+using _Project_CheatSheet.Data.Models.Base;
+using _Project_CheatSheet.Data.Models.Base.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace _Project_CheatSheet.Data
 {
     public partial class CheatSheetDbContext : IdentityDbContext<User>
     {
+
+        private readonly IHttpContextAccessor httpContext;
+
         public CheatSheetDbContext()
         {
+            
         }
 
-        public CheatSheetDbContext(DbContextOptions<CheatSheetDbContext> options)
+        public CheatSheetDbContext(
+            DbContextOptions<CheatSheetDbContext> options,
+            IHttpContextAccessor httpContext)
             : base(options)
         {
-
-
+            this.httpContext = httpContext;
         }
 
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -41,6 +46,7 @@ namespace _Project_CheatSheet.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<ResourceLike>()
            .HasKey(r => new { r.UserId, r.ResourceId });
 
@@ -97,5 +103,49 @@ namespace _Project_CheatSheet.Data
             base.OnModelCreating(modelBuilder);
         }
 
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            AuditSave();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
+        public override int SaveChanges(bool acceptAllChangesOnSuccess)
+        {
+            AuditSave();
+            return base.SaveChanges(acceptAllChangesOnSuccess);
+        }
+
+
+        private void AuditSave()
+        {
+            var currentTime = DateTime.UtcNow;
+            var userName = httpContext.HttpContext.User.Identity.Name;
+
+            foreach (var item in ChangeTracker.Entries().Where(e => e.Entity is IEntity))
+            {
+                var entity = item.Entity as IEntity;
+
+                if (item.State == EntityState.Added)
+                {
+                    entity.CreatedOn = currentTime;
+                    entity.CreatedBy = userName;
+                }
+                else if (item.State == EntityState.Modified)
+                {
+                    entity.UpdatedOn = currentTime;
+                    entity.UpdatedBy = userName;
+                    item.Property("CreatedOn").IsModified = false;
+                    item.Property("CreatedBy").IsModified = false;
+                }
+                else if (item.State == EntityState.Deleted && entity is IDeletableEntity deletableEntity)
+                {
+                    deletableEntity.IsDeleted = true;
+                    deletableEntity.DeletedOn = currentTime;
+                    deletableEntity.DeletedBy = userName;
+                    item.State = EntityState.Modified;
+                }
+            }
+
+        }
     }
 }

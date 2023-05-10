@@ -3,7 +3,7 @@
     using _Project_CheatSheet.Data.Models.Base.Interfaces;
     using System.ComponentModel.DataAnnotations;
 
-    public abstract class Entity : DeletableEntity
+    public abstract class Entity : IEntity
     {
         public DateTime CreatedOn { get; set; }
 

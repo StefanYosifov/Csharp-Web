@@ -51,7 +51,6 @@
                 UserId = user.Id,
                 Content = comment.Content,
                 ResourceId = Guid.Parse(comment.ResourceId.ToString()),  
-                CreatedOn = DateTime.Now,
             };
 
             await context.Comments.AddAsync(dbComment);

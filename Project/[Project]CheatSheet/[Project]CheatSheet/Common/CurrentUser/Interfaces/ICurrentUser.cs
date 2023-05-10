@@ -9,5 +9,7 @@
 
         public string GetUserId();
 
+        public string GetUserName();
+
     }
 }

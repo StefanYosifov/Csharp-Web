@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace _Project_CheatSheet.Data.Models
 {
-    public class Resource:Entity
+    public class Resource:DeletableEntity
     {
         public Resource()
         {

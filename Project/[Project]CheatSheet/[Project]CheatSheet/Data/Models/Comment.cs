@@ -6,7 +6,7 @@
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
-    public class Comment:Entity
+    public class Comment:DeletableEntity
     {
         public Comment()
         {
