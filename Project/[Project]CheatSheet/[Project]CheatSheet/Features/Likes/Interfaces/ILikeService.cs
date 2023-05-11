@@ -1,11 +1,10 @@
-﻿namespace _Project_CheatSheet.Features.Likes.Interfaces
-{
-    using _Project_CheatSheet.Features.Likes.Models;
-    using Microsoft.AspNetCore.Mvc;
+﻿using _Project_CheatSheet.Features.Likes.Models;
+using Microsoft.AspNetCore.Mvc;
 
+namespace _Project_CheatSheet.Features.Likes.Interfaces
+{
     public interface ILikeService
     {
-
         public int GetCommentLikesCount(LikeCommentModel likeComment);
 
         public Task<StatusCodeResult> LikeAComment(LikeCommentModel likeComment);

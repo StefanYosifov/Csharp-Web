@@ -2,7 +2,9 @@
 {
     public class ResourceMessages
     {
-        public const string onUnsuccesfulResourceEdit = "There has been an issue editing the current resource,please try again";
-        public const string onSuccesfulResourceEdit = "You have succesfully saved the resource";
+        public const string OnUnsuccessfulResourceEdit = "There has been an issue editing the current resource,please try again";
+        public const string OnSuccessfulResourceEdit = "You have succesfully saved the resource";
+
+        public const string OnInvalidRequestsResourceEdit = "Invalid data provided, check for the length";
     }
 }

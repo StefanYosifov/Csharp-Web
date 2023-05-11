@@ -1,14 +1,14 @@
-﻿namespace _Project_CheatSheet.Features.Comment.Interfaces
-{
-    using _Project_CheatSheet.Features.Comment.Models;
-    using Microsoft.AspNetCore.Mvc;
+﻿using _Project_CheatSheet.Features.Comment.Models;
+using Microsoft.AspNetCore.Mvc;
 
+namespace _Project_CheatSheet.Features.Comment.Interfaces
+{
     public interface ICommentService
     {
+        public Task<IEnumerable<CommentModel>> GetCommentsFromResource(string resourceId);
 
-        public Task<IEnumerable<CommentModel>> getCommentsFromResource(string resourceId);
+        public Task<StatusCodeResult> CreateAComment(CommentModel comment);
 
-        public Task<StatusCodeResult> createAComment(CommentModel comment);
-
+        public Task<EditCommentModel> EditComment(string id,EditCommentModel commentModel);
     }
 }

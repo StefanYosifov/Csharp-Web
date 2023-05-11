@@ -1,8 +1,7 @@
-﻿namespace _Project_CheatSheet.Data.Models.Base
-{
-    using _Project_CheatSheet.Data.Models.Base.Interfaces;
-    using System.ComponentModel.DataAnnotations;
+﻿using _Project_CheatSheet.Data.Models.Base.Interfaces;
 
+namespace _Project_CheatSheet.Data.Models.Base
+{
     public abstract class Entity : IEntity
     {
         public DateTime CreatedOn { get; set; }

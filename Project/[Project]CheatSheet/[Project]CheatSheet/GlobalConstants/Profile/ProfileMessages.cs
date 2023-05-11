@@ -2,7 +2,7 @@
 {
     public class ProfileMessages
     {
-        public const string onSuccessfulUserChange = "You have succesfully modified your data";
-        public const string onUnsuccessfulUserChange = "You have unsuccesfully modified your data";
+        public const string OnSuccessfulUserChange = "You have succesfully modified your data";
+        public const string OnUnsuccessfulUserChange = "You have unsuccesfully modified your data";
     }
 }

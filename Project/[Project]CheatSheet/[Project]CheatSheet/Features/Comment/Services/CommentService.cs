@@ -1,36 +1,30 @@
-﻿namespace _Project_CheatSheet.Features.Comment.Services
-{
-    using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-    using _Project_CheatSheet.Data;
-    using _Project_CheatSheet.Data.Models;
-    using _Project_CheatSheet.Features.Comment.Interfaces;
-    using _Project_CheatSheet.Features.Comment.Models;
-    using _Project_CheatSheet.GlobalConstants;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
+using _Project_CheatSheet.Data;
+using _Project_CheatSheet.Data.Models;
+using _Project_CheatSheet.Features.Comment.Interfaces;
+using _Project_CheatSheet.Features.Comment.Models;
+using _Project_CheatSheet.GlobalConstants;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
+namespace _Project_CheatSheet.Features.Comment.Services
+{
     public class CommentService : ICommentService
     {
-
         private readonly CheatSheetDbContext context;
-        private readonly UserManager<User> userManager;
         private readonly ICurrentUser currentUserService;
 
-        public CommentService(CheatSheetDbContext context, 
-                              UserManager<User> userManager,
-                              ICurrentUser currentUserService)
+        public CommentService(
+            CheatSheetDbContext context,
+            ICurrentUser currentUserService)
         {
             this.context = context;
-            this.userManager = userManager;
             this.currentUserService = currentUserService;
         }
 
-        public async Task<StatusCodeResult> createAComment(CommentModel comment)
+        public async Task<StatusCodeResult> CreateAComment(CommentModel comment)
         {
-            if(comment==null)
+            if (comment == null)
             {
                 return new StatusCodeResult(StatusCodes.Status400BadRequest);
             }
@@ -40,17 +34,18 @@
             {
                 return new StatusCodeResult(StatusCodes.Status403Forbidden);
             }
+
             var resource = GetResource(comment.ResourceId);
-            if(resource == null)
+            if (resource == null)
             {
                 return new StatusCodeResult(StatusCodes.Status403Forbidden);
             }
 
-            Comment dbComment = new Comment()
-            { 
+            var dbComment = new Data.Models.Comment
+            {
                 UserId = user.Id,
                 Content = comment.Content,
-                ResourceId = Guid.Parse(comment.ResourceId.ToString()),  
+                ResourceId = Guid.Parse(comment.ResourceId)
             };
 
             await context.Comments.AddAsync(dbComment);
@@ -58,7 +53,28 @@
             return new StatusCodeResult(StatusCodes.Status201Created);
         }
 
-        public async Task<IEnumerable<CommentModel>> getCommentsFromResource(string resourceId)
+        public async Task<EditCommentModel> EditComment(string id, EditCommentModel commentModel)
+        {
+            var currentUserId = currentUserService.GetUserId();
+            var comment = await context.Comments.FindAsync(id);
+            if (comment == null || comment.UserId != currentUserId)
+            {
+                return null;
+            }
+
+            context.Entry(comment).CurrentValues.SetValues(commentModel);
+            try
+            {
+                await context.SaveChangesAsync();
+                return commentModel;
+            }
+            catch (DbUpdateException)
+            {
+                return null!;
+            }
+        }
+
+        public async Task<IEnumerable<CommentModel>> GetCommentsFromResource(string resourceId)
         {
             if (resourceId.Length != 36)
             {
@@ -69,7 +85,7 @@
 
             IEnumerable<CommentModel> comments = await context.Comments
                 .OrderBy(c => c.CreatedOn)
-                .Select(c => new CommentModel()
+                .Select(c => new CommentModel
                 {
                     Id = c.Id.ToString(),
                     Content = c.Content,
@@ -78,13 +94,13 @@
                     UserName = c.User.UserName,
                     UserProfileImage = c.User.ProfilePictureUrl,
                     CommentLikes = c.CommentLikes,
-                    HasLiked = c.CommentLikes.Select(cl => cl.UserId).Any(c=>c==userId)
+                    HasLiked = c.CommentLikes.Select(cl => cl.UserId).Any(c => c == userId)
                 }).Where(c => c.ResourceId == resourceId).ToArrayAsync();
 
             return comments;
         }
 
-        private async Task<Resource> GetResource(string resourceId)
+        private async Task<Resource?> GetResource(string resourceId)
         {
             var resource = await context.Resources.FindAsync(resourceId);
             return resource;

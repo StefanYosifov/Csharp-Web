@@ -1,11 +1,11 @@
-﻿using _Project_CheatSheet.Data.Models.Base.Interfaces;
+﻿using System.ComponentModel.DataAnnotations;
+using _Project_CheatSheet.Data.Models.Base.Interfaces;
 using _Project_CheatSheet.GlobalConstants.User;
 using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations;
 
 namespace _Project_CheatSheet.Data.Models
 {
-    public class User : IdentityUser,IEntity
+    public class User : IdentityUser, IEntity
     {
         public User()
         {
@@ -14,26 +14,31 @@ namespace _Project_CheatSheet.Data.Models
             this.CommentLikes = new HashSet<CommentLike>();
             this.Comments = new HashSet<Comment>();
         }
-        [Url]
-        public string? ProfilePictureUrl { get; set; }
+
+        [Url] public string? ProfilePictureUrl { get; set; }
+
         [MaxLength(UserConstants.DescriptionMaxLength)]
         public string? ProfileDescription { get; set; }
+
         [MaxLength(UserConstants.BackGroundImageMaxLength)]
         public string? ProfileBackground { get; set; }
+
         [MaxLength(UserConstants.EducationMaxLength)]
-        public string? UserEducation { get;set; }
+        public string? UserEducation { get; set; }
+
         [MaxLength(UserConstants.JobMaxLength)]
         public string? UserJob { get; set; }
+
         public ICollection<Resource> Resources { get; set; }
         public ICollection<ResourceLike> ResourceLikes { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<CommentLike> CommentLikes { get; set; }
-        public DateTime CreatedOn { get ; set ; }
-        public string CreatedBy { get ; set ; }
-        public DateTime UpdatedOn { get ; set ; }
-        public string UpdatedBy { get ; set ; }
-        public DateTime DeletedOn { get ; set ; }
-        public string DeletedBy { get ; set ; }
-        public bool IsDeleted { get ; set ; }
+        public DateTime DeletedOn { get; set; }
+        public string DeletedBy { get; set; }
+        public bool IsDeleted { get; set; }
+        public DateTime CreatedOn { get; set; }
+        public string CreatedBy { get; set; }
+        public DateTime UpdatedOn { get; set; }
+        public string UpdatedBy { get; set; }
     }
 }

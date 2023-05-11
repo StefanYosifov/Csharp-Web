@@ -1,24 +1,22 @@
-﻿namespace _Project_CheatSheet.Features.Identity.Services
-{
-    using _Project_CheatSheet.Data.Models;
-    using _Project_CheatSheet.Features.Identity.Interfaces;
-    using _Project_CheatSheet.Features.Identity.Models;
-    using _Project_CheatSheet.Controllers.Identity;
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.IdentityModel.Tokens;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
-    using AutoMapper;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using _Project_CheatSheet.Data.Models;
+using _Project_CheatSheet.Features.Identity.Interfaces;
+using _Project_CheatSheet.Features.Identity.Models;
+using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
+namespace _Project_CheatSheet.Features.Identity.Services
+{
     public class AuthenticateService : IAuthenticateService
     {
-        private readonly UserManager<User> userManager;
-        private readonly SignInManager<User> signInManager;
         private readonly IConfiguration configuration;
         private readonly IMapper mapper;
-        private int IdentityTokenHoursExpiration = 48;
+        private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
+        private const int IdentityTokenHoursExpiration = 48;
 
         public AuthenticateService(
             UserManager<User> userManager,
@@ -49,47 +47,46 @@
             var userRoles = await userManager.GetRolesAsync(user);
 
             var authClaims = new List<Claim>
-        {
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        };
-
-            foreach (var userRole in userRoles)
             {
-                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
-            }
+                new(ClaimTypes.Name, user.UserName),
+                new(ClaimTypes.NameIdentifier, user.Id),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+            };
+
+            foreach (var userRole in userRoles) authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             var token = GetToken(authClaims);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        public async Task<string> AuthenticateRegsiter(RegisterModel registerModel)
+        public async Task<string> AuthenticateRegister(RegisterModel registerModel)
         {
             var userNameExists = await userManager.FindByNameAsync(registerModel.UserName);
             if (userNameExists != null)
             {
                 return null;
             }
+
             var emailExists = await userManager.FindByEmailAsync(registerModel.Email);
             if (emailExists != null)
             {
                 return null;
             }
 
-            User user = mapper.Map<User>(registerModel);
+            var user = mapper.Map<User>(registerModel);
             var result = await userManager.CreateAsync(user, registerModel.Password);
 
             if (!result.Succeeded)
             {
                 return null;
             }
+
             var authClaims = new List<Claim>
-                {
-                   new Claim(ClaimTypes.Name, user.UserName),
-                   new Claim(ClaimTypes.NameIdentifier,user.Id),
-                   new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                   new Claim(ClaimTypes.Role, "User")
-                };
+            {
+                new(ClaimTypes.Name, user.UserName),
+                new(ClaimTypes.NameIdentifier, user.Id),
+                new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new(ClaimTypes.Role, "User")
+            };
 
             var token = GetToken(authClaims);
             return new JwtSecurityTokenHandler().WriteToken(token);
@@ -100,12 +97,12 @@
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]));
 
             var token = new JwtSecurityToken(
-                issuer: configuration["JWT:ValidIssuer"],
-                audience: configuration["JWT:ValidAudience"],
+                configuration["JWT:ValidIssuer"],
+                configuration["JWT:ValidAudience"],
                 expires: DateTime.Now.AddHours(IdentityTokenHoursExpiration),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
+            );
 
             return token;
         }

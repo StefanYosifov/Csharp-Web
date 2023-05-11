@@ -1,18 +1,18 @@
-﻿namespace _Project_CheatSheet.Features.Resources.Models
-{
-    using _Project_CheatSheet.Data.Models;
-    using _Project_CheatSheet.GlobalConstants.Resource;
-    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using _Project_CheatSheet.Data.Models;
+using _Project_CheatSheet.GlobalConstants.Resource;
 
+namespace _Project_CheatSheet.Features.Resources.Models
+{
     public class DetailResources
     {
         public DetailResources()
         {
-            this.ResourceLikes = new HashSet<ResourceLike>();
+            ResourceLikes = new HashSet<ResourceLike>();
             CategoryNames = new List<string>();
         }
-        [Required]
-        public string Id { get; set; } = null!;
+
+        [Required] public string Id { get; set; } = null!;
 
         [Required]
         [StringLength(ResourceConstants.TitleMaxLength, MinimumLength = ResourceConstants.TitleMinLength)]
@@ -32,7 +32,6 @@
         public string? UserName { get; set; }
         public string? UserImage { get; set; }
         public IEnumerable<ResourceLike> ResourceLikes { get; set; }
-        public IEnumerable<string> CategoryNames { get; set; } = null!;
-
+        public IEnumerable<string> CategoryNames { get; set; }
     }
 }

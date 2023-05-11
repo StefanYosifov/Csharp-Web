@@ -1,18 +1,16 @@
-﻿namespace _Project_CheatSheet.Controllers.Resources.Models
-{
-    using _Project_CheatSheet.GlobalConstants.Resource;
-    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using _Project_CheatSheet.GlobalConstants.Resource;
 
+namespace _Project_CheatSheet.Features.Resources.Models
+{
     public class ResourceModel
     {
-
         public ResourceModel()
         {
-            this.CategoryNames = new List<string>();
+            CategoryNames = new List<string>();
         }
 
-        [Required]
-        public string Id { get; set; } = null!;
+        [Required] public string Id { get; set; } = null!;
 
         [Required]
         [StringLength(ResourceConstants.TitleMaxLength, MinimumLength = ResourceConstants.TitleMinLength)]
@@ -20,11 +18,13 @@
 
         [Required]
         [StringLength(ResourceConstants.ContentMaxLength, MinimumLength = ResourceConstants.ImageUrlMinLength)]
+        [Url]
         public string ImageUrl { get; set; } = null!;
 
         [Required]
         [StringLength(ResourceConstants.ContentMaxLength, MinimumLength = ResourceConstants.ContentMinLength)]
         public string Content { get; set; } = null!;
+
         public string DateTime { get; set; } = null!;
         public string? UserId { get; set; }
         public string? UserName { get; set; }

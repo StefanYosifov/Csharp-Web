@@ -1,18 +1,17 @@
-﻿namespace _Project_CheatSheet.Features.Comment
-{
-    using _Project_CheatSheet.Controllers;
-    using _Project_CheatSheet.Features.Comment.Interfaces;
-    using _Project_CheatSheet.Features.Comment.Models;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    
+﻿using _Project_CheatSheet.Features.Comment.Interfaces;
+using _Project_CheatSheet.Features.Comment.Models;
+using _Project_CheatSheet.GlobalConstants.Comment;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
+namespace _Project_CheatSheet.Features.Comment
+{
     [Route("comment")]
     [Authorize]
-    public class CommentController:ApiController
+    public class CommentController : ApiController
     {
-
         private readonly ICommentService service;
+
         public CommentController(ICommentService service)
         {
             this.service = service;
@@ -20,25 +19,39 @@
 
 
         [HttpPost("send")]
-        public async Task<ActionResult> PostAComment(CommentModel comment)
+        public async Task<IActionResult> PostAComment(CommentModel comment)
         {
-            var postComment = await service.createAComment(comment);
+            var postComment = await service.CreateAComment(comment);
             if (postComment.StatusCode != 201)
             {
-                return BadRequest("Couldn't create a comment");
+                return BadRequest(CommentMessages.OnUnsuccessfulPostComment);
             }
-            return Ok("You have sucessfully created a comment");
+
+            return Ok(CommentMessages.OnSuccessfulPostComment);
         }
 
         [HttpGet("get/{id}")]
         public async Task<ActionResult<IEnumerable<CommentModel>>> GetComments(string id)
         {
-            var comments = await service.getCommentsFromResource(id);
-            if (comments == null || comments.Count() == 0)
+            var comments = await service.GetCommentsFromResource(id);
+            if (!comments.Any())
             {
                 return NotFound(comments);
             }
+
             return Ok(comments);
+        }
+
+        [HttpPatch("edit/{id}")]
+        public async Task<IActionResult> EditComment(string id, EditCommentModel comment)
+        {
+            var commentResult = await service.EditComment(id, comment);
+            if (commentResult == null)
+            {
+                return NotFound(CommentMessages.OnUnsuccessfulEditComment);
+            }
+
+            return Ok(CommentMessages.OnSuccessfulEditComment);
         }
     }
 }

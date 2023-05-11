@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.Controllers
+﻿namespace _Project_CheatSheet.Features
 {
     using Microsoft.AspNetCore.Mvc;
 

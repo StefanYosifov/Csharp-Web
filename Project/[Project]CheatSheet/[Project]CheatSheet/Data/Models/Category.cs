@@ -1,5 +1,5 @@
-﻿using _Project_CheatSheet.GlobalConstants.Category;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using _Project_CheatSheet.GlobalConstants.Category;
 
 namespace _Project_CheatSheet.Data.Models
 {
@@ -7,13 +7,15 @@ namespace _Project_CheatSheet.Data.Models
     {
         public Category()
         {
-            CategoryResources = new HashSet<CategoryResource>();
+            this.CategoryResources = new HashSet<CategoryResource>();
         }
-        [Key]
-        public int Id { get; set; }
+
+        [Key] public int Id { get; set; }
+
         [Required]
         [MaxLength(CategoryConstants.NameMaxCategory)]
         public string Name { get; set; } = null!;
+
         public virtual ICollection<CategoryResource> CategoryResources { get; set; }
     }
 }

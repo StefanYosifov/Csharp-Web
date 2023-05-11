@@ -2,7 +2,7 @@
 {
     public class LikeConstants
     {
-        public const int minTotalLikes = 0;
-        public const int maxTotalLikes = 1000000;
+        public const int MinTotalLikes = 0;
+        public const int MaxTotalLikes = 1000000;
     }
 }

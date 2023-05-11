@@ -1,14 +1,11 @@
-﻿namespace _Project_CheatSheet.Features.Identity.Interfaces
-{
-    using _Project_CheatSheet.Features.Identity.Models;
-    using System.IdentityModel.Tokens.Jwt;
+﻿using _Project_CheatSheet.Features.Identity.Models;
 
+namespace _Project_CheatSheet.Features.Identity.Interfaces
+{
     public interface IAuthenticateService
     {
-
         Task<string> AuthenticateLogin(LoginModel loginModel);
 
-        Task<string> AuthenticateRegsiter(RegisterModel registerModel);
-
+        Task<string> AuthenticateRegister(RegisterModel registerModel);
     }
 }

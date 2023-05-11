@@ -2,7 +2,7 @@
 {
     public class ProfileConstants
     {
-        public const int minValue = 0;
-        public const int maxValue = 1000000;
+        public const int MinValue = 0;
+        public const int MaxValue = 1000000;
     }
 }

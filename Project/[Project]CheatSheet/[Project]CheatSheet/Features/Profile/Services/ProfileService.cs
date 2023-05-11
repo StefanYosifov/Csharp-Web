@@ -1,15 +1,12 @@
-﻿namespace _Project_CheatSheet.Features.Profile.Services
-{
-    using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-    using _Project_CheatSheet.Controllers.Profile.Interfaces;
-    using _Project_CheatSheet.Controllers.Profile.Models;
-    using _Project_CheatSheet.Data;
-    using _Project_CheatSheet.Data.Models;
-    using _Project_CheatSheet.Features.Profile.Models;
-    using AutoMapper;
-    using Microsoft.EntityFrameworkCore;
-    using System.Threading.Tasks;
+﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
+using _Project_CheatSheet.Data;
+using _Project_CheatSheet.Features.Profile.Interfaces;
+using _Project_CheatSheet.Features.Profile.Models;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
+namespace _Project_CheatSheet.Features.Profile.Services
+{
     public class ProfileService : IProfileService
     {
         private readonly CheatSheetDbContext context;
@@ -26,9 +23,9 @@
             this.mapper = mapper;
         }
 
-        public async Task<UserEditModel> editProfileData(UserEditModel userEdit)
+        public async Task<UserEditModel> EditProfileData(UserEditModel userEdit)
         {
-            User currentUser = await currentUserService.GetUser();
+            var currentUser = await currentUserService.GetUser();
             context.Entry(currentUser).CurrentValues.SetValues(userEdit);
             try
             {
@@ -41,14 +38,13 @@
             }
         }
 
-        public async Task<ProfileModel> getProfileData(string userId)
+        public async Task<ProfileModel> GetProfileData(string userId)
         {
-
             var postCount = await context.Resources.CountAsync(p => p.UserId == userId);
             var likedResourceIds = await context.ResourceLikes
-            .Where(rl => rl.UserId == userId)
-            .Select(rl => rl.ResourceId)
-            .ToListAsync();
+                .Where(rl => rl.UserId == userId)
+                .Select(rl => rl.ResourceId)
+                .ToListAsync();
 
             var totalResourceLikes = await context.ResourceLikes
                 .Include(rl => rl.Resource)
@@ -58,22 +54,21 @@
 
 
             var totalLikedComments = context.CommentLikes
-                .Include(cl => cl.Comment)
                 .Where(cl => cl.Comment.UserId == userId)
                 .Count();
 
-            User findUser = await context.Users.FindAsync(userId);
-            UserModel user=mapper.Map<UserModel>(findUser);
+            var findUser = await context.Users.FindAsync(userId);
+            var user = mapper.Map<UserModel>(findUser);
 
-            var ProfileModel = new ProfileModel()
+            var profileModel = new ProfileModel
             {
                 PostCount = postCount,
                 ResourceLikes = totalResourceLikes,
                 CommentLikes = totalLikedComments,
-                User=user
+                User = user
             };
 
-            return ProfileModel;
+            return profileModel;
         }
     }
 }

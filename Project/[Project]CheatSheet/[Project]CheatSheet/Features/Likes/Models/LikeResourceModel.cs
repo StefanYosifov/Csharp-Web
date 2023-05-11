@@ -1,17 +1,15 @@
-﻿namespace _Project_CheatSheet.Features.Likes.Models
-{
-    using _Project_CheatSheet.GlobalConstants.Likes;
-    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using _Project_CheatSheet.GlobalConstants.Likes;
 
+namespace _Project_CheatSheet.Features.Likes.Models
+{
     public class LikeResourceModel
     {
-        [Required]
-        public string ResourceId { get; set; } = null!;
+        [Required] public string ResourceId { get; set; } = null!;
 
-        public bool hasLiked { get; set; }
+        public bool HasLiked { get; set; }
 
-        [Range(LikeConstants.minTotalLikes,LikeConstants.maxTotalLikes)]
-        public int TotaLikes { get; set; }
-
+        [Range(LikeConstants.MinTotalLikes, LikeConstants.MaxTotalLikes)]
+        public int TotalLikes { get; set; }
     }
 }

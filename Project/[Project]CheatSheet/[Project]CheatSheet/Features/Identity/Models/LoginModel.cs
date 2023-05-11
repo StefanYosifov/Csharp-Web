@@ -1,8 +1,8 @@
-﻿namespace _Project_CheatSheet.Features.Identity.Models
-{
-    using _Project_CheatSheet.GlobalConstants.User;
-    using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using _Project_CheatSheet.GlobalConstants.User;
 
+namespace _Project_CheatSheet.Features.Identity.Models
+{
     public class LoginModel
     {
         [Required]
@@ -12,7 +12,5 @@
         [Required]
         [StringLength(UserConstants.PasswordMaxLength, MinimumLength = UserConstants.PasswordMinLength)]
         public string Password { get; set; } = null!;
-
-
     }
 }

@@ -1,21 +1,16 @@
-﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Data.Models;
-using _Project_CheatSheet.Data.Models.Base;
+﻿using _Project_CheatSheet.Data.Models;
 using _Project_CheatSheet.Data.Models.Base.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace _Project_CheatSheet.Data
 {
-    public partial class CheatSheetDbContext : IdentityDbContext<User>
+    public class CheatSheetDbContext : IdentityDbContext<User>
     {
-
         private readonly IHttpContextAccessor httpContext;
 
         public CheatSheetDbContext()
         {
-            
         }
 
         public CheatSheetDbContext(
@@ -35,7 +30,6 @@ namespace _Project_CheatSheet.Data
         public virtual DbSet<CategoryResource> CategoriesResources { get; set; } = null!;
 
 
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -46,9 +40,8 @@ namespace _Project_CheatSheet.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
             modelBuilder.Entity<ResourceLike>()
-           .HasKey(r => new { r.UserId, r.ResourceId });
+                .HasKey(r => new { r.UserId, r.ResourceId });
 
             modelBuilder.Entity<ResourceLike>()
                 .HasOne(r => r.User)
@@ -98,12 +91,13 @@ namespace _Project_CheatSheet.Data
                 .HasForeignKey(c => c.ResourceId);
 
             modelBuilder.Entity<CategoryResource>()
-                    .HasKey(k => new { k.CategoryId, k.ResourceId });
+                .HasKey(k => new { k.CategoryId, k.ResourceId });
 
             base.OnModelCreating(modelBuilder);
         }
 
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
+            CancellationToken cancellationToken = default)
         {
             AuditSave();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
@@ -119,7 +113,7 @@ namespace _Project_CheatSheet.Data
         private void AuditSave()
         {
             var currentTime = DateTime.UtcNow;
-            var userName = httpContext.HttpContext.User.Identity.Name;
+            var userName = httpContext.HttpContext!.User!.Identity!.Name;
 
             foreach (var item in ChangeTracker.Entries().Where(e => e.Entity is IEntity))
             {
@@ -128,12 +122,12 @@ namespace _Project_CheatSheet.Data
                 if (item.State == EntityState.Added)
                 {
                     entity.CreatedOn = currentTime;
-                    entity.CreatedBy = userName;
+                    entity.CreatedBy = userName!;
                 }
                 else if (item.State == EntityState.Modified)
                 {
                     entity.UpdatedOn = currentTime;
-                    entity.UpdatedBy = userName;
+                    entity.UpdatedBy = userName!;
                     item.Property("CreatedOn").IsModified = false;
                     item.Property("CreatedBy").IsModified = false;
                 }
@@ -141,11 +135,10 @@ namespace _Project_CheatSheet.Data
                 {
                     deletableEntity.IsDeleted = true;
                     deletableEntity.DeletedOn = currentTime;
-                    deletableEntity.DeletedBy = userName;
+                    deletableEntity.DeletedBy = userName!;
                     item.State = EntityState.Modified;
                 }
             }
-
         }
     }
 }

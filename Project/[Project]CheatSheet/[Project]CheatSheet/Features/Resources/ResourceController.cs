@@ -1,11 +1,11 @@
-﻿namespace _Project_CheatSheet.Controllers.Resources
-{
-    using _Project_CheatSheet.Controllers.Resources.Interfaces;
-    using _Project_CheatSheet.Controllers.Resources.Models;
-    using _Project_CheatSheet.GlobalConstants.Resource;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
+﻿using _Project_CheatSheet.Features.Resources.Interfaces;
+using _Project_CheatSheet.Features.Resources.Models;
+using _Project_CheatSheet.GlobalConstants.Resource;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
+namespace _Project_CheatSheet.Features.Resources
+{
     [Route("/resource")]
     [Authorize]
     public class ResourceController : ControllerBase
@@ -16,6 +16,7 @@
         {
             this.resourceService = resourceService;
         }
+
         [HttpGet("pages")]
         public async Task<ActionResult<int>> GetPageCount()
         {
@@ -44,6 +45,7 @@
             {
                 return NotFound("You do not have access to the resource or it does not exist");
             }
+
             return Ok(resource);
         }
 
@@ -53,15 +55,21 @@
             return await resourceService.AddResources(resourceAdd);
         }
 
-        [HttpPatch("edit")]
-        public async Task<IActionResult> EditResource(ResourceModel resourceModel)
+        [HttpPatch("edit/{id}")]
+        public async Task<IActionResult> EditResource(string id, [FromBody] ResourceEditModel resourceEdit)
         {
-            var resourceResult = await resourceService.EditResource(resourceModel);
-            if(resourceResult == null)
+            if (!await TryUpdateModelAsync(resourceEdit))
             {
-                return NotFound(ResourceMessages.onUnsuccesfulResourceEdit);
+                return NotFound(ResourceMessages.OnInvalidRequestsResourceEdit);
             }
-            return Ok(ResourceMessages.onSuccesfulResourceEdit);
+            var resourceResult = await resourceService.EditResource(id, resourceEdit);
+            if (resourceResult == null)
+            {
+                return NotFound(ResourceMessages.OnUnsuccessfulResourceEdit);
+            }
+
+            return Ok(ResourceMessages.OnSuccessfulResourceEdit);
         }
+
     }
 }

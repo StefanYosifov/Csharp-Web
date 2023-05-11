@@ -1,31 +1,30 @@
-﻿namespace _Project_CheatSheet.Features.Profile
-{
-    using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-    using _Project_CheatSheet.Controllers;
-    using _Project_CheatSheet.Controllers.Profile.Interfaces;
-    using _Project_CheatSheet.Controllers.Profile.Models;
-    using _Project_CheatSheet.Features.Profile.Models;
-    using _Project_CheatSheet.GlobalConstants.Profile;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
+﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
+using _Project_CheatSheet.Features.Profile.Interfaces;
+using _Project_CheatSheet.Features.Profile.Models;
+using _Project_CheatSheet.GlobalConstants.Profile;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
+namespace _Project_CheatSheet.Features.Profile
+{
     [Route("/profile")]
     public class ProfileController : ApiController
     {
-
-        private readonly IProfileService service;
         private readonly ICurrentUser currentUser;
 
-        public ProfileController(IProfileService service,
-                                 ICurrentUser currentUser)
+        private readonly IProfileService service;
+
+        public ProfileController(
+            IProfileService service,
+            ICurrentUser currentUser)
         {
             this.service = service;
             this.currentUser = currentUser;
         }
 
         [Authorize]
-        [HttpGet("myuserId")]
-        public  ActionResult GetMyUserId()
+        [HttpGet("myUser")]
+        public ActionResult GetMyUserId()
         {
             var userId = currentUser.GetUserId();
             return Ok(userId);
@@ -36,7 +35,7 @@
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfileData(string id)
         {
-            var dataResult = await service.getProfileData(id);
+            var dataResult = await service.GetProfileData(id);
             return Ok(dataResult);
         }
 
@@ -44,12 +43,13 @@
         [HttpPatch("update")]
         public async Task<IActionResult> UpdateProfileData(UserEditModel userModel)
         {
-            var updateResult = await service.editProfileData(userModel);
-            if (updateResult==null)
+            var updateResult = await service.EditProfileData(userModel);
+            if (updateResult == null)
             {
-                return BadRequest(ProfileMessages.onUnsuccessfulUserChange);
+                return BadRequest(ProfileMessages.OnUnsuccessfulUserChange);
             }
-            return Ok(ProfileMessages.onSuccessfulUserChange);    
+
+            return Ok(ProfileMessages.OnSuccessfulUserChange);
         }
     }
 }
