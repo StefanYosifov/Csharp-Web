@@ -4,6 +4,7 @@
     using _Project_CheatSheet.Features.Identity;
     using _Project_CheatSheet.Features.Identity.Interfaces;
     using _Project_CheatSheet.Features.Identity.Models;
+    using _Project_CheatSheet.GlobalConstants.User;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -28,7 +29,7 @@
             var authenticateResult = await service.AuthenticateLogin(loginModel);
             if (string.IsNullOrWhiteSpace(authenticateResult))
             {
-                return BadRequest(IdentityMessages.onFailedRegister);
+                return BadRequest(UserIdentityMessages.onFailedRegister);
             }
             return Ok(authenticateResult);
         }
@@ -40,7 +41,7 @@
             var authenticateResult = await service.AuthenticateRegsiter(registerModel);
             if (string.IsNullOrWhiteSpace(authenticateResult))
             {
-                return BadRequest(IdentityMessages.onFailedRegister);
+                return BadRequest(UserIdentityMessages.onFailedRegister);
             }
             return Ok(authenticateResult);
         }

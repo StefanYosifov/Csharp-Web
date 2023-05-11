@@ -1,18 +1,16 @@
-﻿using _Project_CheatSheet.Controllers.Identity;
-
-namespace _Project_CheatSheet.Features.Identity.Models
+﻿namespace _Project_CheatSheet.Features.Identity.Models
 {
-    using _Project_CheatSheet.Common.ModelConstants;
+    using _Project_CheatSheet.GlobalConstants.User;
     using System.ComponentModel.DataAnnotations;
 
     public class LoginModel
     {
         [Required]
-        [StringLength(ModelConstants.UserNameMaxLength, MinimumLength = ModelConstants.UserNameMinLength)]
+        [StringLength(UserConstants.NameMaxLength, MinimumLength = UserConstants.NameMinLength)]
         public string Username { get; set; } = null!;
 
         [Required]
-        [StringLength(ModelConstants.UserPasswordMaxLength, MinimumLength = ModelConstants.UserPasswordMinLength)]
+        [StringLength(UserConstants.PasswordMaxLength, MinimumLength = UserConstants.PasswordMinLength)]
         public string Password { get; set; } = null!;
 
 

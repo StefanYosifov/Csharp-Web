@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Profile.Models
 {
-    using _Project_CheatSheet.Common.ModelConstants;
+    using _Project_CheatSheet.GlobalConstants.User;
     using System.ComponentModel.DataAnnotations;
 
     public class UserModel
@@ -12,13 +12,13 @@
         public string UserId { get; set; } = null!;
 
         public string? ProfilePictureUrl { get; set; }
-        [MaxLength(ModelConstants.UserDescriptionMaxLength)]
+        [MaxLength(UserConstants.DescriptionMaxLength)]
         public string? UserProfileDescription { get; set; }
-        [MaxLength(ModelConstants.UserBackGroundImageMaxLength)]
+        [MaxLength(UserConstants.BackGroundImageMaxLength)]
         public string? UserProfileBackground { get; set; }
-        [MaxLength(ModelConstants.UserEducationMaxLength)]
+        [MaxLength(UserConstants.EducationMaxLength)]
         public string? UserEducation { get; set; }
-        [MaxLength(ModelConstants.UserJobMaxLength)]
+        [MaxLength(UserConstants.JobMaxLength)]
         public string? UserJob { get; set; }
     }
 }

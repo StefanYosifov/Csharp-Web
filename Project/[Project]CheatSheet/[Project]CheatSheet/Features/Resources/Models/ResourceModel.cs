@@ -1,7 +1,6 @@
 ﻿namespace _Project_CheatSheet.Controllers.Resources.Models
 {
-    using _Project_CheatSheet.Common.ModelConstants;
-    using _Project_CheatSheet.Data.Models;
+    using _Project_CheatSheet.GlobalConstants.Resource;
     using System.ComponentModel.DataAnnotations;
 
     public class ResourceModel
@@ -20,18 +19,16 @@
         public string Title { get; set; } = null!;
 
         [Required]
-        [StringLength(ModelConstants.ResourceContentMaxLength, MinimumLength = ModelConstants.ResourceImageUrlMinLength)]
+        [StringLength(ResourceConstants.ContentMaxLength, MinimumLength = ResourceConstants.ImageUrlMinLength)]
         public string ImageUrl { get; set; } = null!;
 
         [Required]
         [StringLength(ResourceConstants.ContentMaxLength, MinimumLength = ResourceConstants.ContentMinLength)]
         public string Content { get; set; } = null!;
-
         public string DateTime { get; set; } = null!;
         public string? UserId { get; set; }
         public string? UserName { get; set; }
-
-        public string? UserProfileImage { get; set; }
+        public string? UserProfileImageUrl { get; set; }
         public IEnumerable<string>? CategoryNames { get; set; }
     }
 }

@@ -1,5 +1,5 @@
-﻿using _Project_CheatSheet.Common.ModelConstants;
-using _Project_CheatSheet.Data.Models.Base;
+﻿using _Project_CheatSheet.Data.Models.Base;
+using _Project_CheatSheet.GlobalConstants.Resource;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -18,19 +18,17 @@ namespace _Project_CheatSheet.Data.Models
         }
         [Key]
         public Guid Id { get; set; }
-        [MaxLength(ModelConstants.ResourceTitleMaxLength)]
+        [MaxLength(ResourceConstants.TitleMaxLength)]
         public string Title { get; set; } = null!;
-        [MaxLength(ModelConstants.ResourceImageUrlMaxLength)]
+        [MaxLength(ResourceConstants.ImageUrlMaxLength)]
         public string ImageUrl { get; set; } = null!;
 
-        [MaxLength(ModelConstants.ResourceContentMaxLength)]
+        [MaxLength(ResourceConstants.ContentMaxLength)]
         public string Content { get; set; } = null!;
 
         [ForeignKey(nameof(User))]
         public string UserId { get; set; } = null!;
-
         public virtual User User { get; set; } = null!;
-
         public virtual ICollection<CategoryResource> CategoryResources { get; set; }
         public ICollection<ResourceLike> ResourceLikes { get; set; }
         public ICollection<Comment> Comments { get; set; }

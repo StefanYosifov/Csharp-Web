@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Controllers.Category.Models
 {
-    using _Project_CheatSheet.Common.ModelConstants;
+    using _Project_CheatSheet.GlobalConstants.Category;
     using System.ComponentModel.DataAnnotations;
 
     public class CategoryModel
@@ -8,7 +8,7 @@
         
         public int Id { get; set; }
         [Required]
-        [StringLength(ModelConstants.CategoryNameMaxCategory,MinimumLength = ModelConstants.CategoryNameMinCategory)]
+        [StringLength(CategoryConstants.NameMaxCategory,MinimumLength = CategoryConstants.NameMinCategory)]
         public string Name { get; set; } = null!;
 
     }

@@ -18,6 +18,7 @@
         private readonly SignInManager<User> signInManager;
         private readonly IConfiguration configuration;
         private readonly IMapper mapper;
+        private int IdentityTokenHoursExpiration = 48;
 
         public AuthenticateService(
             UserManager<User> userManager,
@@ -101,7 +102,7 @@
             var token = new JwtSecurityToken(
                 issuer: configuration["JWT:ValidIssuer"],
                 audience: configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddHours(IdentityConstantsModels.IdentityTokenHoursExpiration),
+                expires: DateTime.Now.AddHours(IdentityTokenHoursExpiration),
                 claims: authClaims,
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );

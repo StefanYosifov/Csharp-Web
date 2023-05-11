@@ -1,23 +1,17 @@
 ﻿namespace _Project_CheatSheet.Data.Models
 {
-    using _Project_CheatSheet.Data.Models.Base;
-    using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
     public class ResourceLike
     {
         public ResourceLike()
         {
-
             this.Id = Guid.NewGuid();
         }
-
         public Guid Id { get; set; }
-
         [ForeignKey(nameof(User))]
         public string UserId { get; set; }=null!;
         public User User { get; set; }=null!;
-
         [ForeignKey(nameof(Resource))]
         public Guid ResourceId { get; set; }
         public Resource Resource { get; set; }=null!;

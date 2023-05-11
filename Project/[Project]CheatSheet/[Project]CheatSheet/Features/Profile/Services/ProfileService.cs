@@ -8,7 +8,6 @@
     using _Project_CheatSheet.Features.Profile.Models;
     using AutoMapper;
     using Microsoft.EntityFrameworkCore;
-    using System.Diagnostics;
     using System.Threading.Tasks;
 
     public class ProfileService : IProfileService
@@ -17,9 +16,10 @@
         private readonly ICurrentUser currentUserService;
         private readonly IMapper mapper;
 
-        public ProfileService(CheatSheetDbContext context,
-                              ICurrentUser currentUserService,
-                              IMapper mapper)
+        public ProfileService(
+            CheatSheetDbContext context,
+            ICurrentUser currentUserService,
+            IMapper mapper)
         {
             this.context = context;
             this.currentUserService = currentUserService;

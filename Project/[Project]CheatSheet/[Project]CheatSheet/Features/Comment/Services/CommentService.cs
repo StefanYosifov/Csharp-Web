@@ -1,11 +1,11 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Services
 {
     using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-    using _Project_CheatSheet.Common.ModelConstants;
     using _Project_CheatSheet.Data;
     using _Project_CheatSheet.Data.Models;
     using _Project_CheatSheet.Features.Comment.Interfaces;
     using _Project_CheatSheet.Features.Comment.Models;
+    using _Project_CheatSheet.GlobalConstants;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -73,7 +73,7 @@
                 {
                     Id = c.Id.ToString(),
                     Content = c.Content,
-                    CreatedAt = c.CreatedOn.ToString(ModelConstants.dateFormatter),
+                    CreatedAt = c.CreatedOn.ToString(Formatter.DateFormatter),
                     ResourceId = c.ResourceId.ToString(),
                     UserName = c.User.UserName,
                     UserProfileImage = c.User.ProfilePictureUrl,

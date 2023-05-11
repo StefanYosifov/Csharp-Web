@@ -2,10 +2,7 @@
 {
     public class StatisticsModel
     {
-
         public int ResourcesCount { get; set; }
-
         public int UsersCount { get; set; }
-
     }
 }

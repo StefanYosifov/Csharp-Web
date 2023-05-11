@@ -4,10 +4,10 @@
     using _Project_CheatSheet.Data.Models;
     using _Project_CheatSheet.Features.Identity.Models;
     using _Project_CheatSheet.Features.Likes.Models;
-    using _Project_CheatSheet.Common.ModelConstants;
-    using AutoMapper;
-    using _Project_CheatSheet.Features.Resources.Models;
     using _Project_CheatSheet.Features.Profile.Models;
+    using _Project_CheatSheet.Features.Resources.Models;
+    using _Project_CheatSheet.GlobalConstants;
+    using AutoMapper;
 
     public class MapperProfile:Profile
     {
@@ -47,13 +47,13 @@
             CreateMap<Resource, ResourceModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest=>dest.UserName,opt=>opt.MapFrom(src=>src.User.UserName.ToString()))
-                .ForMember(dest=>dest.UserProfileImage,opt=>opt.MapFrom(src=>src.User.ProfilePictureUrl))
-                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.CreatedOn.ToString(ModelConstants.dateFormatter)))
+                .ForMember(dest=>dest.UserProfileImageUrl,opt=>opt.MapFrom(src=>src.User.ProfilePictureUrl))
+                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.CreatedOn.ToString(Formatter.DateFormatter)))
                 .ForMember(dest => dest.CategoryNames, opt => opt.MapFrom(src => src.CategoryResources.Select(cr => cr.Category.Name)));
 
             CreateMap<Resource, DetailResources>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.CreatedOn.ToString(ModelConstants.dateFormatter)))
+                .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.CreatedOn.ToString(Formatter.DateFormatter)))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName.ToString()))
                 .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.User.ProfilePictureUrl))
                 .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.ResourceLikes.Count))

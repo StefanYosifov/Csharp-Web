@@ -1,8 +1,7 @@
 ﻿namespace _Project_CheatSheet.Data.Models
 {
-    using _Project_CheatSheet;
-    using _Project_CheatSheet.Common.ModelConstants;
     using _Project_CheatSheet.Data.Models.Base;
+    using _Project_CheatSheet.GlobalConstants.Comment;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,7 +14,7 @@
         }
         public Guid Id { get; set; }
         [Required]
-        [MaxLength(ModelConstants.CommentsMaxLength)]
+        [MaxLength(CommentConstants.ContentMaxLength)]
         public string Content { get; set; } = null!;
 
         [ForeignKey(nameof(User))]
@@ -25,7 +24,6 @@
         [ForeignKey(nameof(Resource))]
         public Guid ResourceId { get; set; }
         public Resource Resource { get; set; } = null!;
-
         public ICollection<CommentLike> CommentLikes { get; set; }
     }
 }

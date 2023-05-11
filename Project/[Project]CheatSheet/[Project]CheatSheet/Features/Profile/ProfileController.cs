@@ -5,6 +5,7 @@
     using _Project_CheatSheet.Controllers.Profile.Interfaces;
     using _Project_CheatSheet.Controllers.Profile.Models;
     using _Project_CheatSheet.Features.Profile.Models;
+    using _Project_CheatSheet.GlobalConstants.Profile;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -46,9 +47,9 @@
             var updateResult = await service.editProfileData(userModel);
             if (updateResult==null)
             {
-                return BadRequest(ProfileConstants.onUnsuccessfulUserChange);
+                return BadRequest(ProfileMessages.onUnsuccessfulUserChange);
             }
-            return Ok(ProfileConstants.onSuccessfulUserChange);    
+            return Ok(ProfileMessages.onSuccessfulUserChange);    
         }
     }
 }

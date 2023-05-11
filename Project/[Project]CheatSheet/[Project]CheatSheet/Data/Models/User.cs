@@ -1,5 +1,5 @@
-﻿using _Project_CheatSheet.Common.ModelConstants;
-using _Project_CheatSheet.Data.Models.Base.Interfaces;
+﻿using _Project_CheatSheet.Data.Models.Base.Interfaces;
+using _Project_CheatSheet.GlobalConstants.User;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
@@ -14,15 +14,15 @@ namespace _Project_CheatSheet.Data.Models
             this.CommentLikes = new HashSet<CommentLike>();
             this.Comments = new HashSet<Comment>();
         }
-
+        [Url]
         public string? ProfilePictureUrl { get; set; }
-        [MaxLength(ModelConstants.UserDescriptionMaxLength)]
+        [MaxLength(UserConstants.DescriptionMaxLength)]
         public string? ProfileDescription { get; set; }
-        [MaxLength(ModelConstants.UserBackGroundImageMaxLength)]
+        [MaxLength(UserConstants.BackGroundImageMaxLength)]
         public string? ProfileBackground { get; set; }
-        [MaxLength(ModelConstants.UserEducationMaxLength)]
+        [MaxLength(UserConstants.EducationMaxLength)]
         public string? UserEducation { get;set; }
-        [MaxLength(ModelConstants.UserJobMaxLength)]
+        [MaxLength(UserConstants.JobMaxLength)]
         public string? UserJob { get; set; }
         public ICollection<Resource> Resources { get; set; }
         public ICollection<ResourceLike> ResourceLikes { get; set; }

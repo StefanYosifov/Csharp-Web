@@ -17,5 +17,7 @@
 
         public Task<DetailResources> GetResourceById(string? resourceId);
 
+        public Task<ResourceModel> EditResource(ResourceModel resourceModel); 
+
     }
 }

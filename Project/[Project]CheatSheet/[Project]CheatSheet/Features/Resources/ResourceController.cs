@@ -2,6 +2,7 @@
 {
     using _Project_CheatSheet.Controllers.Resources.Interfaces;
     using _Project_CheatSheet.Controllers.Resources.Models;
+    using _Project_CheatSheet.GlobalConstants.Resource;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -50,6 +51,17 @@
         public async Task<IActionResult> AddResource([FromBody] ResourceAddModel resourceAdd)
         {
             return await resourceService.AddResources(resourceAdd);
+        }
+
+        [HttpPatch("edit")]
+        public async Task<IActionResult> EditResource(ResourceModel resourceModel)
+        {
+            var resourceResult = await resourceService.EditResource(resourceModel);
+            if(resourceResult == null)
+            {
+                return NotFound(ResourceMessages.onUnsuccesfulResourceEdit);
+            }
+            return Ok(ResourceMessages.onSuccesfulResourceEdit);
         }
     }
 }

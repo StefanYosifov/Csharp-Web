@@ -3,6 +3,7 @@
     using _Project_CheatSheet.Controllers;
     using _Project_CheatSheet.Features.Likes.Interfaces;
     using _Project_CheatSheet.Features.Likes.Models;
+    using _Project_CheatSheet.GlobalConstants.Likes;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
@@ -34,7 +35,7 @@
             var likeCommentResult = await likeService.LikeAComment(commentModel);
             if (likeCommentResult.StatusCode == 404)
             {
-                return BadRequest(LikesConstants.onFailedLikedComments);
+                return BadRequest(LikeMessages.onFailedLikedComments);
             }
             return Ok(likeCommentResult);
         }
@@ -46,7 +47,7 @@
             var removedLikedCommentResult = await likeService.RemoveLikeFromComment(commentModel);
             if (removedLikedCommentResult.StatusCode == 404)
             {
-                return BadRequest(LikesConstants.onFailedRemoveComment);
+                return BadRequest(LikeMessages.onFailedRemoveComment);
             }
 
             return Ok(removedLikedCommentResult);
@@ -66,7 +67,7 @@
             var likeResourceResult=await likeService.LikeAResource(likeResource);
             if (likeResourceResult.StatusCode == 404)
             {
-                return BadRequest(LikesConstants.onFailedLikedResource);
+                return BadRequest(LikeMessages.onFailedLikedResource);
             }
             return Ok(likeResourceResult);
         }
@@ -78,7 +79,7 @@
             var likedResourceResult=await likeService.RemoveLikeFromResource(likeResource);
             if (likedResourceResult.StatusCode == 404)
             {
-                return BadRequest(LikesConstants.onFailedRemoveResource);
+                return BadRequest(LikeMessages.onFailedRemoveResource);
             }
             return Ok(likedResourceResult);
         }

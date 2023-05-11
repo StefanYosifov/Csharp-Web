@@ -1,14 +1,12 @@
 ﻿namespace _Project_CheatSheet.Controllers.Resources.Service
 {
     using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-    using _Project_CheatSheet.Common.ModelConstants;
     using _Project_CheatSheet.Controllers.Resources.Models;
     using _Project_CheatSheet.Data;
     using _Project_CheatSheet.Data.Models;
     using _Project_CheatSheet.Features.Resources.Models;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using IResourceService = Interfaces.IResourceService;
@@ -21,9 +19,10 @@
         private readonly ICurrentUser currentUserService;
         private const int resourcesPerPage = 12;
 
-        public ResourceService(CheatSheetDbContext context,
-                             IMapper mapper,
-                             ICurrentUser currentUserService)
+        public ResourceService(
+            CheatSheetDbContext context,
+            IMapper mapper,
+            ICurrentUser currentUserService)
         {
             this.context = context;
             this.mapper = mapper;
@@ -155,6 +154,21 @@
             double pages=(double)context.Resources.CountAsync().Result/resourcesPerPage;
             int totalPages=(int)Math.Ceiling(pages);
             return totalPages;
+        }
+
+        public async Task<ResourceModel> EditResource(ResourceModel resourceModel)
+        {
+            Resource resource = await context.Resources.FindAsync(resourceModel.Id);
+            context.Entry(resource).CurrentValues.SetValues(resourceModel);
+            try
+            {
+                await context.SaveChangesAsync();
+                return resourceModel;
+            }
+            catch (DbUpdateException)
+            {
+                return null!;
+            }
         }
     }
 }

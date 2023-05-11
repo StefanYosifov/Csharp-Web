@@ -1,18 +1,18 @@
 ﻿namespace _Project_CheatSheet.Features.Profile.Models
 {
-    using _Project_CheatSheet.Common.ModelConstants;
+    using _Project_CheatSheet.GlobalConstants.User;
     using System.ComponentModel.DataAnnotations;
 
     public class UserEditModel
     {
         public string? ProfilePictureUrl { get; set; }
-        [StringLength(ModelConstants.UserDescriptionMaxLength, MinimumLength = ModelConstants.UserDescriptionMinLength)]
+        [StringLength(UserConstants.DescriptionMaxLength, MinimumLength = UserConstants.DescriptionMinLength)]
         public string? ProfileDescription { get; set; }
-        [StringLength(ModelConstants.UserBackGroundImageMaxLength, MinimumLength = ModelConstants.UserBackGroundImageMinLength)]
+        [StringLength(UserConstants.BackGroundImageMaxLength, MinimumLength = UserConstants.BackGroundImageMinLength)]
         public string? ProfileBackground { get; set; }
-        [StringLength(ModelConstants.UserEducationMaxLength, MinimumLength = ModelConstants.UserEducationMinLength)]
+        [StringLength(UserConstants.EducationMaxLength, MinimumLength = UserConstants.EducationMinLength)]
         public string? UserEducation { get; set; }
-        [MaxLength(ModelConstants.UserJobMaxLength)]
+        [MaxLength(UserConstants.JobMaxLength)]
         public string? UserJob { get; set; }
     }
 }

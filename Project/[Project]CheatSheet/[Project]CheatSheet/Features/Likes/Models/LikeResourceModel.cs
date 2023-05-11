@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Likes.Models
 {
+    using _Project_CheatSheet.GlobalConstants.Likes;
     using System.ComponentModel.DataAnnotations;
 
     public class LikeResourceModel
@@ -9,7 +10,7 @@
 
         public bool hasLiked { get; set; }
 
-        [Range(LikesConstants.minTotalLikes,int.MaxValue)]
+        [Range(LikeConstants.minTotalLikes,LikeConstants.maxTotalLikes)]
         public int TotaLikes { get; set; }
 
     }
