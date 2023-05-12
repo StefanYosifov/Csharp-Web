@@ -1,45 +1,109 @@
-import { useState } from "react";
+import { useState } from 'react';
+import { FaThumbsUp, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { dislikeComment, likeComment } from "../../api/Requests/likes";
+import {editComment} from "../../api/Requests/comments"
 
 
 export const Comments = ({ commentModels }) => {
   const [numLikes, setNumLikes] = useState(commentModels.commentLikes.length);
-  const [hasLiked, setHasLikes] = useState(commentModels.hasLiked)
-
+  const [hasLiked, setHasLiked] = useState(commentModels.hasLiked);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedComment, setEditedComment] = useState(commentModels.content);
 
   const handleLikeClick = (event) => {
     event.preventDefault();
-
     const commentId = commentModels.id;
-
+    console.log(hasLiked);
     if (hasLiked) {
       dislikeComment(commentId)
-      setNumLikes((oldLikes) => oldLikes - 1);
+        .then((response) => {
+          if (response.status === 404 || response.status === 200) {
+            setNumLikes((oldLikes) => (oldLikes - 1)); 
+          }
+        });
     } else {
       likeComment(commentId)
-      setNumLikes((oldLikes) => oldLikes + 1);
+        .then((response) => {
+          if (response.status === 404 || response.status === 200) {
+            setNumLikes((oldLikes) => (oldLikes + 1));
+          }
+        });
     }
-    setHasLikes(state => !state);
-  }
+    setHasLiked(state => !state);
+  };
+  
 
 
+  const handleDeleteClick = () => {
+    const commentId = commentModels.id;
+    deleteComment(commentId)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log('Comment deleted successfully');
+        }
+      });
+  };
 
-return (
-  <div className="p-4 mt-4 rounded-lg bg-gray-100 w-full">
-    <div className="flex items-center mb-2">
-      <img className="w-12 h-12 object-cover rounded-full border border-gray-300" src={commentModels.userProfileImage} alt={commentModels.userName} />
-      <div className="ml-4">
-        <h5 className="text-lg text-gray-800">{commentModels.userName}</h5>
-        <p className="text-sm text-gray-600">{commentModels.createdAt}</p>
+  const handleEditClick = (event) => {
+    event.preventDefault();
+    setIsEditing(true);
+  };
+
+  const handleCancelClick = (event) => {
+    event.preventDefault();
+    setIsEditing(false);
+    setEditedComment(commentModels.content);
+  };
+
+  const handleSaveClick = (event) => {
+    event.preventDefault();
+    const commentId = commentModels.id;
+    editComment(commentId, editedComment)
+      .then((response) => {
+        if (response.status === 404 || response.status === 200) {
+          console.log('Comment edited successfully');
+          setIsEditing(false);
+        }
+      });
+  };
+
+  const handleInputChange = (event) => {
+    event.preventDefault();
+    setEditedComment(event.target.value);
+  };
+
+  return (
+    <div className="p-4 mt-4 rounded-lg bg-gray-100 w-full">
+      <div className="flex items-center mb-2">
+        <img className="w-12 h-12 object-cover rounded-full border border-gray-300" src={commentModels.userProfileImage} alt={commentModels.userName} />
+        <div className="ml-4">
+          <h5 className="text-lg text-gray-800">{commentModels.userName}</h5>
+          <p className="text-sm text-gray-600">{commentModels.createdAt}</p>
+        </div>
       </div>
+      {isEditing ? (
+        <>
+          <textarea className="text-gray-800 break-words ml-4 mb-2" value={editedComment} onChange={handleInputChange} />
+          <div className="flex justify-end">
+            <button className="text-gray-600 hover:text-gray-800 mr-2" onClick={handleCancelClick}>Cancel</button>
+            <button className="text-gray-600 hover:text-gray-800" onClick={handleSaveClick}>Save</button>
+          </div>
+        </>
+      ) : (
+        <>
+          <p className="text-gray-800 break-words ml-4">{commentModels.content}</p>
+          <div className="flex justify-end mt-2">
+            <button className="text-gray-600 hover:text-gray-800" onClick={handleEditClick}>Edit</button>
+            <button className="text-gray-600 hover:text-gray-800 ml-2" onClick={handleDeleteClick}>Delete</button>
+            <button className="text-gray-600 hover:text-gray-800 ml-2" onClick={handleLikeClick}>
+              <span className="ml-1">{numLikes}</span>
+            </button>
+          </div>
+        </>
+      )}
     </div>
-    <p className="text-gray-800 break-words ml-4">{commentModels.content}</p>
-    <div className="flex justify-end mt-2">
-      <button className="text-gray-600 hover:text-gray-800" onClick={handleLikeClick}>
-        <span className="ml-1">{numLikes}</span>
-      </button>
-    </div>
-  </div>
-);
+  );
+
+
   };
 

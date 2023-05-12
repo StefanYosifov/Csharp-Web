@@ -17,19 +17,19 @@ export const Detail = () => {
 
   useEffect(() => {
     getDetails(id).then((res) => {
-        setDetails(()=>res.data);
-        setHasLiked(()=>res.data.hasLiked);
+      setDetails(() => res.data);
+      setHasLiked(() => res.data.hasLiked);
     });
-}, []);
+  }, []);
 
   useEffect(() => {
     getComments(id).then((res) => setComments(res.data));
   }, []);
 
   useEffect(() => {
-    getLikes(id).then((likes) => setLikes((oldLikes)=>oldLikes=likes));
+    getLikes(id).then((likes) => setLikes((oldLikes) => oldLikes = likes));
   }, []);
-  
+
 
   const handleSubmitComment = (comment) => {
     sendAComment({ comment, id });
@@ -46,8 +46,8 @@ export const Detail = () => {
       likeResource(id);
       setLikes((oldLikes) => oldLikes + 1);
     }
-    setHasLiked((state)=>!state);
-};
+    setHasLiked((state) => !state);
+  };
 
 
 
@@ -59,19 +59,23 @@ export const Detail = () => {
           <img
             src={details.imageUrl}
             alt="Image"
-            className="w-6/12 rounded-lg shadow-md"
+            className="w-6/12 rounded-lg shadow-md mb-4"
           />
-          <div className="flex items-center mt-2 text-xs">
-            <div className="rounded-full p-2 mr-2">
-              <FaThumbsUp size={20} />
+          <div className="flex items-center text-xs mb-4">
+            <div className="flex items-center mr-4">
+              <div className="rounded-full p-2 mr-2 bg-blue-500">
+                <FaThumbsUp size={20} className="text-white" />
+              </div>
+              <span className="text-gray-700">{likes} Likes</span>
             </div>
-            <span className="mr-4">{likes} Likes</span>
-            <div className="rounded-full p-2 mr-2">
-              <FaComment size={20} />
+            <div className="flex items-center">
+              <div className="rounded-full p-2 mr-2 bg-blue-500">
+                <FaComment size={20} className="text-white" />
+              </div>
+              <span className="text-gray-700">{comment.length} Comments</span>
             </div>
-            <span>{comment.length} Comments</span>
           </div>
-          <div className="flex justify-center mt-4">
+          <div className="flex justify-center mb-4">
             <ul className="flex flex-wrap justify-center gap-2">
               {details &&
                 details.categoryNames &&
@@ -85,16 +89,31 @@ export const Detail = () => {
                 ))}
             </ul>
           </div>
-          <div className="max-w-2xl mt-4">
+          <div className="max-w-2xl mb-4">
             <h2 className="text-2xl font-bold mb-2">{details.title}</h2>
             <p className="text-gray-700 leading-7">{details.content}</p>
           </div>
-          <button
-            className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={handleLike}
-          >
-            Like
-          </button>
+          <div className="flex justify-between w-full">
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+              onClick={handleLike}
+            >
+              Like
+            </button>
+            <div>
+              <button
+                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+              >
+                Edit
+              </button>
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              
+              >
+                Delete
+              </button>
+            </div>
+          </div>
         </div>
       </div>
       <div className="mt-4 w-10/12 mx-auto">
@@ -113,7 +132,8 @@ export const Detail = () => {
         </div>
       </div>
     </div>
-  )
+  );
+  
 };
 
 export default Detail;
