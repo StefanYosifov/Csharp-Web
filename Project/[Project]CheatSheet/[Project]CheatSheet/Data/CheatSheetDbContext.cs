@@ -7,7 +7,7 @@ namespace _Project_CheatSheet.Data
 {
     public class CheatSheetDbContext : IdentityDbContext<User>
     {
-        private readonly IHttpContextAccessor httpContext;
+        private readonly IHttpContextAccessor? httpContext;
 
         public CheatSheetDbContext()
         {
@@ -117,26 +117,30 @@ namespace _Project_CheatSheet.Data
 
             foreach (var item in ChangeTracker.Entries().Where(e => e.Entity is IEntity))
             {
-                var entity = item.Entity as IEntity;
+                if (item.Entity is IDeletableEntity deletable)
+                {
+                    if (item.State == EntityState.Deleted)
+                    {
+                        deletable.DeletedOn=currentTime;
+                        deletable.DeletedBy = userName;
+                        deletable.IsDeleted = true;
 
-                if (item.State == EntityState.Added)
-                {
-                    entity.CreatedOn = currentTime;
-                    entity.CreatedBy = userName!;
+                        item.State=EntityState.Modified;    
+                    }
                 }
-                else if (item.State == EntityState.Modified)
+
+                if (item.Entity is IEntity entity)
                 {
-                    entity.UpdatedOn = currentTime;
-                    entity.UpdatedBy = userName!;
-                    item.Property("CreatedOn").IsModified = false;
-                    item.Property("CreatedBy").IsModified = false;
-                }
-                else if (item.State == EntityState.Deleted && entity is IDeletableEntity deletableEntity)
-                {
-                    deletableEntity.IsDeleted = true;
-                    deletableEntity.DeletedOn = currentTime;
-                    deletableEntity.DeletedBy = userName!;
-                    item.State = EntityState.Modified;
+                    if (item.State == EntityState.Added)
+                    {
+                        entity.CreatedOn = currentTime;
+                        entity.CreatedBy = userName!;
+                    }
+                    else if (item.State == EntityState.Modified)
+                    {
+                        entity.UpdatedOn=currentTime;   
+                        entity.UpdatedBy=userName!;
+                    }
                 }
             }
         }
