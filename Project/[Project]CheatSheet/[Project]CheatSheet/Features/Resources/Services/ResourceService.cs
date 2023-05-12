@@ -117,8 +117,8 @@ namespace _Project_CheatSheet.Features.Resources.Services
             IEnumerable<ResourceModel> models = await context.Resources
                 .Include(res => res.CategoryResources)
                 .Include(res => res.User)
+                .Where(c => c.IsPublic == true || c.UserId == userId)
                 .ProjectTo<ResourceModel>(mapper.ConfigurationProvider)
-                .Where(c => c.CategoryNames!.Contains("Public") || c.UserId == userId)
                 .Skip(resourcesToSkip)
                 .Take(resourcesToTake)
                 .ToArrayAsync();
@@ -138,8 +138,7 @@ namespace _Project_CheatSheet.Features.Resources.Services
             var userId = currentUserService.GetUserId();
 
             var detailResource = details
-                .FirstOrDefault(x =>
-                    x.CategoryNames.Any(cn => cn.Contains("Public")) || details.Any(x => x.UserId == userId));
+                .FirstOrDefault(dr => dr.IsPublic || dr.UserId == userId);
 
             if (detailResource.ResourceLikes.Any(rl => rl.UserId == userId))
             {

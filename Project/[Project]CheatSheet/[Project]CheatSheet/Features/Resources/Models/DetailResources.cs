@@ -25,6 +25,7 @@ namespace _Project_CheatSheet.Features.Resources.Models
         [Required]
         [StringLength(ResourceConstants.ContentMaxLength, MinimumLength = ResourceConstants.ContentMinLength)]
         public string Content { get; set; } = null!;
+        public bool IsPublic { get; set; }
         public string DateTime { get; set; } = null!;
         public int Likes { get; set; }
         public bool HasLiked { get; set; }

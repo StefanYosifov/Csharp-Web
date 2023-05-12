@@ -26,6 +26,8 @@ namespace _Project_CheatSheet.Data.Models
         [MaxLength(ResourceConstants.ContentMaxLength)]
         public string Content { get; set; } = null!;
 
+        public bool IsPublic { get; set; }
+
         [ForeignKey(nameof(User))] public string UserId { get; set; } = null!;
 
         public virtual User User { get; set; } = null!;
