@@ -155,6 +155,7 @@ namespace _Project_CheatSheet.Features.Resources.Services
             return totalPages;
         }
 
+        [HttpPatch("edit/{id}")]
         public async Task<ResourceEditModel> EditResource(string id, ResourceEditModel resourceEdit)
         {
             var resource = await context.Resources.FindAsync(Guid.Parse(id));

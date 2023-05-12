@@ -56,7 +56,7 @@ namespace _Project_CheatSheet.Features.Comment.Services
         public async Task<EditCommentModel> EditComment(string id, EditCommentModel commentModel)
         {
             var currentUserId = currentUserService.GetUserId();
-            var comment = await context.Comments.FindAsync(id);
+            var comment = await context.Comments.FindAsync(Guid.Parse(id));
             if (comment == null || comment.UserId != currentUserId)
             {
                 return null;
@@ -72,6 +72,22 @@ namespace _Project_CheatSheet.Features.Comment.Services
             {
                 return null!;
             }
+        }
+
+        public async Task<Data.Models.Comment> DeleteComment(string id)
+        {
+            var comment = await context.Comments.FindAsync(Guid.Parse(id));
+            var userId = currentUserService.GetUserId();
+
+            if (comment == null || comment.UserId!=userId || comment.IsDeleted==true)
+            {
+                return null;
+            }
+
+            context.Remove(comment);
+            await context.SaveChangesAsync();
+            return comment;
+
         }
 
         public async Task<IEnumerable<CommentModel>> GetCommentsFromResource(string resourceId)

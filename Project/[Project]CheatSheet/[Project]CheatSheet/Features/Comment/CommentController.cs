@@ -53,5 +53,16 @@ namespace _Project_CheatSheet.Features.Comment
 
             return Ok(CommentMessages.OnSuccessfulEditComment);
         }
+
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteComment(string id)
+        {
+            var deleteResult = await service.DeleteComment(id);
+            if (deleteResult == null)
+            {
+                return Forbid();
+            }
+            return Ok(deleteResult);    
+        }
     }
 }
