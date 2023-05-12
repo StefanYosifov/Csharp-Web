@@ -44,7 +44,7 @@ namespace _Project_CheatSheet.Features.Profile.Services
             var likedResourceIds = await context.ResourceLikes
                 .Where(rl => rl.UserId == userId)
                 .Select(rl => rl.ResourceId)
-                .ToListAsync();
+                .ToArrayAsync();
 
             var totalResourceLikes = await context.ResourceLikes
                 .Include(rl => rl.Resource)
@@ -53,9 +53,9 @@ namespace _Project_CheatSheet.Features.Profile.Services
                 .CountAsync();
 
 
-            var totalLikedComments = context.CommentLikes
+            var totalLikedComments = await context.CommentLikes
                 .Where(cl => cl.Comment.UserId == userId)
-                .Count();
+                .CountAsync();
 
             var findUser = await context.Users.FindAsync(userId);
             var user = mapper.Map<UserModel>(findUser);

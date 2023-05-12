@@ -12,11 +12,11 @@ namespace _Project_CheatSheet.Features.Identity.Services
 {
     public class AuthenticateService : IAuthenticateService
     {
+        private const int IdentityTokenHoursExpiration = 48;
         private readonly IConfiguration configuration;
         private readonly IMapper mapper;
         private readonly SignInManager<User> signInManager;
         private readonly UserManager<User> userManager;
-        private const int IdentityTokenHoursExpiration = 48;
 
         public AuthenticateService(
             UserManager<User> userManager,
@@ -53,7 +53,11 @@ namespace _Project_CheatSheet.Features.Identity.Services
                 new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
-            foreach (var userRole in userRoles) authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+            foreach (var userRole in userRoles)
+            {
+                authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+            }
+
             var token = GetToken(authClaims);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }

@@ -3,7 +3,6 @@ using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Data.Models;
 using _Project_CheatSheet.Features.Likes.Interfaces;
 using _Project_CheatSheet.Features.Likes.Models;
-using _Project_CheatSheet.GlobalConstants.Likes;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,8 +28,7 @@ namespace _Project_CheatSheet.Features.Likes.Services
         public int GetCommentLikesCount(LikeCommentModel commentModel)
         {
             return context.CommentLikes
-                .Where(c => c.Id.ToString() == commentModel.CommentId)
-                .Count();
+                .Count(c => c.Id.ToString() == commentModel.CommentId);
         }
 
         public async Task<StatusCodeResult> LikeAComment(LikeCommentModel likeComment)
@@ -72,8 +70,7 @@ namespace _Project_CheatSheet.Features.Likes.Services
         public int GetResourceLikesCount(string id)
         {
             return context.ResourceLikes
-                .Where(rl => rl.ResourceId.ToString() == id)
-                .Count();
+                .Count(rl => rl.ResourceId.ToString() == id);
         }
 
         public async Task<StatusCodeResult> LikeAResource(LikeResourceModelAdd likeResource)
@@ -120,21 +117,10 @@ namespace _Project_CheatSheet.Features.Likes.Services
                     ResourceId = rl.ResourceId.ToString(),
                     HasLiked = rl.Resource.ResourceLikes.Any(u => u.UserId == currentUser.Id),
                     TotalLikes = context.ResourceLikes.Count(x => x.ResourceId == rl.ResourceId)
-                }).Distinct().ToArrayAsync();
+                })
+                .Distinct()
+                .ToArrayAsync();
             return resourceLikes;
         }
-
-        //public async Task<StatusCodeResult> CheckIfResourceIsLikedByUser(string resourceId)
-        //{
-        //    var currentUser = await currentUserService.GetUser();
-        //    var resourceLikeResult =
-        //        await context.ResourceLikes.FirstOrDefaultAsync(rl => rl.Id.ToString() == resourceId);
-        //    if (resourceLikeResult == null)
-        //    {
-        //        return new StatusCodeResult(StatusCodes.Status404NotFound);
-        //    }
-
-        //    return new StatusCodeResult(StatusCodes.Status200OK);
-        //}
     }
 }

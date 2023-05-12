@@ -1,9 +1,11 @@
+using System.Text;
 using _Project_CheatSheet;
 using _Project_CheatSheet.Common.CurrentUser;
 using _Project_CheatSheet.Common.CurrentUser.Interfaces;
 using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Data.Models;
 using _Project_CheatSheet.Features.Category.Interfaces;
+using _Project_CheatSheet.Features.Category.Services;
 using _Project_CheatSheet.Features.Comment.Interfaces;
 using _Project_CheatSheet.Features.Comment.Services;
 using _Project_CheatSheet.Features.Identity.Interfaces;
@@ -21,8 +23,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using System.Text;
-using _Project_CheatSheet.Features.Category.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
