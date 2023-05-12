@@ -13,12 +13,17 @@ export const get=(endPoint)=>{
   return axios.get(`${baseUrl}/${endPoint}`,{headers});
 }
 
-export const post = (endpoint, data) => {
+export const post = (endPoint, data) => {
   console.log(data);
-  return axios.post(`${baseUrl}/${endpoint}`, data, { headers });
+  return axios.post(`${baseUrl}/${endPoint}`, data, { headers });
 };
 
-export const patch=(endpoint,data)=>{
+export const patch=(endPoint,data)=>{
   console.log(data);
-  return axios.patch(`${baseUrl}/${endpoint}`,data,{headers});
+  return axios.patch(`${baseUrl}/${endPoint}`,data,{headers});
+}
+
+export const del=(endPoint,data)=>{
+  console.log(data);
+  return axios.delete(`${baseUrl}/${endPoint}`,data,{headers})
 }

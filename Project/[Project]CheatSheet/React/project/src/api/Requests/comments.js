@@ -1,4 +1,4 @@
-import { get, post } from "./requests";
+import { del, get, patch, post } from "./requests";
 
 
 export const getComments=(id)=>{
@@ -10,6 +10,14 @@ export const sendAComment=(comment)=>{
       "resourceId":comment.id,
       "Content":comment.comment,
     }
-    return post(`comment/send`,data)
-    .then((response)=>console.log(response));
+    return post(`comment/send`,data);
   }
+
+export const editComment=(id,comment)=>{
+  console.log(comment);
+  return patch(`comment/edit/${id}`,{"content":comment});
+}
+
+export const deleteComment=(id)=>{
+  return del(`comment/delete/${id}`,{id});
+}

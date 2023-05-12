@@ -7,7 +7,7 @@ export const getProfileData=(userId)=>{
 }
 
 export const getUserId=()=>{
-    return get(`${path}myuserId`)
+    return get(`${path}myUser`)
 }
 
 export const updateProfile=(profileData)=>{

@@ -15,9 +15,9 @@ export const dislikeResource=(resourceId)=>{
 }
 
 export const likeComment=(commentId)=>{
-    post('like/comment/like',{commentId})
+   return post('like/comment/like',{commentId})
 }
 
 export const dislikeComment=(commentId)=>{
-    post('like/comment/remove',{commentId})
+   return post('like/comment/remove',{commentId})
 }
