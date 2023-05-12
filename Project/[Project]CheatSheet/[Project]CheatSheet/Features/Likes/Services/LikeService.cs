@@ -3,6 +3,7 @@ using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Data.Models;
 using _Project_CheatSheet.Features.Likes.Interfaces;
 using _Project_CheatSheet.Features.Likes.Models;
+using _Project_CheatSheet.GlobalConstants.Likes;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +36,8 @@ namespace _Project_CheatSheet.Features.Likes.Services
         public async Task<StatusCodeResult> LikeAComment(LikeCommentModel likeComment)
         {
             var currentUser = await currentUserService.GetUser();
-            if (context.CommentLikes.Any(u => u.UserId == currentUser.Id))
+            var findComment = await context.Comments.FindAsync(Guid.Parse(likeComment.CommentId));
+            if (findComment == null || findComment.CommentLikes.Any(cl => cl.UserId == currentUser.Id))
             {
                 return new StatusCodeResult(StatusCodes.Status404NotFound);
             }
