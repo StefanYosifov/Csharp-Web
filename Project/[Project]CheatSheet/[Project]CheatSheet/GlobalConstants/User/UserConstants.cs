@@ -17,13 +17,13 @@
         public const int DescriptionMaxLength = 500;
 
         public const int BackGroundImageMinLength = 10;
-        public const int BackGroundImageMaxLength = 100;
+        public const int BackGroundImageMaxLength = 300;
 
         public const int EducationMinLength = 2;
-        public const int EducationMaxLength = 50;
+        public const int EducationMaxLength = 500;
 
         public const int JobMinLength = 2;
-        public const int JobMaxLength = 50;
+        public const int JobMaxLength = 500;
 
     }
 }

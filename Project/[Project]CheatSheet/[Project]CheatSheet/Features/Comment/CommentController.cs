@@ -34,11 +34,6 @@ namespace _Project_CheatSheet.Features.Comment
         public async Task<ActionResult<IEnumerable<CommentModel>>> GetComments(string id)
         {
             var commentsResult = await service.GetCommentsFromResource(id);
-            if (!commentsResult.Any())
-            {
-                return NotFound(commentsResult);
-            }
-
             return Ok(commentsResult);
         }
 

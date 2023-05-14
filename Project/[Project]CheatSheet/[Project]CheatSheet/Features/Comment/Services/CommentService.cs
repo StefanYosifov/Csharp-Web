@@ -107,6 +107,7 @@ namespace _Project_CheatSheet.Features.Comment.Services
                     Content = c.Content,
                     CreatedAt = c.CreatedOn.ToString(Formatter.DateFormatter),
                     ResourceId = c.ResourceId.ToString(),
+                    UserId = c.UserId,
                     UserName = c.User.UserName,
                     UserProfileImage = c.User.ProfilePictureUrl,
                     CommentLikes = c.CommentLikes,

@@ -18,9 +18,9 @@ namespace _Project_CheatSheet.Features.Resources
         }
 
         [HttpGet("pages")]
-        public async Task<ActionResult<int>> GetPageCount()
+        public IActionResult GetPageCount()
         {
-            return Ok(await resourceService.GetTotalPage());
+            return Ok(resourceService.GetTotalPage());
         }
 
         [HttpGet("{id}")]
@@ -38,7 +38,7 @@ namespace _Project_CheatSheet.Features.Resources
         }
 
         [HttpGet("details/{id}")]
-        public async Task<ActionResult> GetResourceDetails(string id)
+        public async Task<IActionResult> GetResourceDetails(string id)
         {
             var resourceResult = await resourceService.GetResourceById(id);
             if (resourceResult == null)
@@ -52,7 +52,13 @@ namespace _Project_CheatSheet.Features.Resources
         [HttpPost("add")]
         public async Task<IActionResult> AddResource([FromBody] ResourceAddModel resourceAdd)
         {
-            return await resourceService.AddResources(resourceAdd);
+            var resourceResult=await resourceService.AddResources(resourceAdd);
+            if (resourceResult == null)
+            {
+                return BadRequest(ResourceMessages.OnUnsuccessfulResouceAdd);
+            }
+
+            return Ok(ResourceMessages.OnSuccessfulResourceAdd);
         }
 
         [HttpPatch("edit/{id}")]

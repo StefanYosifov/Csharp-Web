@@ -14,6 +14,7 @@ namespace _Project_CheatSheet.Features.Comment.Models
 
         [Required] public string Id { get; set; }
 
+        public string UserId { get; set; }
         public string? UserName { get; set; } = null!;
 
         [StringLength(CommentConstants.ContentMaxLength, MinimumLength = CommentConstants.ContentMinLength)]

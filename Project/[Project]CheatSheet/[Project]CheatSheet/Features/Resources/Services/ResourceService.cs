@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace _Project_CheatSheet.Features.Resources.Services
 {
-    public class ResourceService : ApiController, IResourceService
+    public class ResourceService :  IResourceService
     {
         private const int ResourcesPerPage = 12;
 
@@ -28,12 +28,12 @@ namespace _Project_CheatSheet.Features.Resources.Services
             this.currentUserService = currentUserService;
         }
 
-        [HttpPost]
-        public async Task<StatusCodeResult> AddResources(ResourceAddModel resourceModel)
+      
+        public async Task<ResourceAddModel> AddResources(ResourceAddModel resourceModel)
         {
             if (resourceModel == null)
             {
-                return StatusCode(StatusCodes.Status403Forbidden);
+                return null;
             }
 
             var isNull = resourceModel
@@ -43,7 +43,7 @@ namespace _Project_CheatSheet.Features.Resources.Services
 
             if (isNull || resourceModel.CategoryIds.Count == 0)
             {
-                return StatusCode(StatusCodes.Status403Forbidden);
+                return null;
             }
 
             var userId = currentUserService.GetUserId();
@@ -73,11 +73,11 @@ namespace _Project_CheatSheet.Features.Resources.Services
                 context.SaveChangesAsync();
             }
 
-            return StatusCode(StatusCodes.Status201Created);
+            return resourceModel;
         }
 
 
-        [HttpGet("getMy")]
+      
         public async Task<IEnumerable<ResourceModel>> GetMyResources()
         {
             var userId = currentUserService.GetUserId();
@@ -92,7 +92,7 @@ namespace _Project_CheatSheet.Features.Resources.Services
             return resources;
         }
 
-        [HttpGet("getPublic")]
+     
         public async Task<IEnumerable<ResourceModel>> GetPublicResources(int pageNumber)
         {
             pageNumber = pageNumber - 1;
@@ -100,7 +100,7 @@ namespace _Project_CheatSheet.Features.Resources.Services
 
             //12*1=12-12=0
             var resourcesToSkip = pageNumber * ResourcesPerPage - pageNumber;
-            var resourcesCount = await context.Resources.CountAsync();
+            var resourcesCount = await context.Resources.Where(r=>r.IsPublic==true || r.UserId==userId).CountAsync();
 
             if (resourcesToSkip > resourcesCount || pageNumber < 0)
             {
@@ -126,7 +126,7 @@ namespace _Project_CheatSheet.Features.Resources.Services
             return models;
         }
 
-        [HttpGet("getById")]
+      
         public async Task<DetailResources> GetResourceById(string? resourceId)
         {
             IEnumerable<DetailResources> details = await context.Resources
@@ -148,14 +148,14 @@ namespace _Project_CheatSheet.Features.Resources.Services
             return detailResource;
         }
 
-        public async Task<int> GetTotalPage()
+        public int GetTotalPage()
         {
-            var pages = (double)context.Resources.CountAsync().Result / ResourcesPerPage;
+            var userId=currentUserService.GetUserId();
+            var pages = (double)  context.Resources.Where(r=>r.IsPublic || r.UserId==userId).CountAsync().Result / ResourcesPerPage;
             var totalPages = (int)Math.Ceiling(pages);
             return totalPages;
         }
 
-        [HttpPatch("edit/{id}")]
         public async Task<ResourceEditModel> EditResource(string id, ResourceEditModel resourceEdit)
         {
             var resource = await context.Resources.FindAsync(Guid.Parse(id));
@@ -179,7 +179,7 @@ namespace _Project_CheatSheet.Features.Resources.Services
         public async Task<Resource> RemoveResource(string id)
         {
             string userId = currentUserService.GetUserId();
-            var resource = await context.Resources.FindAsync(id);
+            var resource = await context.Resources.FindAsync(Guid.Parse(id));
 
             if (resource == null || resource.UserId != userId || resource.IsDeleted==true)
             {
