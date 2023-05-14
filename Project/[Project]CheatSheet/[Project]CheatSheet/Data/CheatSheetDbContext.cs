@@ -73,12 +73,14 @@ namespace _Project_CheatSheet.Data
 
             // configure one-to-many relationship between User and Resource for Resources
             modelBuilder.Entity<Resource>()
+                .HasQueryFilter(r => !r.IsDeleted)
                 .HasOne(p => p.User)
                 .WithMany(u => u.Resources)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
             // configure one-to-many relationship between User and Comment for Comments
             modelBuilder.Entity<Comment>()
+                .HasQueryFilter(c => !c.IsDeleted)
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
@@ -86,6 +88,7 @@ namespace _Project_CheatSheet.Data
 
             // configure one-to-many relationship between Resource and Comment for Comments
             modelBuilder.Entity<Comment>()
+                .HasQueryFilter(c=>!c.IsDeleted)
                 .HasOne(c => c.Resource)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.ResourceId);

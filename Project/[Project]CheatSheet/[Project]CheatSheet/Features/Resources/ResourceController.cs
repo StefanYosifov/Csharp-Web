@@ -24,29 +24,29 @@ namespace _Project_CheatSheet.Features.Resources
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetAllResources(int id)
+        public async Task<IActionResult> GetAllResources(int id)
         {
-            var resources = await resourceService.GetPublicResources(id);
-            return Ok(resources);
+            var resourcesResult = await resourceService.GetPublicResources(id);
+            return Ok(resourcesResult);
         }
 
         [HttpGet("my")]
-        public async Task<ActionResult> GetMyResources()
+        public async Task<IActionResult> GetMyResources()
         {
-            var resources = await resourceService.GetMyResources();
-            return Ok(resources);
+            var resourcesResult = await resourceService.GetMyResources();
+            return Ok(resourcesResult);
         }
 
         [HttpGet("details/{id}")]
         public async Task<ActionResult> GetResourceDetails(string id)
         {
-            var resource = await resourceService.GetResourceById(id);
-            if (resource == null)
+            var resourceResult = await resourceService.GetResourceById(id);
+            if (resourceResult == null)
             {
                 return NotFound("You do not have access to the resource or it does not exist");
             }
 
-            return Ok(resource);
+            return Ok(resourceResult);
         }
 
         [HttpPost("add")]
@@ -62,6 +62,7 @@ namespace _Project_CheatSheet.Features.Resources
             {
                 return NotFound(ResourceMessages.OnInvalidRequestsResourceEdit);
             }
+
             var resourceResult = await resourceService.EditResource(id, resourceEdit);
             if (resourceResult == null)
             {
@@ -71,5 +72,16 @@ namespace _Project_CheatSheet.Features.Resources
             return Ok(ResourceMessages.OnSuccessfulResourceEdit);
         }
 
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> RemoveResource(string id)
+        {
+            var resourceResult = await resourceService.RemoveResource(id);
+            if (resourceResult == null)
+            {
+                return BadRequest(ResourceMessages.OnUnsuccessfulResourceRemove);
+            }
+
+            return Ok(ResourceMessages.OnSuccessfulResourceEdit);
+        }
     }
 }

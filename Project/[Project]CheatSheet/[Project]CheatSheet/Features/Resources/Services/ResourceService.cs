@@ -175,5 +175,20 @@ namespace _Project_CheatSheet.Features.Resources.Services
                 return null!;
             }
         }
+
+        public async Task<Resource> RemoveResource(string id)
+        {
+            string userId = currentUserService.GetUserId();
+            var resource = await context.Resources.FindAsync(id);
+
+            if (resource == null || resource.UserId != userId || resource.IsDeleted==true)
+            {
+                return null;
+            }
+
+            context.Remove(resource);
+            await context.SaveChangesAsync();
+            return resource;
+        }
     }
 }
