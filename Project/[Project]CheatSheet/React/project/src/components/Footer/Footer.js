@@ -17,7 +17,7 @@ export const Footer = () => {
                             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Resources</h2>
                             <ul className="text-gray-600 dark:text-gray-400 font-medium">
                                 <li className="mb-4">
-                                    <Link to="https://flowbite.com/" className="hover:underline">Flowbite</Link>
+                                    <Link to="https://google.com" className="hover:underline">Cheat sheet project</Link>
                                 </li>
                                 <li>
                                     <Link to="https://tailwindcss.com/" className="hover:underline">Tailwind CSS</Link>
@@ -28,7 +28,7 @@ export const Footer = () => {
                             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Follow us</h2>
                             <ul className="text-gray-600 dark:text-gray-400 font-medium">
                                 <li className="mb-4">
-                                    <Link to="https://github.com/themesberg/flowbite" className="hover:underline ">Github</Link>
+                                    <Link to="https://github.com/StefanYosifov" className="hover:underline ">Github</Link>
                                 </li>
                                 <li>
                                     <Link to="https://discord.gg/4eeurUVvTy" className="hover:underline">Discord</Link>
@@ -39,10 +39,10 @@ export const Footer = () => {
                             <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Legal</h2>
                             <ul className="text-gray-600 dark:text-gray-400 font-medium">
                                 <li className="mb-4">
-                                    <Link to="#" className="hover:underline">Privacy Policy</Link>
+                                    <Link to="/privacy" className="hover:underline">Privacy Policy</Link>
                                 </li>
                                 <li>
-                                    <Link to="#" className="hover:underline">Terms &amp; Conditions</Link>
+                                    <Link to="/terms" className="hover:underline">Terms &amp; Conditions</Link>
                                 </li>
                             </ul>
                         </div>
@@ -80,6 +80,5 @@ export const Footer = () => {
                 </div>
             </div>
         </footer>
-
     )
 }
