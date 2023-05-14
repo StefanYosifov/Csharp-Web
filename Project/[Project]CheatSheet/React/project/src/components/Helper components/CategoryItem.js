@@ -1,11 +1,10 @@
-export const CategoryItem = (category) => {
-    const categoryNames = category.categoryNames;
+export const CategoryItem = ({category}) => {
     return (
         <>
-            {categoryNames.map(x => <span
+            <span
                 className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">
-                {x}
-            </span>)}
+                {category}
+            </span>
         </>
     )
 }

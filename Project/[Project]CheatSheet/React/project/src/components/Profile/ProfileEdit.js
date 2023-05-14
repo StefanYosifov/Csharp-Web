@@ -22,8 +22,7 @@ export const ProfileEdit = ({ profileData }) => {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(formData);
-        updateProfile(formData).then((res) => console.log(res));
-
+        updateProfile(formData).then((res) => console.log(res.data));
     };
 
     return (
@@ -102,7 +101,7 @@ export const ProfileEdit = ({ profileData }) => {
                                                 id="userJob"
                                                 className="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                                 name="userJob"
-                                                value={formData.userJob == null ? '' : profileData.userJob}
+                                                value={formData.userJob == null ? formData.userJob='' : formData.userJob}
                                                 onChange={handleInputChange}
                                             />
                                         </div>
@@ -117,7 +116,7 @@ export const ProfileEdit = ({ profileData }) => {
                                                 id="userEducation"
                                                 className="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"
                                                 name="userEducation"
-                                                value={formData.userEducation == null ? '' : profileData.user.userEducation}
+                                                value={formData.userEducation == null ? formData.userEducation='' : formData.userEducation}
                                                 onChange={handleInputChange}
                                             />
                                         </div>

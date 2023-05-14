@@ -15,6 +15,8 @@ export function ResourceList() {
   const { id } = useParams();
 
 
+console.log(resources);
+
   useEffect(() => {
     getTotalPages().then((res) => {
       setTotalPages(res)
@@ -45,11 +47,11 @@ export function ResourceList() {
 
 
   useEffect(() => {
-    setIsLoading(true); // set isLoading to true before making the request
+    setIsLoading(true); 
     getPublicResources(id)
       .then(response => {
         setResources(response.data);
-        setIsLoading(false); // set isLoading to false after receiving the response
+        setIsLoading(false); 
       })
       .catch(error => {
         console.error(error);
@@ -64,6 +66,8 @@ export function ResourceList() {
 
   return (
     <>
+    {resources && totalPages && id && (
+      <>
       <div className="flex flex-col w-full p-10 bg-gray-100">
         <div className="text-center my-2">
           <h2 className="text-4xl font-bold text-gray-800">Enjoying reading our resources?</h2>
@@ -94,7 +98,6 @@ export function ResourceList() {
             <p>Loading...</p>
           ) : (
             resources.map((resource) => (
-             
               <ResourceItem key={resource.id} props={resource} />
             ))
           )}
@@ -104,8 +107,9 @@ export function ResourceList() {
           totalPages={Number(totalPages)}
           onPageChange={(pageNumber) => navigate(`/resources/${pageNumber}`)}
         />
-
       </div>
+      </>
+    )}
     </>
   )
 

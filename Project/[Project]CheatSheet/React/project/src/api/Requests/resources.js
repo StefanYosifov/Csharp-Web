@@ -1,4 +1,4 @@
-import {get,post} from '../Requests/requests'
+import {del, get,post} from '../Requests/requests'
 
 export const getTotalPages=()=>{
    return get('resource/pages').then(res=>res.data);
@@ -26,4 +26,8 @@ export const addResource=(formData)=>{
   
        return post(`resource/add`,JSON.stringify(data))
        .then(res=>console.log(res));
+}
+
+export const deleteResource=(id)=>{
+    return del(`resource/delete/${id}`,id);
 }

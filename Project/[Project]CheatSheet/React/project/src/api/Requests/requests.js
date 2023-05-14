@@ -23,7 +23,6 @@ export const patch=(endPoint,data)=>{
   return axios.patch(`${baseUrl}/${endPoint}`,data,{headers});
 }
 
-export const del=(endPoint,data)=>{
-  console.log(data);
-  return axios.delete(`${baseUrl}/${endPoint}`,data,{headers})
+export const del = (endPoint) => {
+  return axios.delete(`${baseUrl}/${endPoint}`, { headers });
 }

@@ -18,6 +18,7 @@ export const editComment=(id,comment)=>{
   return patch(`comment/edit/${id}`,{"content":comment});
 }
 
-export const deleteComment=(id)=>{
-  return del(`comment/delete/${id}`,{id});
+export const deleteComment = (id) => {
+  console.log(id);
+  return del(`comment/delete/${id}`);
 }
