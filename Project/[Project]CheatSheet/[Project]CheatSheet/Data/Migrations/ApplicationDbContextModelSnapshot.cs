@@ -37,7 +37,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.CategoryResource", b =>
@@ -52,7 +52,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasIndex("ResourceId");
 
-                    b.ToTable("CategoriesResources");
+                    b.ToTable("CategoriesResources", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.Comment", b =>
@@ -73,7 +73,6 @@ namespace _Project_CheatSheet.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DeletedOn")
@@ -101,7 +100,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.CommentLike", b =>
@@ -122,7 +121,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasIndex("CommentId");
 
-                    b.ToTable("CommentLikes");
+                    b.ToTable("CommentLikes", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.Resource", b =>
@@ -143,7 +142,6 @@ namespace _Project_CheatSheet.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DeletedOn")
@@ -179,7 +177,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Resources");
+                    b.ToTable("Resources", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.ResourceLike", b =>
@@ -200,7 +198,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasIndex("ResourceId");
 
-                    b.ToTable("ResourceLikes");
+                    b.ToTable("ResourceLikes", (string)null);
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Data.Models.User", b =>

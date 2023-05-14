@@ -6,3 +6,4 @@
         public const int MaxValue = 1000000;
     }
 }
+

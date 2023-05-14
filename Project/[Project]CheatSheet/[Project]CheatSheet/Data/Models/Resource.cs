@@ -15,7 +15,7 @@ namespace _Project_CheatSheet.Data.Models
             this.Id = Guid.NewGuid();
         }
 
-        [Key] public Guid Id { get; set; }
+        public Guid Id { get; set; }
 
         [MaxLength(ResourceConstants.TitleMaxLength)]
         public string Title { get; set; } = null!;

@@ -16,7 +16,7 @@ namespace _Project_CheatSheet.Features.Comment.Models
 
         public string? UserName { get; set; } = null!;
 
-        [StringLength(CommentConstants.ContentMinLength, MinimumLength = CommentConstants.ContentMaxLength)]
+        [StringLength(CommentConstants.ContentMaxLength, MinimumLength = CommentConstants.ContentMinLength)]
         public string Content { get; set; } = null!;
 
         public string? UserProfileImage { get; set; }

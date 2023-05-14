@@ -35,7 +35,7 @@ namespace _Project_CheatSheet.Features.Comment.Services
                 return new StatusCodeResult(StatusCodes.Status403Forbidden);
             }
 
-            var resource = GetResource(comment.ResourceId);
+            var resource = await GetResource(comment.ResourceId);
             if (resource == null)
             {
                 return new StatusCodeResult(StatusCodes.Status403Forbidden);
@@ -118,7 +118,7 @@ namespace _Project_CheatSheet.Features.Comment.Services
 
         private async Task<Resource?> GetResource(string resourceId)
         {
-            var resource = await context.Resources.FindAsync(resourceId);
+            var resource = await context.Resources.FirstOrDefaultAsync(r=>r.Id.ToString()==resourceId);
             return resource;
         }
     }

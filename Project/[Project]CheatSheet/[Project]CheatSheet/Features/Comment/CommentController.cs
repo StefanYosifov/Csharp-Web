@@ -21,8 +21,8 @@ namespace _Project_CheatSheet.Features.Comment
         [HttpPost("send")]
         public async Task<IActionResult> PostAComment(CommentModel comment)
         {
-            var postComment = await service.CreateAComment(comment);
-            if (postComment.StatusCode != 201)
+            var postCommentResult = await service.CreateAComment(comment);
+            if (postCommentResult.StatusCode != 201)
             {
                 return BadRequest(CommentMessages.OnUnsuccessfulPostComment);
             }
@@ -33,13 +33,13 @@ namespace _Project_CheatSheet.Features.Comment
         [HttpGet("get/{id}")]
         public async Task<ActionResult<IEnumerable<CommentModel>>> GetComments(string id)
         {
-            var comments = await service.GetCommentsFromResource(id);
-            if (!comments.Any())
+            var commentsResult = await service.GetCommentsFromResource(id);
+            if (!commentsResult.Any())
             {
-                return NotFound(comments);
+                return NotFound(commentsResult);
             }
 
-            return Ok(comments);
+            return Ok(commentsResult);
         }
 
         [HttpPatch("edit/{id}")]
