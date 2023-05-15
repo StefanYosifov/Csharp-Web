@@ -96,6 +96,41 @@ namespace _Project_CheatSheet.Data
             modelBuilder.Entity<CategoryResource>()
                 .HasKey(k => new { k.CategoryId, k.ResourceId });
 
+            modelBuilder.Entity<UserCourses>()
+                .HasKey(uc => new { uc.CourseId, uc.UserId });
+
+            modelBuilder.Entity<UserCourses>()
+                .HasOne(uc => uc.User)
+                .WithMany(u => u.UserCourses)
+                .HasForeignKey(uc => uc.UserId);
+
+            modelBuilder.Entity<UserCourses>()
+                .HasOne(uc => uc.Course)
+                .WithMany(c => c.UsersCourses)
+                .HasForeignKey(uc => uc.CourseId);
+
+            modelBuilder.Entity<Course>()
+                .HasKey(c => c.Id);
+
+            modelBuilder.Entity<Topic>()
+                .HasKey(t => t.Id);
+
+            modelBuilder.Entity<Topic>()
+                .HasOne(t => t.Course)
+                .WithMany(c => c.Topics)
+                .HasForeignKey(t => t.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Video>()
+                .HasKey(v => v.Id);
+
+            modelBuilder.Entity<Video>()
+                .HasOne(v => v.Topic)
+                .WithMany(t => t.Videos)
+                .HasForeignKey(v => v.TopicId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+
             base.OnModelCreating(modelBuilder);
         }
 

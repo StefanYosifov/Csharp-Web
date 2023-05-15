@@ -13,6 +13,7 @@ namespace _Project_CheatSheet.Data.Models
             this.ResourceLikes = new HashSet<ResourceLike>();
             this.CommentLikes = new HashSet<CommentLike>();
             this.Comments = new HashSet<Comment>();
+            this.UserCourses=new HashSet<UserCourses>();
         }
 
         [Url] public string? ProfilePictureUrl { get; set; }
@@ -33,6 +34,7 @@ namespace _Project_CheatSheet.Data.Models
         public ICollection<ResourceLike> ResourceLikes { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<CommentLike> CommentLikes { get; set; }
+        public ICollection<UserCourses> UserCourses { get; set; }
         public DateTime DeletedOn { get; set; }
         public string DeletedBy { get; set; }
         public bool IsDeleted { get; set; }

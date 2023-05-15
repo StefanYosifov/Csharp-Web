@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _Project_CheatSheet.Data;
 
@@ -11,9 +12,10 @@ using _Project_CheatSheet.Data;
 namespace _Project_CheatSheet.Data.Migrations
 {
     [DbContext(typeof(CheatSheetDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230515190729_CoursesInitial")]
+    partial class CoursesInitial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,7 +148,7 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Titlte")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -253,21 +255,9 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("UpdatedOn")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -392,9 +382,17 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid?>("UserCoursesCourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserCoursesUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("CourseId", "UserId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserCoursesCourseId", "UserCoursesUserId");
 
                     b.ToTable("UserCourses");
                 });
@@ -680,6 +678,10 @@ namespace _Project_CheatSheet.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("_Project_CheatSheet.Data.Models.UserCourses", null)
+                        .WithMany("UsersCourses")
+                        .HasForeignKey("UserCoursesCourseId", "UserCoursesUserId");
+
                     b.Navigation("Course");
 
                     b.Navigation("User");
@@ -789,6 +791,11 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("Resources");
 
                     b.Navigation("UserCourses");
+                });
+
+            modelBuilder.Entity("_Project_CheatSheet.Data.Models.UserCourses", b =>
+                {
+                    b.Navigation("UsersCourses");
                 });
 #pragma warning restore 612, 618
         }

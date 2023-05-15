@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _Project_CheatSheet.Data;
 
@@ -11,9 +12,10 @@ using _Project_CheatSheet.Data;
 namespace _Project_CheatSheet.Data.Migrations
 {
     [DbContext(typeof(CheatSheetDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230515191504_TopicEntityAdd")]
+    partial class TopicEntityAdd
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -146,7 +148,7 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("Titlte")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

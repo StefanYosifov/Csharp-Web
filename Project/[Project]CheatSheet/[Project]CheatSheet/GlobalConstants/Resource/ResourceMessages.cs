@@ -8,7 +8,7 @@
         public const string OnInvalidRequestsResourceEdit = "Invalid data provided, check for the length";
 
         public const string OnSuccessfulResourceAdd = "You have succesfully added the resource";
-        public const string OnUnsuccessfulResouceAdd = "There was an error when trying to add the resource";
+        public const string OnUnsuccessfulResourceAdd = "There was an error when trying to add the resource";
 
         public const string OnSuccessfulResourceRemove = "You have succesfully deleted the resource";
         public const string OnUnsuccessfulResourceRemove = "There was an error when trying to delete the resource";

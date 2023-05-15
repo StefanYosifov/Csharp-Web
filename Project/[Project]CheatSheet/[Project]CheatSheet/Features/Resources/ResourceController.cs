@@ -55,7 +55,7 @@ namespace _Project_CheatSheet.Features.Resources
             var resourceResult=await resourceService.AddResources(resourceAdd);
             if (resourceResult == null)
             {
-                return BadRequest(ResourceMessages.OnUnsuccessfulResouceAdd);
+                return BadRequest(ResourceMessages.OnUnsuccessfulResourceAdd);
             }
 
             return Ok(ResourceMessages.OnSuccessfulResourceAdd);
