@@ -1,4 +1,4 @@
-﻿using _Project_CheatSheet.Data.Models;
+﻿using _Project_CheatSheet.Infrastructure.Data.Models;
 
 namespace _Project_CheatSheet.Common.CurrentUser.Interfaces
 {

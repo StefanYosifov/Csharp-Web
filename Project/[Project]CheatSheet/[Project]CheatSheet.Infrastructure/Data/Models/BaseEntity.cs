@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.Data.Models
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
     public abstract class BaseEntity
     {

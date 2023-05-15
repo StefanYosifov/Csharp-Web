@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.Data.Models.Base.Interfaces;
 using _Project_CheatSheet.GlobalConstants.User;
+using _Project_CheatSheet.Infrastructure.Data.Models.Base.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace _Project_CheatSheet.Data.Models
+namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
     public class User : IdentityUser, IEntity
     {

@@ -1,7 +1,8 @@
 ﻿using System.Security.Claims;
 using _Project_CheatSheet.Common.CurrentUser.Interfaces;
 using _Project_CheatSheet.Data;
-using _Project_CheatSheet.Data.Models;
+using _Project_CheatSheet.Infrastructure.Data;
+using _Project_CheatSheet.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace _Project_CheatSheet.Common.CurrentUser

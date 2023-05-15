@@ -1,9 +1,6 @@
-using System.Text;
 using _Project_CheatSheet;
 using _Project_CheatSheet.Common.CurrentUser;
 using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Data;
-using _Project_CheatSheet.Data.Models;
 using _Project_CheatSheet.Features.Category.Interfaces;
 using _Project_CheatSheet.Features.Category.Services;
 using _Project_CheatSheet.Features.Comment.Interfaces;
@@ -18,11 +15,16 @@ using _Project_CheatSheet.Features.Resources.Interfaces;
 using _Project_CheatSheet.Features.Resources.Services;
 using _Project_CheatSheet.Features.Statistics.Interfaces;
 using _Project_CheatSheet.Features.Statistics.Services;
+using _Project_CheatSheet.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
+using _Project_CheatSheet.Features.Course.Interfaces;
+using _Project_CheatSheet.Features.Course.Services;
+using _Project_CheatSheet.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,6 +38,7 @@ builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<ILikeService, LikeService>();
 builder.Services.AddTransient<IStatisticsService, StatisticService>();
 builder.Services.AddTransient<IProfileService, ProfileService>();
+builder.Services.AddTransient<ICourseService, CourseService>();
 
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 

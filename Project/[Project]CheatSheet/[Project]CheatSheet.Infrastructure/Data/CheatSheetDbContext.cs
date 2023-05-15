@@ -1,9 +1,10 @@
-﻿using _Project_CheatSheet.Data.Models;
-using _Project_CheatSheet.Data.Models.Base.Interfaces;
+﻿using _Project_CheatSheet.Infrastructure.Data.Models;
+using _Project_CheatSheet.Infrastructure.Data.Models.Base.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace _Project_CheatSheet.Data
+namespace _Project_CheatSheet.Infrastructure.Data
 {
     public class CheatSheetDbContext : IdentityDbContext<User>
     {
@@ -28,13 +29,17 @@ namespace _Project_CheatSheet.Data
         public virtual DbSet<CommentLike> CommentLikes { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<CategoryResource> CategoriesResources { get; set; } = null!;
+        public virtual DbSet<Course> Courses { get; set; } = null!;
+        public virtual DbSet<Topic> Topics { get; set; } = null!;
+        public virtual DbSet<Video> Videos { get; set; } = null!;
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=CheatSheet;Integrated Security=true");
+                optionsBuilder.UseSqlServer(
+                    "Server=(localdb)\\MSSQLLocalDB;Database=CheatSheet;Integrated Security=true");
             }
         }
 
@@ -88,7 +93,7 @@ namespace _Project_CheatSheet.Data
 
             // configure one-to-many relationship between Resource and Comment for Comments
             modelBuilder.Entity<Comment>()
-                .HasQueryFilter(c=>!c.IsDeleted)
+                .HasQueryFilter(c => !c.IsDeleted)
                 .HasOne(c => c.Resource)
                 .WithMany(p => p.Comments)
                 .HasForeignKey(c => c.ResourceId);
@@ -159,11 +164,11 @@ namespace _Project_CheatSheet.Data
                 {
                     if (item.State == EntityState.Deleted)
                     {
-                        deletable.DeletedOn=currentTime;
+                        deletable.DeletedOn = currentTime;
                         deletable.DeletedBy = userName;
                         deletable.IsDeleted = true;
 
-                        item.State=EntityState.Modified;    
+                        item.State = EntityState.Modified;
                     }
                 }
 
@@ -176,8 +181,8 @@ namespace _Project_CheatSheet.Data
                     }
                     else if (item.State == EntityState.Modified)
                     {
-                        entity.UpdatedOn=currentTime;   
-                        entity.UpdatedBy=userName!;
+                        entity.UpdatedOn = currentTime;
+                        entity.UpdatedBy = userName!;
                     }
                 }
             }

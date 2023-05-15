@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using _Project_CheatSheet.Data.Models.Base;
+using _Project_CheatSheet.Infrastructure.Data.Models.Base;
 
-namespace _Project_CheatSheet.Data.Models
+namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
     public class Topic:Entity
     {

@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace _Project_CheatSheet.Data.Models
+namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
-    public class ResourceLike
+    public class CommentLike : BaseEntity
     {
-        public ResourceLike()
+        public CommentLike()
         {
             this.Id = Guid.NewGuid();
         }
@@ -15,9 +15,8 @@ namespace _Project_CheatSheet.Data.Models
 
         public User User { get; set; } = null!;
 
-        [ForeignKey(nameof(Resource))] public Guid ResourceId { get; set; }
+        [ForeignKey(nameof(Comment))] public Guid CommentId { get; set; }
 
-        public Resource Resource { get; set; } = null!;
-        public DateTime CreatedAt { get; set; }
+        public Comment Comment { get; set; } = null!;
     }
 }

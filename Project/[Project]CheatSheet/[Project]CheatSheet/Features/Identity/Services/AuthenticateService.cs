@@ -1,9 +1,9 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using _Project_CheatSheet.Data.Models;
 using _Project_CheatSheet.Features.Identity.Interfaces;
 using _Project_CheatSheet.Features.Identity.Models;
+using _Project_CheatSheet.Infrastructure.Data.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;

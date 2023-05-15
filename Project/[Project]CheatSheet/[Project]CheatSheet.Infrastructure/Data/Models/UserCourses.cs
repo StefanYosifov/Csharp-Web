@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace _Project_CheatSheet.Data.Models
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
     public class UserCourses
     {

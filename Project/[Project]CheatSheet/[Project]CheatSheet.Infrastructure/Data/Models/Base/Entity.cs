@@ -1,6 +1,6 @@
-﻿using _Project_CheatSheet.Data.Models.Base.Interfaces;
+﻿using _Project_CheatSheet.Infrastructure.Data.Models.Base.Interfaces;
 
-namespace _Project_CheatSheet.Data.Models.Base
+namespace _Project_CheatSheet.Infrastructure.Data.Models.Base
 {
     public abstract class Entity : IEntity
     {

@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.Data.Models.Base.Interfaces
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models.Base.Interfaces
 {
     public interface IDeletableEntity : IEntity
     {

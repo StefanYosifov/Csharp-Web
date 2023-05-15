@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[Project]CheatSheet", "[Project]CheatSheet\[Project]CheatSheet.csproj", "{AF24447F-1EFD-44EA-9F33-4C2ABBB902B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "[Project]CheatSheet", "[Project]CheatSheet\[Project]CheatSheet.csproj", "{AF24447F-1EFD-44EA-9F33-4C2ABBB902B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "[Project]CheatSheet.Infrastructure", "[Project]CheatSheet.Infrastructure\[Project]CheatSheet.Infrastructure.csproj", "{96A3F6BF-3B92-4100-839C-4613F96B1819}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{AF24447F-1EFD-44EA-9F33-4C2ABBB902B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF24447F-1EFD-44EA-9F33-4C2ABBB902B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF24447F-1EFD-44EA-9F33-4C2ABBB902B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96A3F6BF-3B92-4100-839C-4613F96B1819}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96A3F6BF-3B92-4100-839C-4613F96B1819}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96A3F6BF-3B92-4100-839C-4613F96B1819}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96A3F6BF-3B92-4100-839C-4613F96B1819}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

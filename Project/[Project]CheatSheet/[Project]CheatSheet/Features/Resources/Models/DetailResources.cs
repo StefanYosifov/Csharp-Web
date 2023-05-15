@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.Data.Models;
 using _Project_CheatSheet.GlobalConstants.Resource;
+using _Project_CheatSheet.Infrastructure.Data.Models;
 
 namespace _Project_CheatSheet.Features.Resources.Models
 {

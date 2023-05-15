@@ -1,11 +1,10 @@
 ﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Data;
-using _Project_CheatSheet.Data.Models;
 using _Project_CheatSheet.Features.Resources.Interfaces;
 using _Project_CheatSheet.Features.Resources.Models;
+using _Project_CheatSheet.Infrastructure.Data;
+using _Project_CheatSheet.Infrastructure.Data.Models;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace _Project_CheatSheet.Features.Resources.Services

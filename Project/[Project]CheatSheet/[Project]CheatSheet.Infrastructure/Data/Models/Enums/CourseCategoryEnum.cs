@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.Data.Models.Enums
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models.Enums
 {
     public enum CourseCategoryEnum
     {

@@ -1,9 +1,10 @@
-﻿using _Project_CheatSheet.Data.Models;
+﻿using _Project_CheatSheet.Features.Course.Models;
 using _Project_CheatSheet.Features.Identity.Models;
 using _Project_CheatSheet.Features.Likes.Models;
 using _Project_CheatSheet.Features.Profile.Models;
 using _Project_CheatSheet.Features.Resources.Models;
 using _Project_CheatSheet.GlobalConstants;
+using _Project_CheatSheet.Infrastructure.Data.Models;
 using AutoMapper;
 
 namespace _Project_CheatSheet.Common.Mapping
@@ -61,6 +62,11 @@ namespace _Project_CheatSheet.Common.Mapping
                 .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.ResourceLikes.Count))
                 .ForMember(dest => dest.CategoryNames,
                     opt => opt.MapFrom(src => src.CategoryResources.Select(cr => cr.Category.Name)));
+
+            //Courses
+            CreateMap<Course, CourseRespondModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.ToString()));
         }
     }
 }

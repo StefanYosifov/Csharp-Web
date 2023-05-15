@@ -1,9 +1,9 @@
 ﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
 using _Project_CheatSheet.Data;
-using _Project_CheatSheet.Data.Models;
 using _Project_CheatSheet.Features.Comment.Interfaces;
 using _Project_CheatSheet.Features.Comment.Models;
 using _Project_CheatSheet.GlobalConstants;
+using _Project_CheatSheet.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,7 +41,7 @@ namespace _Project_CheatSheet.Features.Comment.Services
                 return new StatusCodeResult(StatusCodes.Status403Forbidden);
             }
 
-            var dbComment = new Data.Models.Comment
+            var dbComment = new Infrastructure.Data.Models.Comment
             {
                 UserId = user.Id,
                 Content = comment.Content,
@@ -74,7 +74,7 @@ namespace _Project_CheatSheet.Features.Comment.Services
             }
         }
 
-        public async Task<Data.Models.Comment> DeleteComment(string id)
+        public async Task<Infrastructure.Data.Models.Comment> DeleteComment(string id)
         {
             var comment = await context.Comments.FindAsync(Guid.Parse(id));
             var userId = currentUserService.GetUserId();

@@ -12,6 +12,6 @@ namespace _Project_CheatSheet.Features.Comment.Interfaces
 
         public Task<EditCommentModel> EditComment(string id,EditCommentModel commentModel);
 
-        public Task<Data.Models.Comment> DeleteComment(string id); //Todo Investigate why using isn't working
+        public Task<Infrastructure.Data.Models.Comment> DeleteComment(string id); //Todo Investigate why using isn't working
     }
 }
