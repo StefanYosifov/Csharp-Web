@@ -22,8 +22,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 using _Project_CheatSheet.Features.Course.Interfaces;
 using _Project_CheatSheet.Features.Course.Services;
+using _Project_CheatSheet.Features.Topics.Interfaces;
+using _Project_CheatSheet.Features.Topics.Services;
 using _Project_CheatSheet.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +42,7 @@ builder.Services.AddTransient<ILikeService, LikeService>();
 builder.Services.AddTransient<IStatisticsService, StatisticService>();
 builder.Services.AddTransient<IProfileService, ProfileService>();
 builder.Services.AddTransient<ICourseService, CourseService>();
+builder.Services.AddTransient<ITopicService, TopicService>();
 
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 
@@ -98,6 +102,11 @@ builder.Services.AddMvc(c => c.Conventions.Add(new ApiExplorerIgnore()));
 builder.Services.AddSwaggerGen(s =>
 {
     s.SwaggerDoc("v1", new OpenApiInfo { Title = "Cheat sheet swagger API", Version = "v1" });
+});
+
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
 });
 
 

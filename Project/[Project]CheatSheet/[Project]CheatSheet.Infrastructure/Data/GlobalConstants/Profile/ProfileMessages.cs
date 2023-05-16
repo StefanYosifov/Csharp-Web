@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.GlobalConstants.Profile
+﻿namespace _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Profile
 {
     public class ProfileMessages
     {

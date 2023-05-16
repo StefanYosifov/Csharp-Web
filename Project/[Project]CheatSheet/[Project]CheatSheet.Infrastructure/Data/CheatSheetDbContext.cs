@@ -30,6 +30,7 @@ namespace _Project_CheatSheet.Infrastructure.Data
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<CategoryResource> CategoriesResources { get; set; } = null!;
         public virtual DbSet<Course> Courses { get; set; } = null!;
+        public virtual DbSet<UserCourses> UserCourses { get; set; } = null!;
         public virtual DbSet<Topic> Topics { get; set; } = null!;
         public virtual DbSet<Video> Videos { get; set; } = null!;
 
@@ -120,21 +121,27 @@ namespace _Project_CheatSheet.Infrastructure.Data
             modelBuilder.Entity<Topic>()
                 .HasKey(t => t.Id);
 
+
             modelBuilder.Entity<Topic>()
                 .HasOne(t => t.Course)
                 .WithMany(c => c.Topics)
                 .HasForeignKey(t => t.CourseId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
+            modelBuilder.Entity<Topic>()
+                .HasOne(t => t.Video)
+                .WithMany(v => v.Topics)
+                .HasForeignKey(t => t.VideoId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Video>()
                 .HasKey(v => v.Id);
 
             modelBuilder.Entity<Video>()
-                .HasOne(v => v.Topic)
-                .WithMany(t => t.Videos)
-                .HasForeignKey(v => v.TopicId)
+                .HasMany(v => v.Topics)
+                .WithOne(t => t.Video)
                 .OnDelete(DeleteBehavior.Restrict);
-
 
             base.OnModelCreating(modelBuilder);
         }

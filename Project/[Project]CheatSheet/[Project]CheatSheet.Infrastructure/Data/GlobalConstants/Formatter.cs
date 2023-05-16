@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.GlobalConstants
+﻿namespace _Project_CheatSheet.Infrastructure.Data.GlobalConstants
 {
     public static class Formatter
     {

@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Course;
-using _Project_CheatSheet.Infrastructure.Data.Models;
 
 namespace _Project_CheatSheet.Features.Course.Models
 {
-    public class CourseRespondModel
+    public class CourseRespondAllModel
     {
+
         public string Id { get; set; } = null!;
 
         [Required]
@@ -22,11 +22,9 @@ namespace _Project_CheatSheet.Features.Course.Models
         [Required]
         [Url]
         public string ImageUrl { get; set; }
-
-        public bool HasPaid { get; set; }
         [Required]
-        public string Category { get; set; }=null!; 
+        public string Category { get; set; } = null!;
 
-        public ICollection<Topic> Topics { get; set; } = null!;
+        public int TopicsCount { get; set; }
     }
 }

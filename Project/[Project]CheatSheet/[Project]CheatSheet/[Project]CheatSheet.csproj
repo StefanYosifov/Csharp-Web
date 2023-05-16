@@ -23,4 +23,9 @@
     <ProjectReference Include="..\[Project]CheatSheet.Infrastructure\[Project]CheatSheet.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Videos\Models\" />
+    <Folder Include="Features\Videos\Services\" />
+  </ItemGroup>
+
 </Project>

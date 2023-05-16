@@ -67,6 +67,10 @@ namespace _Project_CheatSheet.Common.Mapping
             CreateMap<Course, CourseRespondModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.ToString()));
+
+            CreateMap<Course, CourseRespondAllModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+                .ForMember(dest => dest.TopicsCount, opt => opt.MapFrom(src => src.Topics.Count));
         }
     }
 }

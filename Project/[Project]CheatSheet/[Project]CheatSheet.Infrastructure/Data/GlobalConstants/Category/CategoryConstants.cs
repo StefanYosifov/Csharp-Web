@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.GlobalConstants.Category
+﻿namespace _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Category
 {
     public static class CategoryConstants
     {

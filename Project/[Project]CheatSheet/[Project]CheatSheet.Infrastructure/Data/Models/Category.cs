@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.GlobalConstants.Category;
+using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Category;
 
 namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
@@ -7,7 +7,7 @@ namespace _Project_CheatSheet.Infrastructure.Data.Models
     {
         public Category()
         {
-            this.CategoryResources = new HashSet<CategoryResource>();
+            CategoryResources = new HashSet<CategoryResource>();
         }
 
         [Key] public int Id { get; set; }

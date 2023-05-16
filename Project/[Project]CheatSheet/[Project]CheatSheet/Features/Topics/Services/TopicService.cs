@@ -26,5 +26,12 @@ namespace _Project_CheatSheet.Features.Topics.Services
                 context.Topics.ProjectTo<TopicRespondModel>(mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(t => t.Id == id);
         }
+
+        public async Task<TopicDetailRespondModel> GetTopicDetail(int id)
+        {
+            return await
+                context.Topics.ProjectTo<TopicDetailRespondModel>(mapper.ConfigurationProvider)
+                    .FirstOrDefaultAsync(t => t.Id == id);
+        }
     }
 }

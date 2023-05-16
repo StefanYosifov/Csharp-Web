@@ -28,8 +28,7 @@ namespace _Project_CheatSheet.Infrastructure.Data.Models
         [Range(CourseConstants.PriceMinRange, CourseConstants.PriceMaxRange)]
         public decimal Price { get; set; }
 
-        [Required]
-        public string ImageUrl { get; set; } = null!;
+        [Required] public string ImageUrl { get; set; } = null!;
 
         public CourseCategoryEnum Category { get; set; }
 

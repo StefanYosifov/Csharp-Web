@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using _Project_CheatSheet.GlobalConstants.Comment;
+using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Comment;
 using _Project_CheatSheet.Infrastructure.Data.Models.Base;
 
 namespace _Project_CheatSheet.Infrastructure.Data.Models
@@ -9,8 +9,8 @@ namespace _Project_CheatSheet.Infrastructure.Data.Models
     {
         public Comment()
         {
-            this.CommentLikes = new HashSet<CommentLike>();
-            this.Id = Guid.NewGuid();
+            CommentLikes = new HashSet<CommentLike>();
+            Id = Guid.NewGuid();
         }
 
         public Guid Id { get; set; }

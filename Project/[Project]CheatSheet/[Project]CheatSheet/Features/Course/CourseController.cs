@@ -1,6 +1,8 @@
 ﻿using _Project_CheatSheet.Features.Course.Interfaces;
+using _Project_CheatSheet.GlobalConstants.Resource;
+using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Course;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Mvc;
 
 namespace _Project_CheatSheet.Features.Course
 {
@@ -14,6 +16,37 @@ namespace _Project_CheatSheet.Features.Course
         public CourseController(ICourseService service)
         {
             this.service = service;
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetCourse(string id)
+        {
+            var courseResult = await service.GetCourseDetails(id);
+            if (courseResult == null)
+            {
+                return NotFound(CourseMessages.OnUnsuccessfulCourseRetrieval);
+            }
+
+            return Ok(courseResult);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllCourses()
+        {
+            var coursesResult=await service.GetAllCourses();
+            return Ok(coursesResult);
+        }
+
+        [HttpPost("payment/{id}")]
+        public async Task<IActionResult> JoinCourse(string id)
+        {
+            var courseResult = await service.JoinCourse(id);
+            if (!courseResult)
+            {
+                return Forbid(CourseMessages.OnSuccessfulPayment);
+            }
+
+            return Ok(CourseMessages.OnSuccessfulPayment);
         }
     }
 }

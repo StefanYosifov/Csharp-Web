@@ -1,5 +1,4 @@
 ﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Features.Comment.Interfaces;
 using _Project_CheatSheet.Features.Comment.Models;
 using _Project_CheatSheet.GlobalConstants;

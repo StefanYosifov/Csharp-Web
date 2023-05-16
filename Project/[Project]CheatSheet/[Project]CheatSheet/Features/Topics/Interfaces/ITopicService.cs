@@ -7,5 +7,7 @@ namespace _Project_CheatSheet.Features.Topics.Interfaces
 
         public Task<TopicRespondModel> GetTopic(int id);
 
+        public Task<TopicDetailRespondModel> GetTopicDetail(int id);
+
     }
 }

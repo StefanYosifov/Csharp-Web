@@ -1,18 +1,20 @@
-﻿using _Project_CheatSheet.Infrastructure.Data.Models.Base;
+﻿using System.ComponentModel.DataAnnotations;
+using _Project_CheatSheet.Infrastructure.Data.Models.Base;
 
 namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
-    public class Video:Entity
+    public class Video : Entity
     {
+        public Video()
+        {
+            this.Topics = new HashSet<Topic>();
+        }
 
         public Guid Id { get; set; }
+        [Required] public string Name { get; set; } = null!;
 
-        public string Name { get; set; }
+        [Required] public string VideoUrl { get; set; } = null!;
 
-        public string VideoUrl { get; set; }
-        public int TopicId { get; set; }
-
-        public Topic Topic { get; set; }
-
+        public ICollection<Topic> Topics { get; set; }   
     }
 }

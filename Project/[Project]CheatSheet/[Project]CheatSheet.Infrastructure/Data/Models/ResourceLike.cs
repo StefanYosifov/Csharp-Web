@@ -6,7 +6,7 @@ namespace _Project_CheatSheet.Infrastructure.Data.Models
     {
         public ResourceLike()
         {
-            this.Id = Guid.NewGuid();
+            Id = Guid.NewGuid();
         }
 
         public Guid Id { get; set; }

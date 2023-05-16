@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Infrastructure.Data;
 
 #nullable disable
@@ -13,8 +12,8 @@ using _Project_CheatSheet.Infrastructure.Data;
 namespace _Project_CheatSheet.Data.Migrations
 {
     [DbContext(typeof(CheatSheetDbContext))]
-    [Migration("20230515191248_CoursesInitialFix")]
-    partial class CoursesInitialFix
+    [Migration("20230516174512_SeeminglyAllNecessaryInformationHasBeenAdded")]
+    partial class SeeminglyAllNecessaryInformationHasBeenAdded
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,7 +24,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Category", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -43,7 +42,7 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.CategoryResource", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.CategoryResource", b =>
                 {
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -58,7 +57,7 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("CategoriesResources");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Comment", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Comment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,7 +105,7 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.CommentLike", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.CommentLike", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -127,7 +126,7 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("CommentLikes");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Course", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Course", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -144,14 +143,20 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Titlte")
+                    b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -161,10 +166,10 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course");
+                    b.ToTable("Courses");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Resource", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Resource", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -220,7 +225,7 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("Resources");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.ResourceLike", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.ResourceLike", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -241,7 +246,7 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("ResourceLikes");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Topic", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Topic", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -251,23 +256,37 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Topic");
+                    b.ToTable("Topics");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.User", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.User", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -375,7 +394,7 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.UserCourses", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.UserCourses", b =>
                 {
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
@@ -390,7 +409,7 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("UserCourses");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Video", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Video", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -423,7 +442,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
                     b.HasIndex("TopicId");
 
-                    b.ToTable("Video");
+                    b.ToTable("Videos");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -559,15 +578,15 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.CategoryResource", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.CategoryResource", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.Category", "Category")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.Category", "Category")
                         .WithMany("CategoryResources")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_Project_CheatSheet.Data.Models.Resource", "Resource")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.Resource", "Resource")
                         .WithMany("CategoryResources")
                         .HasForeignKey("ResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -578,15 +597,15 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("Resource");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Comment", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Comment", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.Resource", "Resource")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.Resource", "Resource")
                         .WithMany("Comments")
                         .HasForeignKey("ResourceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_Project_CheatSheet.Data.Models.User", "User")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -597,15 +616,15 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.CommentLike", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.CommentLike", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.Comment", "Comment")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.Comment", "Comment")
                         .WithMany("CommentLikes")
                         .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("_Project_CheatSheet.Data.Models.User", "User")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.User", "User")
                         .WithMany("CommentLikes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -616,9 +635,9 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Resource", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Resource", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.User", "User")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.User", "User")
                         .WithMany("Resources")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -627,15 +646,15 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.ResourceLike", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.ResourceLike", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.Resource", "Resource")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.Resource", "Resource")
                         .WithMany("ResourceLikes")
                         .HasForeignKey("ResourceId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("_Project_CheatSheet.Data.Models.User", "User")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.User", "User")
                         .WithMany("ResourceLikes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -646,9 +665,9 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Topic", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Topic", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.Course", "Course")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.Course", "Course")
                         .WithMany("Topics")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -657,15 +676,15 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("Course");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.UserCourses", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.UserCourses", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.Course", "Course")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.Course", "Course")
                         .WithMany("UsersCourses")
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_Project_CheatSheet.Data.Models.User", "User")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.User", "User")
                         .WithMany("UserCourses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -676,9 +695,9 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Video", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Video", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.Topic", "Topic")
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.Topic", "Topic")
                         .WithMany("Videos")
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -698,7 +717,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.User", null)
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -707,7 +726,7 @@ namespace _Project_CheatSheet.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.User", null)
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -722,7 +741,7 @@ namespace _Project_CheatSheet.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("_Project_CheatSheet.Data.Models.User", null)
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -731,31 +750,31 @@ namespace _Project_CheatSheet.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("_Project_CheatSheet.Data.Models.User", null)
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.User", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Category", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Category", b =>
                 {
                     b.Navigation("CategoryResources");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Comment", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Comment", b =>
                 {
                     b.Navigation("CommentLikes");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Course", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Course", b =>
                 {
                     b.Navigation("Topics");
 
                     b.Navigation("UsersCourses");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Resource", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Resource", b =>
                 {
                     b.Navigation("CategoryResources");
 
@@ -764,12 +783,12 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("ResourceLikes");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.Topic", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Topic", b =>
                 {
                     b.Navigation("Videos");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Data.Models.User", b =>
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.User", b =>
                 {
                     b.Navigation("CommentLikes");
 

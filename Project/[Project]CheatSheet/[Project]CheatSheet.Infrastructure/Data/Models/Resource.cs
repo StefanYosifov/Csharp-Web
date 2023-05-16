@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using _Project_CheatSheet.GlobalConstants.Resource;
+using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Resource;
 using _Project_CheatSheet.Infrastructure.Data.Models.Base;
 
 namespace _Project_CheatSheet.Infrastructure.Data.Models
@@ -9,10 +9,10 @@ namespace _Project_CheatSheet.Infrastructure.Data.Models
     {
         public Resource()
         {
-            this.CategoryResources = new HashSet<CategoryResource>();
-            this.ResourceLikes = new HashSet<ResourceLike>();
-            this.Comments = new HashSet<Comment>();
-            this.Id = Guid.NewGuid();
+            CategoryResources = new HashSet<CategoryResource>();
+            ResourceLikes = new HashSet<ResourceLike>();
+            Comments = new HashSet<Comment>();
+            Id = Guid.NewGuid();
         }
 
         public Guid Id { get; set; }

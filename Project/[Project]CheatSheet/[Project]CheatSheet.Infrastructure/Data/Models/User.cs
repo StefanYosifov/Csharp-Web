@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.GlobalConstants.User;
+using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.User;
 using _Project_CheatSheet.Infrastructure.Data.Models.Base.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
@@ -9,11 +9,11 @@ namespace _Project_CheatSheet.Infrastructure.Data.Models
     {
         public User()
         {
-            this.Resources = new HashSet<Resource>();
-            this.ResourceLikes = new HashSet<ResourceLike>();
-            this.CommentLikes = new HashSet<CommentLike>();
-            this.Comments = new HashSet<Comment>();
-            this.UserCourses=new HashSet<UserCourses>();
+            Resources = new HashSet<Resource>();
+            ResourceLikes = new HashSet<ResourceLike>();
+            CommentLikes = new HashSet<CommentLike>();
+            Comments = new HashSet<Comment>();
+            UserCourses = new HashSet<UserCourses>();
         }
 
         [Url] public string? ProfilePictureUrl { get; set; }

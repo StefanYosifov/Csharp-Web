@@ -1,5 +1,4 @@
 ﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Features.Likes.Interfaces;
 using _Project_CheatSheet.Features.Likes.Models;
 using _Project_CheatSheet.Infrastructure.Data;

@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.GlobalConstants.Comment
+﻿namespace _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Comment
 {
     public class CommentMessages
     {
