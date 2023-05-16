@@ -1,6 +1,6 @@
-﻿using _Project_CheatSheet.Data;
-using _Project_CheatSheet.Features.Statistics.Interfaces;
+﻿using _Project_CheatSheet.Features.Statistics.Interfaces;
 using _Project_CheatSheet.Features.Statistics.Models;
+using _Project_CheatSheet.Infrastructure.Data;
 
 namespace _Project_CheatSheet.Features.Statistics.Services
 {

@@ -2,6 +2,7 @@
 using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Features.Profile.Interfaces;
 using _Project_CheatSheet.Features.Profile.Models;
+using _Project_CheatSheet.Infrastructure.Data;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 

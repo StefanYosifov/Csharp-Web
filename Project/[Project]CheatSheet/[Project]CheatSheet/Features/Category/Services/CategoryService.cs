@@ -1,6 +1,7 @@
 ﻿using _Project_CheatSheet.Data;
 using _Project_CheatSheet.Features.Category.Interfaces;
 using _Project_CheatSheet.Features.Category.Models;
+using _Project_CheatSheet.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace _Project_CheatSheet.Features.Category.Services
