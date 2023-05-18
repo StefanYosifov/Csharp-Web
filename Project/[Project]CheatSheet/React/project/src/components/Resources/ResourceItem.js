@@ -13,7 +13,7 @@ export const ResourceItem = (props) => {
   }
 
 
-
+  console.log(resourcers);
 
   return (
     <>

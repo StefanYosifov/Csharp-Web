@@ -15,6 +15,7 @@ import { getUserData } from './api/util';
 import { getUserId } from './api/Requests/profile';
 import { Privacy } from './components/Static pages/Privacy';
 import { TermsAndConditions } from './components/Static pages/Terms and conditions';
+import { CoursesList } from './components/Courses/CoursesList';
 
 
 function App() {
@@ -33,6 +34,9 @@ function App() {
         <Route path='/profile/:id' Component={Profile} />
         <Route path='/privacy' Component={Privacy}/>
         <Route path='/terms' Component={TermsAndConditions} />
+        <Route path='/course/:id' Component={CoursesList}/>
+        <Route path='/course/all/:id' Component={CoursesList}/>
+
       </Routes>
       <Footer/>
     </div>
