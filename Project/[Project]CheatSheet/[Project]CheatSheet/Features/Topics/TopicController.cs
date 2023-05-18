@@ -19,7 +19,7 @@ namespace _Project_CheatSheet.Features.Topics
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTopic(int id)
+        public async Task<IActionResult> GetTopic(string id)
         {
             var topicResult = await service.GetTopic(id);
             if (topicResult == null)

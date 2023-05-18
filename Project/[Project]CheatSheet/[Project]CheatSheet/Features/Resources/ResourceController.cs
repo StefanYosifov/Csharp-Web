@@ -25,8 +25,7 @@ namespace _Project_CheatSheet.Features.Resources
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAllResources(int id)
-        {
-            var resourcesResult = await resourceService.GetPublicResources(id);
+        { var resourcesResult = await resourceService.GetPublicResources(id);
             return Ok(resourcesResult);
         }
 

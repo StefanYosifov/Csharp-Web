@@ -21,19 +21,19 @@ namespace _Project_CheatSheet.Features.Topics.Services
             this.mapper = mapper;
         }
 
-        public async Task<TopicRespondModel> GetTopic(int id)
+        public async Task<TopicRespondModel> GetTopic(string id)
         {
-            Topic? topic= await context.Topics.Include(t=>t.Video).FirstOrDefaultAsync(t=>t.Id==id);
+            Topic? topic = await context.Topics.Include(t => t.Video).FirstOrDefaultAsync(t => t.Id.ToString() == id);
             return mapper.Map<TopicRespondModel>(topic);
 
         }
 
-        public async Task<TopicDetailRespondModel> GetTopicDetail(int id)
+        public async Task<TopicDetailRespondModel> GetTopicDetail(string id)
         {
-            //Probably unnecessary
+         
             return await
                 context.Topics.ProjectTo<TopicDetailRespondModel>(mapper.ConfigurationProvider)
-                    .FirstOrDefaultAsync(t => t.Id == id);
+                    .FirstOrDefaultAsync(t => t.Id.ToString() == id);
         }
     }
 }

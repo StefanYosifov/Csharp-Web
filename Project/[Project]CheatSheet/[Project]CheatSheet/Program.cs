@@ -28,6 +28,7 @@ using _Project_CheatSheet.Features.Course.Services;
 using _Project_CheatSheet.Features.Topics.Interfaces;
 using _Project_CheatSheet.Features.Topics.Services;
 using _Project_CheatSheet.Infrastructure.Data;
+using Microsoft.AspNetCore.Http.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -104,9 +105,9 @@ builder.Services.AddSwaggerGen(s =>
     s.SwaggerDoc("v1", new OpenApiInfo { Title = "Cheat sheet swagger API", Version = "v1" });
 });
 
-builder.Services.AddControllers().AddJsonOptions(options =>
+builder.Services.Configure<JsonOptions>(options =>
 {
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
 

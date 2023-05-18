@@ -11,6 +11,8 @@ namespace _Project_CheatSheet.Features.Course.Services
 {
     public class CourseService : ICourseService
     {
+        private const int CoursesPerPage = 12;
+
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
         private readonly IMapper mapper;
@@ -50,9 +52,27 @@ namespace _Project_CheatSheet.Features.Course.Services
             return true;
         }
 
-        public async Task<IEnumerable<CourseRespondAllModel>> GetAllCourses()
+        public async Task<IEnumerable<CourseRespondAllModel>> GetAllCourses(int page)
         {
+            page = page - 1;
+            var userId = currentUserService.GetUserId();
+
+            //12*1=12-12=0
+            var coursesToSkip = page * CoursesPerPage - page;
+            var coursesCount = await context.Courses.CountAsync();
+
+            if (coursesToSkip > coursesCount || page < 0)
+            {
+                return Enumerable.Empty<CourseRespondAllModel>();
+            }
+
+            //45 = 3*12=32 
+            int resourcesToTake =
+                coursesCount - page * CoursesPerPage > CoursesPerPage
+                    ? resourcesToTake = CoursesPerPage
+                    : resourcesToTake = coursesCount - page * CoursesPerPage;
             return await context.Courses.ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider).ToArrayAsync();
+
         }
 
         public async Task<CourseRespondModel> GetCourseDetails(string id)
@@ -60,7 +80,6 @@ namespace _Project_CheatSheet.Features.Course.Services
             var userId = currentUserService.GetUserId();
             var course=await context.Courses
                 .Include(u=>u.UsersCourses)
-                .Include(c=>c.Topics)
                 .FirstOrDefaultAsync(c => c.Id.ToString() == id && c.UsersCourses.Any(uc=>uc.UserId==userId));
 
 

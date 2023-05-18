@@ -2,7 +2,7 @@
 {
     public class TopicsRespondModel
     {
-        public string Id { get; set; } = null!;
+        public string TopicId { get; set; } = null!;
 
         public string Name { get; set; } = null!;
     }

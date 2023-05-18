@@ -30,10 +30,10 @@ namespace _Project_CheatSheet.Features.Course
             return Ok(courseResult);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllCourses()
+        [HttpGet("all/{page}")]
+        public async Task<IActionResult> GetAllCourses(int page)
         {
-            var coursesResult=await service.GetAllCourses();
+            var coursesResult=await service.GetAllCourses(page);
             return Ok(coursesResult);
         }
 
