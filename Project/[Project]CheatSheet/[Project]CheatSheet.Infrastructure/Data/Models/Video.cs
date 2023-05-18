@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.Infrastructure.Data.Models.Base;
+﻿using _Project_CheatSheet.Infrastructure.Data.Models.Base;
+using System.ComponentModel.DataAnnotations;
 
 namespace _Project_CheatSheet.Infrastructure.Data.Models
 {

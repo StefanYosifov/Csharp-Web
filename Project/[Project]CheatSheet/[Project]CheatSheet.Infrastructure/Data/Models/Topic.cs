@@ -7,7 +7,12 @@ namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
     public class Topic : Entity
     {
-        [Key] public int Id { get; set; }
+
+        public Topic()
+        {
+            this.Id = Guid.NewGuid();
+        }
+        public Guid Id { get; set; }
 
         [Required]
         [MaxLength(TopicConstants.NameMaxLength)]

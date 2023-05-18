@@ -12,8 +12,8 @@ using _Project_CheatSheet.Infrastructure.Data;
 namespace _Project_CheatSheet.Data.Migrations
 {
     [DbContext(typeof(CheatSheetDbContext))]
-    [Migration("20230516174512_SeeminglyAllNecessaryInformationHasBeenAdded")]
-    partial class SeeminglyAllNecessaryInformationHasBeenAdded
+    [Migration("20230518151201_fixPerhaps")]
+    partial class fixPerhaps
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -248,11 +248,9 @@ namespace _Project_CheatSheet.Data.Migrations
 
             modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Topic", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -279,9 +277,14 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("VideoId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("VideoId");
 
                     b.ToTable("Topics");
                 });
@@ -425,9 +428,6 @@ namespace _Project_CheatSheet.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TopicId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -439,8 +439,6 @@ namespace _Project_CheatSheet.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("TopicId");
 
                     b.ToTable("Videos");
                 });
@@ -673,7 +671,15 @@ namespace _Project_CheatSheet.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.Video", "Video")
+                        .WithMany("Topics")
+                        .HasForeignKey("VideoId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Course");
+
+                    b.Navigation("Video");
                 });
 
             modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.UserCourses", b =>
@@ -693,17 +699,6 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("Course");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Video", b =>
-                {
-                    b.HasOne("_Project_CheatSheet.Infrastructure.Data.Models.Topic", "Topic")
-                        .WithMany("Videos")
-                        .HasForeignKey("TopicId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Topic");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -783,11 +778,6 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("ResourceLikes");
                 });
 
-            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Topic", b =>
-                {
-                    b.Navigation("Videos");
-                });
-
             modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.User", b =>
                 {
                     b.Navigation("CommentLikes");
@@ -799,6 +789,11 @@ namespace _Project_CheatSheet.Data.Migrations
                     b.Navigation("Resources");
 
                     b.Navigation("UserCourses");
+                });
+
+            modelBuilder.Entity("_Project_CheatSheet.Infrastructure.Data.Models.Video", b =>
+                {
+                    b.Navigation("Topics");
                 });
 #pragma warning restore 612, 618
         }

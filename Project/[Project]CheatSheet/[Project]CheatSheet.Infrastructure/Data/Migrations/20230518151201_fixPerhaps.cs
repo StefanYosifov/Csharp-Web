@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace _Project_CheatSheet.Data.Migrations
 {
-    public partial class CoursesInitial : Migration
+    public partial class fixPerhaps : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,13 +43,14 @@ namespace _Project_CheatSheet.Data.Migrations
                 oldNullable: true);
 
             migrationBuilder.CreateTable(
-                name: "Course",
+                name: "Courses",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Titlte = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Category = table.Column<int>(type: "int", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -58,28 +59,24 @@ namespace _Project_CheatSheet.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Course", x => x.Id);
+                    table.PrimaryKey("PK_Courses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Topic",
+                name: "Videos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Topic", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Topic_Course_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Course",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                    table.PrimaryKey("PK_Videos", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -87,9 +84,7 @@ namespace _Project_CheatSheet.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserCoursesCourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    UserCoursesUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -101,26 +96,22 @@ namespace _Project_CheatSheet.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserCourses_Course_CourseId",
+                        name: "FK_UserCourses_Courses_CourseId",
                         column: x => x.CourseId,
-                        principalTable: "Course",
+                        principalTable: "Courses",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserCourses_UserCourses_UserCoursesCourseId_UserCoursesUserId",
-                        columns: x => new { x.UserCoursesCourseId, x.UserCoursesUserId },
-                        principalTable: "UserCourses",
-                        principalColumns: new[] { "CourseId", "UserId" });
                 });
 
             migrationBuilder.CreateTable(
-                name: "Video",
+                name: "Topics",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    TopicId = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
+                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    VideoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -128,49 +119,50 @@ namespace _Project_CheatSheet.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Video", x => x.Id);
+                    table.PrimaryKey("PK_Topics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Video_Topic_TopicId",
-                        column: x => x.TopicId,
-                        principalTable: "Topic",
+                        name: "FK_Topics_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Topics_Videos_VideoId",
+                        column: x => x.VideoId,
+                        principalTable: "Videos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Topic_CourseId",
-                table: "Topic",
+                name: "IX_Topics_CourseId",
+                table: "Topics",
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserCourses_UserCoursesCourseId_UserCoursesUserId",
-                table: "UserCourses",
-                columns: new[] { "UserCoursesCourseId", "UserCoursesUserId" });
+                name: "IX_Topics_VideoId",
+                table: "Topics",
+                column: "VideoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserCourses_UserId",
                 table: "UserCourses",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Video_TopicId",
-                table: "Video",
-                column: "TopicId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Topics");
+
+            migrationBuilder.DropTable(
                 name: "UserCourses");
 
             migrationBuilder.DropTable(
-                name: "Video");
+                name: "Videos");
 
             migrationBuilder.DropTable(
-                name: "Topic");
-
-            migrationBuilder.DropTable(
-                name: "Course");
+                name: "Courses");
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserJob",

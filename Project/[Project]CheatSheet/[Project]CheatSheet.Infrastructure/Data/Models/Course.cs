@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Course;
+﻿using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Course;
 using _Project_CheatSheet.Infrastructure.Data.Models.Base;
 using _Project_CheatSheet.Infrastructure.Data.Models.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
