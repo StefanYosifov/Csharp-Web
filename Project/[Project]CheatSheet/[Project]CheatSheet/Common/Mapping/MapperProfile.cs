@@ -3,9 +3,11 @@ using _Project_CheatSheet.Features.Identity.Models;
 using _Project_CheatSheet.Features.Likes.Models;
 using _Project_CheatSheet.Features.Profile.Models;
 using _Project_CheatSheet.Features.Resources.Models;
+using _Project_CheatSheet.Features.Topics.Models;
 using _Project_CheatSheet.GlobalConstants;
 using _Project_CheatSheet.Infrastructure.Data.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Routing.Constraints;
 
 namespace _Project_CheatSheet.Common.Mapping
 {
@@ -66,11 +68,33 @@ namespace _Project_CheatSheet.Common.Mapping
             //Courses
             CreateMap<Course, CourseRespondModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.ToString()));
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.ToString()))
+                .ForMember(dest => dest.Topics, opt => opt.MapFrom(src => src.Topics.Select(t => new TopicsRespondModel
+                {
+                    Id = t.Id.ToString(),
+                    Name = t.Name
+                })));
+
 
             CreateMap<Course, CourseRespondAllModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.TopicsCount, opt => opt.MapFrom(src => src.Topics.Count));
+
+            //Topics
+
+            CreateMap<Topic, TopicRespondModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.CourseName, opt => opt.MapFrom(src => src.Name))
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
+                .ForMember(dest => dest.VideoId, opt => opt.MapFrom(src => src.VideoId.ToString()))
+                .ForMember(dest => dest.VideoName, opt => opt.MapFrom(src => src.Video.Name))
+                .ForMember(dest => dest.VideoUrl, opt => opt.MapFrom(src => src.Video.VideoUrl));
+
+
+
+            CreateMap<Topic, TopicsRespondModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
         }
     }
 }

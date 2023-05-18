@@ -22,7 +22,7 @@ namespace _Project_CheatSheet.Common.CurrentUser
 
         public async Task<User> GetUser()
         {
-            var id = user.FindFirstValue(ClaimTypes.NameIdentifier);
+            var id = GetUserId();
             return await context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 

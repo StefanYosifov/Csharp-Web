@@ -27,6 +27,6 @@ namespace _Project_CheatSheet.Features.Course.Models
         [Required]
         public string Category { get; set; }=null!; 
 
-        public ICollection<Topic> Topics { get; set; } = null!;
+        public ICollection<TopicsRespondModel> Topics { get; set; } = null!;
     }
 }

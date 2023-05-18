@@ -18,6 +18,7 @@ namespace _Project_CheatSheet.Features.Topics
             this.service = service;
         }
 
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetTopic(int id)
         {
             var topicResult = await service.GetTopic(id);

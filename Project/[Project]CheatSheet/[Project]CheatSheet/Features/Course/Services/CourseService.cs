@@ -58,15 +58,13 @@ namespace _Project_CheatSheet.Features.Course.Services
         public async Task<CourseRespondModel> GetCourseDetails(string id)
         {
             var userId = currentUserService.GetUserId();
-            var course = await context.Courses
-                .Include(c=>c.UsersCourses)
-                    .Take(1)
+            var course=await context.Courses
+                .Include(u=>u.UsersCourses)
                 .Include(c=>c.Topics)
-                    .Take(1)
-                .FirstOrDefaultAsync(c=>c.Id.ToString()==id);
-                
+                .FirstOrDefaultAsync(c => c.Id.ToString() == id && c.UsersCourses.Any(uc=>uc.UserId==userId));
 
-            if (course == null || course.UsersCourses.All(uc => uc.UserId != userId))
+
+            if (course == null)
             {
                 return null;
             }
