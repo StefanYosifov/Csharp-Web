@@ -71,16 +71,34 @@ namespace _Project_CheatSheet.Features.Course.Services
                 coursesCount - page * CoursesPerPage > CoursesPerPage
                     ? resourcesToTake = CoursesPerPage
                     : resourcesToTake = coursesCount - page * CoursesPerPage;
-            return await context.Courses.ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider).ToArrayAsync();
 
+            var coursesWhereTheUserHasPaid = await context.UserCourses.Select(uc=>new UserCourses()
+            {
+                UserId = uc.UserId,
+                CourseId = uc.CourseId,
+            }).Where(u => u.UserId == userId).ToListAsync();
+
+            var courses = await context.Courses
+                .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider)
+                .ToArrayAsync();
+
+            foreach (var course in courses)
+            {
+                if (coursesWhereTheUserHasPaid.Select(c=>c.CourseId.ToString().ToLower()).Contains(course.Id.ToLower()))
+                {
+                    course.HasPaid = true;
+                }
+            }
+
+            return courses;
         }
 
         public async Task<CourseRespondModel> GetCourseDetails(string id)
         {
             var userId = currentUserService.GetUserId();
-            var course=await context.Courses
-                .Include(u=>u.UsersCourses)
-                .FirstOrDefaultAsync(c => c.Id.ToString() == id && c.UsersCourses.Any(uc=>uc.UserId==userId));
+            var course = await context.Courses
+                .Include(u => u.UsersCourses)
+                .FirstOrDefaultAsync(c => c.Id.ToString() == id && c.UsersCourses.Any(uc => uc.UserId == userId));
 
 
             if (course == null)

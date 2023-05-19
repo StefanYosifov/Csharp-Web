@@ -111,7 +111,6 @@ namespace _Project_CheatSheet.Features.Resources.Services
                 resourcesCount - pageNumber * ResourcesPerPage > ResourcesPerPage
                     ? resourcesToTake = ResourcesPerPage
                     : resourcesToTake = resourcesCount - pageNumber * ResourcesPerPage;
-            Console.WriteLine($"{resourcesToSkip} {resourcesToTake}");
 
             IEnumerable<ResourceModel> models = await context.Resources
                 .Include(res => res.CategoryResources)

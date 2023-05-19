@@ -24,6 +24,12 @@ namespace _Project_CheatSheet.Features.Course.Models
         public string ImageUrl { get; set; }
         [Required]
         public string Category { get; set; } = null!;
+        
+        public string StartDate { get; set; }
+
+        public string EndDate { get; set; }
+
+        public bool HasPaid { get; set; }
 
         public int TopicsCount { get; set; }
     }
