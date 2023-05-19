@@ -30,6 +30,10 @@ namespace _Project_CheatSheet.Infrastructure.Data.Models
 
         [Required] public string ImageUrl { get; set; } = null!;
 
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
         public CourseCategoryEnum Category { get; set; }
 
         public ICollection<Topic> Topics { get; set; }

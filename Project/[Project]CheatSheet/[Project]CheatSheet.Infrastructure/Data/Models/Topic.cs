@@ -21,6 +21,10 @@ namespace _Project_CheatSheet.Infrastructure.Data.Models
         [MaxLength(TopicConstants.ContentMaxLength)]
         public string Content { get; set; }
 
+        public DateTime StartTime { get; set; }
+
+        public DateTime EndTime { get; set; }
+
         [ForeignKey(nameof(Course))] public Guid CourseId { get; set; }
 
         public Course Course { get; set; }
