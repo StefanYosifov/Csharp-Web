@@ -1,3 +1,6 @@
+import { FaCalendar, FaGrav } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
+
 export const CoursesItem = ({ course }) => {
 
     console.log(course);
@@ -23,11 +26,19 @@ export const CoursesItem = ({ course }) => {
               </div>
               <div className="p-4 border-t border-b text-xs text-gray-700">
                 <span className="flex items-center mb-1">
-                  <i className="far fa-clock fa-fw mr-2 text-gray-900"></i> 3 Tage 11
+                  <FaCalendar></FaCalendar><span className="ml-1">{course.startDate}</span>
                 </span>
+                <span className="flex items-center mb-1">
+                  <FaCalendar></FaCalendar><span className="ml-1">{course.endDate}</span>
+                </span>
+                {course.hasPaid==true?
+                <>
                 <span className="flex items-center">
-                  <i className="far fa-address-card fa-fw text-gray-900 mr-2"></i> Ermäßigung mit Karte
+                  <NavLink to={`course/${course.id}`}><span>Go to course!</span></NavLink>
                 </span>
+                </>
+                :
+                <button>Join the course</button>}
               </div>
             </div>
           </div>
