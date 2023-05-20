@@ -87,12 +87,9 @@ namespace _Project_CheatSheet.Common.Mapping
             //Topics
 
             CreateMap<Topic, TopicRespondModel>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
-                .ForMember(dest => dest.CourseName, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.VideoId, opt => opt.MapFrom(src => src.VideoId.ToString()))
-                .ForMember(dest => dest.VideoName, opt => opt.MapFrom(src => src.Video.Name))
-                .ForMember(dest => dest.VideoUrl, opt => opt.MapFrom(src => src.Video.VideoUrl));
+                .ForMember(dest => dest.VideoName, opt => opt.MapFrom(src => src.Video.Name));
 
 
             CreateMap<Topic, TopicsRespondModel>()

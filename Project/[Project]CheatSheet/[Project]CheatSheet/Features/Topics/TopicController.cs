@@ -28,5 +28,12 @@ namespace _Project_CheatSheet.Features.Topics
             }
             return Ok(topicResult);
         }
+
+        [HttpGet("all/{id}")]
+        public async Task<IActionResult> GetAllTopics(string id)
+        {
+            var topicResult=await service.GetAllTopics(id);
+            return Ok(topicResult);
+        }
     }
 }

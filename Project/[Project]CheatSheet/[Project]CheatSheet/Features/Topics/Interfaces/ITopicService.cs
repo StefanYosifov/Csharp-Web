@@ -9,5 +9,7 @@ namespace _Project_CheatSheet.Features.Topics.Interfaces
 
         public Task<TopicDetailRespondModel> GetTopicDetail(string id);
 
+        public Task<IEnumerable<TopicRespondModel>> GetAllTopics(string id);
+
     }
 }
