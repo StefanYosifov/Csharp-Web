@@ -1,7 +1,7 @@
-﻿using _Project_CheatSheet.Features.Category.Models;
-
-namespace _Project_CheatSheet.Features.Category.Interfaces
+﻿namespace _Project_CheatSheet.Features.Category.Interfaces
 {
+    using Models;
+
     public interface ICategoryService
     {
         public Task<IEnumerable<CategoryModel>> GetCategories();

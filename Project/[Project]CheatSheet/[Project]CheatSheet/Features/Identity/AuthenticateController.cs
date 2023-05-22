@@ -1,11 +1,11 @@
-﻿using _Project_CheatSheet.Features.Identity.Interfaces;
-using _Project_CheatSheet.Features.Identity.Models;
-using _Project_CheatSheet.GlobalConstants.User;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features.Identity
+﻿namespace _Project_CheatSheet.Features.Identity
 {
+    using GlobalConstants.User;
+    using Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+
     [AllowAnonymous]
     [Route("/authenticate")]
     public class AuthenticateController : ApiController

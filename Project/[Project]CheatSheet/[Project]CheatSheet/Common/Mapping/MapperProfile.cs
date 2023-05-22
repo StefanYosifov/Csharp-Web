@@ -1,15 +1,15 @@
-﻿using _Project_CheatSheet.Features.Course.Models;
-using _Project_CheatSheet.Features.Identity.Models;
-using _Project_CheatSheet.Features.Likes.Models;
-using _Project_CheatSheet.Features.Profile.Models;
-using _Project_CheatSheet.Features.Resources.Models;
-using _Project_CheatSheet.Features.Topics.Models;
-using _Project_CheatSheet.GlobalConstants;
-using _Project_CheatSheet.Infrastructure.Data.Models;
-using AutoMapper;
-
-namespace _Project_CheatSheet.Common.Mapping
+﻿namespace _Project_CheatSheet.Common.Mapping
 {
+    using AutoMapper;
+    using Features.Course.Models;
+    using Features.Identity.Models;
+    using Features.Likes.Models;
+    using Features.Profile.Models;
+    using Features.Resources.Models;
+    using Features.Topics.Models;
+    using GlobalConstants;
+    using Infrastructure.Data.Models;
+
     public class MapperProfile : Profile
     {
         public MapperProfile()

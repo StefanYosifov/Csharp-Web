@@ -1,13 +1,12 @@
-﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Data;
-using _Project_CheatSheet.Features.Profile.Interfaces;
-using _Project_CheatSheet.Features.Profile.Models;
-using _Project_CheatSheet.Infrastructure.Data;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-
-namespace _Project_CheatSheet.Features.Profile.Services
+﻿namespace _Project_CheatSheet.Features.Profile.Services
 {
+    using AutoMapper;
+    using Common.CurrentUser.Interfaces;
+    using Infrastructure.Data;
+    using Interfaces;
+    using Microsoft.EntityFrameworkCore;
+    using Models;
+
     public class ProfileService : IProfileService
     {
         private readonly CheatSheetDbContext context;

@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace _Project_CheatSheet.Infrastructure.Data.Models
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
+    using System.ComponentModel.DataAnnotations.Schema;
+
     public class CommentLike : BaseEntity
     {
         public CommentLike()

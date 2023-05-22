@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.GlobalConstants.Category;
-
-namespace _Project_CheatSheet.Features.Category.Models
+﻿namespace _Project_CheatSheet.Features.Category.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using GlobalConstants.Category;
+
     public class CategoryModel
     {
         public int Id { get; set; }

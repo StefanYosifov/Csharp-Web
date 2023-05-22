@@ -1,15 +1,15 @@
-﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Features.Resources.Interfaces;
-using _Project_CheatSheet.Features.Resources.Models;
-using _Project_CheatSheet.Infrastructure.Data;
-using _Project_CheatSheet.Infrastructure.Data.Models;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
-
-namespace _Project_CheatSheet.Features.Resources.Services
+﻿namespace _Project_CheatSheet.Features.Resources.Services
 {
-    public class ResourceService :  IResourceService
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using Common.CurrentUser.Interfaces;
+    using Infrastructure.Data;
+    using Infrastructure.Data.Models;
+    using Interfaces;
+    using Microsoft.EntityFrameworkCore;
+    using Models;
+
+    public class ResourceService : IResourceService
     {
         private const int ResourcesPerPage = 12;
 
@@ -27,7 +27,7 @@ namespace _Project_CheatSheet.Features.Resources.Services
             this.currentUserService = currentUserService;
         }
 
-      
+
         public async Task<ResourceAddModel> AddResources(ResourceAddModel resourceModel)
         {
             if (resourceModel == null)
@@ -76,7 +76,6 @@ namespace _Project_CheatSheet.Features.Resources.Services
         }
 
 
-      
         public async Task<IEnumerable<ResourceModel>> GetMyResources()
         {
             var userId = currentUserService.GetUserId();
@@ -91,7 +90,7 @@ namespace _Project_CheatSheet.Features.Resources.Services
             return resources;
         }
 
-     
+
         public async Task<IEnumerable<ResourceModel>> GetPublicResources(int pageNumber)
         {
             pageNumber = pageNumber - 1;
@@ -99,7 +98,8 @@ namespace _Project_CheatSheet.Features.Resources.Services
 
             //12*1=12-12=0
             var resourcesToSkip = pageNumber * ResourcesPerPage - pageNumber;
-            var resourcesCount = await context.Resources.Where(r=>r.IsPublic==true || r.UserId==userId).CountAsync();
+            var resourcesCount =
+                await context.Resources.Where(r => r.IsPublic == true || r.UserId == userId).CountAsync();
 
             if (resourcesToSkip > resourcesCount || pageNumber < 0)
             {
@@ -124,7 +124,7 @@ namespace _Project_CheatSheet.Features.Resources.Services
             return models;
         }
 
-      
+
         public async Task<DetailResources> GetResourceById(string? resourceId)
         {
             IEnumerable<DetailResources> details = await context.Resources
@@ -148,8 +148,9 @@ namespace _Project_CheatSheet.Features.Resources.Services
 
         public int GetTotalPage()
         {
-            var userId=currentUserService.GetUserId();
-            var pages = (double)  context.Resources.Where(r=>r.IsPublic || r.UserId==userId).CountAsync().Result / ResourcesPerPage;
+            var userId = currentUserService.GetUserId();
+            var pages = (double)context.Resources.Where(r => r.IsPublic || r.UserId == userId).CountAsync().Result /
+                        ResourcesPerPage;
             var totalPages = (int)Math.Ceiling(pages);
             return totalPages;
         }
@@ -176,10 +177,10 @@ namespace _Project_CheatSheet.Features.Resources.Services
 
         public async Task<Resource> RemoveResource(string id)
         {
-            string userId = currentUserService.GetUserId();
+            var userId = currentUserService.GetUserId();
             var resource = await context.Resources.FindAsync(Guid.Parse(id));
 
-            if (resource == null || resource.UserId != userId || resource.IsDeleted==true)
+            if (resource == null || resource.UserId != userId || resource.IsDeleted)
             {
                 return null;
             }

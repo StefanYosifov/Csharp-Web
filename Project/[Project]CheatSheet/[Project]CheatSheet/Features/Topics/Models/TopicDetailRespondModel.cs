@@ -2,7 +2,6 @@
 {
     public class TopicDetailRespondModel
     {
-
         public string Id { get; set; }
         public string Name { get; set; }
         public string Content { get; set; }
@@ -13,8 +12,5 @@
         public string VideoName { get; set; }
 
         public string VideoUrl { get; set; }
-
-
-
     }
 }

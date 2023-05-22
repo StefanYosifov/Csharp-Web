@@ -1,10 +1,10 @@
-﻿using _Project_CheatSheet.Features.Category.Interfaces;
-using _Project_CheatSheet.Features.Category.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features.Category
+﻿namespace _Project_CheatSheet.Features.Category
 {
+    using Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+
     [Route("/category")]
     public class CategoryController : ApiController
     {

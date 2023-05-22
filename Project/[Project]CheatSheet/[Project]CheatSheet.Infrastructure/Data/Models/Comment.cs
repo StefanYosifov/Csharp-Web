@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Comment;
-using _Project_CheatSheet.Infrastructure.Data.Models.Base;
-
-namespace _Project_CheatSheet.Infrastructure.Data.Models
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using Base;
+    using GlobalConstants.Comment;
+
     public class Comment : DeletableEntity
     {
         public Comment()

@@ -1,7 +1,7 @@
-﻿using _Project_CheatSheet.Features.Course.Models;
-
-namespace _Project_CheatSheet.Features.Course.Interfaces
+﻿namespace _Project_CheatSheet.Features.Course.Interfaces
 {
+    using Models;
+
     public interface ICourseService
     {
         public Task<bool> JoinCourse(string id);

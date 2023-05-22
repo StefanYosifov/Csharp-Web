@@ -10,6 +10,5 @@
 
         public const double PriceMinRange = 0;
         public const double PriceMaxRange = 499;
- 
     }
 }

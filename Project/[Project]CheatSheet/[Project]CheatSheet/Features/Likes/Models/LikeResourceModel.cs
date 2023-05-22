@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.GlobalConstants.Likes;
-
-namespace _Project_CheatSheet.Features.Likes.Models
+﻿namespace _Project_CheatSheet.Features.Likes.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using GlobalConstants.Likes;
+
     public class LikeResourceModel
     {
         [Required] public string ResourceId { get; set; } = null!;

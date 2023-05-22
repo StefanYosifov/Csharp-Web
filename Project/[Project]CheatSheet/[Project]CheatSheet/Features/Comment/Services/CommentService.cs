@@ -1,14 +1,13 @@
-﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Features.Comment.Interfaces;
-using _Project_CheatSheet.Features.Comment.Models;
-using _Project_CheatSheet.GlobalConstants;
-using _Project_CheatSheet.Infrastructure.Data;
-using _Project_CheatSheet.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-
-namespace _Project_CheatSheet.Features.Comment.Services
+﻿namespace _Project_CheatSheet.Features.Comment.Services
 {
+    using Common.CurrentUser.Interfaces;
+    using GlobalConstants;
+    using Infrastructure.Data;
+    using Infrastructure.Data.Models;
+    using Interfaces;
+    using Microsoft.EntityFrameworkCore;
+    using Models;
+
     public class CommentService : ICommentService
     {
         private readonly CheatSheetDbContext context;
@@ -22,26 +21,26 @@ namespace _Project_CheatSheet.Features.Comment.Services
             this.currentUserService = currentUserService;
         }
 
-        public async Task<StatusCodeResult> CreateAComment(CommentModel comment)
+        public async Task<InputCommentModel> CreateAComment(InputCommentModel comment)
         {
             if (comment == null)
             {
-                return new StatusCodeResult(StatusCodes.Status400BadRequest);
+                return null;
             }
 
             var user = await currentUserService.GetUser();
             if (user == null)
             {
-                return new StatusCodeResult(StatusCodes.Status403Forbidden);
+                return null;
             }
 
             var resource = await GetResource(comment.ResourceId);
             if (resource == null)
             {
-                return new StatusCodeResult(StatusCodes.Status403Forbidden);
+                return null;
             }
 
-            var dbComment = new Infrastructure.Data.Models.Comment
+            var dbComment = new Comment
             {
                 UserId = user.Id,
                 Content = comment.Content,
@@ -50,7 +49,7 @@ namespace _Project_CheatSheet.Features.Comment.Services
 
             await context.Comments.AddAsync(dbComment);
             await context.SaveChangesAsync();
-            return new StatusCodeResult(StatusCodes.Status201Created);
+            return comment;
         }
 
         public async Task<EditCommentModel> EditComment(string id, EditCommentModel commentModel)
@@ -74,12 +73,12 @@ namespace _Project_CheatSheet.Features.Comment.Services
             }
         }
 
-        public async Task<Infrastructure.Data.Models.Comment> DeleteComment(string id)
+        public async Task<Comment> DeleteComment(string id)
         {
             var comment = await context.Comments.FindAsync(Guid.Parse(id));
             var userId = currentUserService.GetUserId();
 
-            if (comment == null || comment.UserId!=userId || comment.IsDeleted==true)
+            if (comment == null || comment.UserId != userId || comment.IsDeleted)
             {
                 return null;
             }
@@ -87,7 +86,6 @@ namespace _Project_CheatSheet.Features.Comment.Services
             context.Remove(comment);
             await context.SaveChangesAsync();
             return comment;
-
         }
 
         public async Task<IEnumerable<CommentModel>> GetCommentsFromResource(string resourceId)
@@ -119,7 +117,7 @@ namespace _Project_CheatSheet.Features.Comment.Services
 
         private async Task<Resource?> GetResource(string resourceId)
         {
-            var resource = await context.Resources.FirstOrDefaultAsync(r=>r.Id.ToString()==resourceId);
+            var resource = await context.Resources.FirstOrDefaultAsync(r => r.Id.ToString() == resourceId);
             return resource;
         }
     }

@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.GlobalConstants.Resource;
-using _Project_CheatSheet.Infrastructure.Data.Models;
-
-namespace _Project_CheatSheet.Features.Resources.Models
+﻿namespace _Project_CheatSheet.Features.Resources.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using GlobalConstants.Resource;
+    using Infrastructure.Data.Models;
+
     public class DetailResources
     {
         public DetailResources()
@@ -25,6 +25,7 @@ namespace _Project_CheatSheet.Features.Resources.Models
         [Required]
         [StringLength(ResourceConstants.ContentMaxLength, MinimumLength = ResourceConstants.ContentMinLength)]
         public string Content { get; set; } = null!;
+
         public bool IsPublic { get; set; }
         public string DateTime { get; set; } = null!;
         public int Likes { get; set; }

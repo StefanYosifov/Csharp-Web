@@ -7,7 +7,7 @@
         public void Apply(ActionModel action)
         {
             if (action.Controller.ControllerName.Equals("Pwa"))
-            { 
+            {
                 action.ApiExplorer.IsVisible = false;
             }
         }

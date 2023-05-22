@@ -7,6 +7,5 @@
 
         public const string OnSuccessfulPostComment = "You have successfully created a comment";
         public const string OnUnsuccessfulPostComment = "Couldn't create a comment";
-
     }
 }

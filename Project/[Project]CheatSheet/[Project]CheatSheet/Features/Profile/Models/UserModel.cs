@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.GlobalConstants.User;
-
-namespace _Project_CheatSheet.Features.Profile.Models
+﻿namespace _Project_CheatSheet.Features.Profile.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using GlobalConstants.User;
+
     public class UserModel
     {
         [Required] public string UserName { get; set; } = null!;

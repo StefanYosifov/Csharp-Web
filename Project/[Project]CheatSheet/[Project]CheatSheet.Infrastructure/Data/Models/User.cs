@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.User;
-using _Project_CheatSheet.Infrastructure.Data.Models.Base.Interfaces;
-using Microsoft.AspNetCore.Identity;
-
-namespace _Project_CheatSheet.Infrastructure.Data.Models
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using Base.Interfaces;
+    using GlobalConstants.User;
+    using Microsoft.AspNetCore.Identity;
+
     public class User : IdentityUser, IEntity
     {
         public User()

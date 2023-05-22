@@ -1,12 +1,11 @@
-﻿using System.Security.Claims;
-using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Data;
-using _Project_CheatSheet.Infrastructure.Data;
-using _Project_CheatSheet.Infrastructure.Data.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace _Project_CheatSheet.Common.CurrentUser
+﻿namespace _Project_CheatSheet.Common.CurrentUser
 {
+    using System.Security.Claims;
+    using Infrastructure.Data;
+    using Infrastructure.Data.Models;
+    using Interfaces;
+    using Microsoft.EntityFrameworkCore;
+
     public class CurrentUser : ICurrentUser
     {
         private readonly CheatSheetDbContext context;
@@ -16,7 +15,7 @@ namespace _Project_CheatSheet.Common.CurrentUser
             IHttpContextAccessor httpContext,
             CheatSheetDbContext context)
         {
-            this.user = httpContext.HttpContext!.User;
+            user = httpContext.HttpContext!.User;
             this.context = context;
         }
 

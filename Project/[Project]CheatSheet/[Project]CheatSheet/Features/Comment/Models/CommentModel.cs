@@ -1,15 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.GlobalConstants.Comment;
-using _Project_CheatSheet.Infrastructure.Data.Models;
-
-namespace _Project_CheatSheet.Features.Comment.Models
+﻿namespace _Project_CheatSheet.Features.Comment.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using GlobalConstants.Comment;
+    using Infrastructure.Data.Models;
+
     public class CommentModel
     {
         public CommentModel()
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.CommentLikes = new HashSet<CommentLike>();
+            Id = Guid.NewGuid().ToString();
+            CommentLikes = new HashSet<CommentLike>();
         }
 
         [Required] public string Id { get; set; }

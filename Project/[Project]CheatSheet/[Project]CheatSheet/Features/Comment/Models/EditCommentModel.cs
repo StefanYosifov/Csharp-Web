@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.GlobalConstants.Comment;
-
-namespace _Project_CheatSheet.Features.Comment.Models
+﻿namespace _Project_CheatSheet.Features.Comment.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using GlobalConstants.Comment;
+
     public class EditCommentModel
     {
         [StringLength(CommentConstants.ContentMaxLength, MinimumLength = CommentConstants.ContentMinLength)]

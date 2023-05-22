@@ -1,17 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Topic;
-using _Project_CheatSheet.Infrastructure.Data.Models.Base;
-
-namespace _Project_CheatSheet.Infrastructure.Data.Models
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using Base;
+    using GlobalConstants.Topic;
+
     public class Topic : Entity
     {
-
         public Topic()
         {
-            this.Id = Guid.NewGuid();
+            Id = Guid.NewGuid();
         }
+
         public Guid Id { get; set; }
 
         [Required]
@@ -29,8 +29,8 @@ namespace _Project_CheatSheet.Infrastructure.Data.Models
 
         public Course Course { get; set; }
 
-        [ForeignKey(nameof(Video))]
-        public Guid VideoId { get; set; }
+        [ForeignKey(nameof(Video))] public Guid VideoId { get; set; }
+
         public virtual Video Video { get; set; } = null!;
     }
 }

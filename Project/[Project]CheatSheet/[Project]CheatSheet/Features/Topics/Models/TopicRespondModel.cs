@@ -1,6 +1,4 @@
-﻿using _Project_CheatSheet.Infrastructure.Data.Models;
-
-namespace _Project_CheatSheet.Features.Topics.Models
+﻿namespace _Project_CheatSheet.Features.Topics.Models
 {
     public class TopicRespondModel
     {

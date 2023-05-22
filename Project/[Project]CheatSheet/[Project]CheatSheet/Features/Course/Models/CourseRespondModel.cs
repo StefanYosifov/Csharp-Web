@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Course;
-using _Project_CheatSheet.Infrastructure.Data.Models;
-
-namespace _Project_CheatSheet.Features.Course.Models
+﻿namespace _Project_CheatSheet.Features.Course.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using Infrastructure.Data.GlobalConstants.Course;
+
     public class CourseRespondModel
     {
         public string Id { get; set; } = null!;
@@ -19,13 +18,12 @@ namespace _Project_CheatSheet.Features.Course.Models
         [Required]
         [Range(CourseConstants.PriceMinRange, CourseConstants.PriceMaxRange)]
         public decimal Price { get; set; }
-        [Required]
-        [Url]
-        public string ImageUrl { get; set; }
+
+        [Required] [Url] public string ImageUrl { get; set; }
 
         public bool HasPaid { get; set; }
-        [Required]
-        public string Category { get; set; }=null!; 
+
+        [Required] public string Category { get; set; } = null!;
 
         public ICollection<TopicsRespondModel> Topics { get; set; } = null!;
     }

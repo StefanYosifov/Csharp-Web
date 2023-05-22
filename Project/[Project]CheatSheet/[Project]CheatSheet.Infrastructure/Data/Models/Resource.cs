@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Resource;
-using _Project_CheatSheet.Infrastructure.Data.Models.Base;
-
-namespace _Project_CheatSheet.Infrastructure.Data.Models
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using Base;
+    using GlobalConstants.Resource;
+
     public class Resource : DeletableEntity
     {
         public Resource()

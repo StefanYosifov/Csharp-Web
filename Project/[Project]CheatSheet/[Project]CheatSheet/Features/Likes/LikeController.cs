@@ -1,11 +1,11 @@
-﻿using _Project_CheatSheet.Features.Likes.Interfaces;
-using _Project_CheatSheet.Features.Likes.Models;
-using _Project_CheatSheet.GlobalConstants.Likes;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features.Likes
+﻿namespace _Project_CheatSheet.Features.Likes
 {
+    using GlobalConstants.Likes;
+    using Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+
     [Authorize]
     [Route("/like")]
     public class LikeController : ApiController

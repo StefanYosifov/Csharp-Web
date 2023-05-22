@@ -1,12 +1,12 @@
-﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Features.Profile.Interfaces;
-using _Project_CheatSheet.Features.Profile.Models;
-using _Project_CheatSheet.GlobalConstants.Profile;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features.Profile
+﻿namespace _Project_CheatSheet.Features.Profile
 {
+    using Common.CurrentUser.Interfaces;
+    using GlobalConstants.Profile;
+    using Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+
     [Route("/profile")]
     public class ProfileController : ApiController
     {

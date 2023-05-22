@@ -1,14 +1,14 @@
-﻿using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Features.Course.Interfaces;
-using _Project_CheatSheet.Features.Course.Models;
-using _Project_CheatSheet.Infrastructure.Data;
-using _Project_CheatSheet.Infrastructure.Data.Models;
-using AutoMapper;
-using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
-
-namespace _Project_CheatSheet.Features.Course.Services
+﻿namespace _Project_CheatSheet.Features.Course.Services
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using Common.CurrentUser.Interfaces;
+    using Infrastructure.Data;
+    using Infrastructure.Data.Models;
+    using Interfaces;
+    using Microsoft.EntityFrameworkCore;
+    using Models;
+
     public class CourseService : ICourseService
     {
         private const int CoursesPerPage = 12;
@@ -72,10 +72,10 @@ namespace _Project_CheatSheet.Features.Course.Services
                     ? resourcesToTake = CoursesPerPage
                     : resourcesToTake = coursesCount - page * CoursesPerPage;
 
-            var coursesWhereTheUserHasPaid = await context.UserCourses.Select(uc=>new UserCourses()
+            var coursesWhereTheUserHasPaid = await context.UserCourses.Select(uc => new UserCourses
             {
                 UserId = uc.UserId,
-                CourseId = uc.CourseId,
+                CourseId = uc.CourseId
             }).Where(u => u.UserId == userId).ToListAsync();
 
             var courses = await context.Courses
@@ -84,7 +84,8 @@ namespace _Project_CheatSheet.Features.Course.Services
 
             foreach (var course in courses)
             {
-                if (coursesWhereTheUserHasPaid.Select(c=>c.CourseId.ToString().ToLower()).Contains(course.Id.ToLower()))
+                if (coursesWhereTheUserHasPaid.Select(c => c.CourseId.ToString().ToLower())
+                    .Contains(course.Id.ToLower()))
                 {
                     course.HasPaid = true;
                 }

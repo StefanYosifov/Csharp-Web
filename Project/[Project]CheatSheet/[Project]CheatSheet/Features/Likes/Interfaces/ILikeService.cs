@@ -1,8 +1,8 @@
-﻿using _Project_CheatSheet.Features.Likes.Models;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features.Likes.Interfaces
+﻿namespace _Project_CheatSheet.Features.Likes.Interfaces
 {
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+
     public interface ILikeService
     {
         public int GetCommentLikesCount(LikeCommentModel likeComment);

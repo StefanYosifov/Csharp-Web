@@ -2,7 +2,6 @@
 {
     public static class UserConstants
     {
-
         public const int NameMinLength = 4;
         public const int NameMaxLength = 20;
 
@@ -24,6 +23,5 @@
 
         public const int JobMinLength = 2;
         public const int JobMaxLength = 500;
-
     }
 }

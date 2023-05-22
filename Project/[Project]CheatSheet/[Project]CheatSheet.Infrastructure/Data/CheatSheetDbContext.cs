@@ -1,13 +1,11 @@
-﻿using _Project_CheatSheet.Infrastructure.Data.Models;
-using _Project_CheatSheet.Infrastructure.Data.Models.Base.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore;
-
-
-
-namespace _Project_CheatSheet.Infrastructure.Data
+﻿namespace _Project_CheatSheet.Infrastructure.Data
 {
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
+    using Models;
+    using Models.Base.Interfaces;
+
     public class CheatSheetDbContext : IdentityDbContext<User>
     {
         private readonly IHttpContextAccessor? httpContext;

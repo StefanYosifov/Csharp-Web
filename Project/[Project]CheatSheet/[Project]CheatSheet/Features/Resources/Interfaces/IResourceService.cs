@@ -1,9 +1,8 @@
-﻿using _Project_CheatSheet.Features.Resources.Models;
-using _Project_CheatSheet.Infrastructure.Data.Models;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features.Resources.Interfaces
+﻿namespace _Project_CheatSheet.Features.Resources.Interfaces
 {
+    using Infrastructure.Data.Models;
+    using Models;
+
     public interface IResourceService
     {
         public int GetTotalPage();

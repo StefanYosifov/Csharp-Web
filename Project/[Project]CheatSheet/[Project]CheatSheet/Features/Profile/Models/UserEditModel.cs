@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.GlobalConstants.User;
-
-namespace _Project_CheatSheet.Features.Profile.Models
+﻿namespace _Project_CheatSheet.Features.Profile.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using GlobalConstants.User;
+
     public class UserEditModel
     {
         public string? ProfilePictureUrl { get; set; }
@@ -16,7 +16,7 @@ namespace _Project_CheatSheet.Features.Profile.Models
         [StringLength(UserConstants.EducationMaxLength, MinimumLength = UserConstants.EducationMinLength)]
         public string? UserEducation { get; set; }
 
-        [StringLength (UserConstants.JobMaxLength,MinimumLength = UserConstants.JobMinLength)]
+        [StringLength(UserConstants.JobMaxLength, MinimumLength = UserConstants.JobMinLength)]
         public string? UserJob { get; set; }
     }
 }

@@ -1,8 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using _Project_CheatSheet.GlobalConstants.Profile;
-
-namespace _Project_CheatSheet.Features.Profile.Models
+﻿namespace _Project_CheatSheet.Features.Profile.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using GlobalConstants.Profile;
+
     public class ProfileModel
     {
         [Range(ProfileConstants.MinValue, ProfileConstants.MaxValue)]

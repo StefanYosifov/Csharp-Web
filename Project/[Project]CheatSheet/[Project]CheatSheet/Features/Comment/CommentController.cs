@@ -1,12 +1,12 @@
-﻿using _Project_CheatSheet.Features.Comment.Interfaces;
-using _Project_CheatSheet.Features.Comment.Models;
-using _Project_CheatSheet.GlobalConstants.Comment;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features.Comment
+﻿namespace _Project_CheatSheet.Features.Comment
 {
-    [Route("comment")]
+    using GlobalConstants.Comment;
+    using Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+
+    [Route("/comment")]
     [Authorize]
     public class CommentController : ApiController
     {
@@ -19,10 +19,10 @@ namespace _Project_CheatSheet.Features.Comment
 
 
         [HttpPost("send")]
-        public async Task<IActionResult> PostAComment(CommentModel comment)
+        public async Task<IActionResult> PostAComment(InputCommentModel comment)
         {
             var postCommentResult = await service.CreateAComment(comment);
-            if (postCommentResult.StatusCode != 201)
+            if (postCommentResult == null)
             {
                 return BadRequest(CommentMessages.OnUnsuccessfulPostComment);
             }
@@ -57,7 +57,8 @@ namespace _Project_CheatSheet.Features.Comment
             {
                 return Forbid();
             }
-            return Ok(deleteResult);    
+
+            return Ok(deleteResult);
         }
     }
 }

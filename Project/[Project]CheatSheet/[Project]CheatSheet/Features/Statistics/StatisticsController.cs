@@ -1,9 +1,9 @@
-﻿using _Project_CheatSheet.Features.Statistics.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features.Statistics
+﻿namespace _Project_CheatSheet.Features.Statistics
 {
+    using Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     [Route("/statistics")]
     public class StatisticsController : ApiController

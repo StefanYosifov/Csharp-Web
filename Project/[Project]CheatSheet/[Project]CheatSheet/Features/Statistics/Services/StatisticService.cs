@@ -1,9 +1,9 @@
-﻿using _Project_CheatSheet.Features.Statistics.Interfaces;
-using _Project_CheatSheet.Features.Statistics.Models;
-using _Project_CheatSheet.Infrastructure.Data;
-
-namespace _Project_CheatSheet.Features.Statistics.Services
+﻿namespace _Project_CheatSheet.Features.Statistics.Services
 {
+    using Infrastructure.Data;
+    using Interfaces;
+    using Models;
+
     public class StatisticService : IStatisticsService
     {
         private readonly CheatSheetDbContext context;

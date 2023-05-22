@@ -1,7 +1,7 @@
-﻿using _Project_CheatSheet.Infrastructure.Data.Models.Base.Interfaces;
-
-namespace _Project_CheatSheet.Infrastructure.Data.Models.Base
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models.Base
 {
+    using Interfaces;
+
     public abstract class Entity : IEntity
     {
         public DateTime CreatedOn { get; set; }

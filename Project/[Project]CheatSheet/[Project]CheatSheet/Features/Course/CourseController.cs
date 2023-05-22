@@ -1,16 +1,14 @@
-﻿using _Project_CheatSheet.Features.Course.Interfaces;
-using _Project_CheatSheet.GlobalConstants.Resource;
-using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Course;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features.Course
+﻿namespace _Project_CheatSheet.Features.Course
 {
+    using Infrastructure.Data.GlobalConstants.Course;
+    using Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     [Route("/course")]
-    public class CourseController:ApiController
+    public class CourseController : ApiController
     {
-
         private readonly ICourseService service;
 
         public CourseController(ICourseService service)
@@ -33,7 +31,7 @@ namespace _Project_CheatSheet.Features.Course
         [HttpGet("all/{page}")]
         public async Task<IActionResult> GetAllCourses(int page)
         {
-            var coursesResult=await service.GetAllCourses(page);
+            var coursesResult = await service.GetAllCourses(page);
             return Ok(coursesResult);
         }
 

@@ -1,11 +1,10 @@
-﻿using _Project_CheatSheet.Data;
-using _Project_CheatSheet.Features.Category.Interfaces;
-using _Project_CheatSheet.Features.Category.Models;
-using _Project_CheatSheet.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
-
-namespace _Project_CheatSheet.Features.Category.Services
+﻿namespace _Project_CheatSheet.Features.Category.Services
 {
+    using Infrastructure.Data;
+    using Interfaces;
+    using Microsoft.EntityFrameworkCore;
+    using Models;
+
     public class CategoryService : ICategoryService
     {
         private readonly CheatSheetDbContext context;

@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features
+﻿namespace _Project_CheatSheet.Features
 {
+    using Microsoft.AspNetCore.Mvc;
+
     [ApiController]
     [Route("[controller]")]
     public abstract class ApiController : ControllerBase

@@ -1,11 +1,11 @@
-﻿using _Project_CheatSheet.Features.Resources.Interfaces;
-using _Project_CheatSheet.Features.Resources.Models;
-using _Project_CheatSheet.GlobalConstants.Resource;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-
-namespace _Project_CheatSheet.Features.Resources
+﻿namespace _Project_CheatSheet.Features.Resources
 {
+    using GlobalConstants.Resource;
+    using Interfaces;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Models;
+
     [Route("/resource")]
     [Authorize]
     public class ResourceController : ControllerBase
@@ -25,7 +25,8 @@ namespace _Project_CheatSheet.Features.Resources
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetAllResources(int id)
-        { var resourcesResult = await resourceService.GetPublicResources(id);
+        {
+            var resourcesResult = await resourceService.GetPublicResources(id);
             return Ok(resourcesResult);
         }
 
@@ -51,7 +52,7 @@ namespace _Project_CheatSheet.Features.Resources
         [HttpPost("add")]
         public async Task<IActionResult> AddResource([FromBody] ResourceAddModel resourceAdd)
         {
-            var resourceResult=await resourceService.AddResources(resourceAdd);
+            var resourceResult = await resourceService.AddResources(resourceAdd);
             if (resourceResult == null)
             {
                 return BadRequest(ResourceMessages.OnUnsuccessfulResourceAdd);

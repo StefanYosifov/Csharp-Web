@@ -1,10 +1,10 @@
-﻿using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Course;
-using _Project_CheatSheet.Infrastructure.Data.Models.Base;
-using _Project_CheatSheet.Infrastructure.Data.Models.Enums;
-using System.ComponentModel.DataAnnotations;
-
-namespace _Project_CheatSheet.Infrastructure.Data.Models
+﻿namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
+    using System.ComponentModel.DataAnnotations;
+    using Base;
+    using Enums;
+    using GlobalConstants.Course;
+
     public class Course : Entity
     {
         public Course()

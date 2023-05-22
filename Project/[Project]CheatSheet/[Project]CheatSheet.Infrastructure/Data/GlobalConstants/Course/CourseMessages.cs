@@ -1,14 +1,7 @@
 ﻿namespace _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Course
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-
     public class CourseMessages
     {
-
         public const string OnUnsuccessfulCourseRetrieval = "Course cannot be found or does not exist";
 
         public const string OnSuccessfulPayment =
