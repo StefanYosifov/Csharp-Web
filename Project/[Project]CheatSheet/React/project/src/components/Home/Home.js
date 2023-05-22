@@ -52,40 +52,40 @@ const HomePage = () => {
               </Link>
             </div>
           </article>
-          <div class="container mx-auto py-10 px-4 lg:px-0">
-            <article class="mb-10">
-              <h2 class="text-3xl font-bold mb-4">About Us</h2>
-              <p class="text-lg leading-7">
+          <div className="container mx-auto py-10 px-4 lg:px-0">
+            <article className="mb-10">
+              <h2 className="text-3xl font-bold mb-4">About Us</h2>
+              <p className="text-lg leading-7">
                 At Cheat Sheet Project, we believe that software development should be accessible to everyone. Our mission is to provide high-quality educational resources to individuals of all skill levels who are interested in learning how to code.
               </p>
-              <p class="text-lg leading-7 mt-4">
+              <p className="text-lg leading-7 mt-4">
                 We understand that the world of software development can be overwhelming, especially for beginners. That's why we've created a comprehensive library of cheat sheets, tutorials, and courses that break down complex coding concepts into easy-to-understand chunks.
               </p>
-              <p class="text-lg leading-7 mt-4">
+              <p className="text-lg leading-7 mt-4">
                 Our team of experienced software developers and educators is committed to providing the most up-to-date information and best practices in the industry. We cover a wide range of topics, from programming languages and frameworks to development tools and techniques.
               </p>
-              <p class="text-lg leading-7 mt-4">
+              <p className="text-lg leading-7 mt-4">
                 Whether you're a complete beginner or an experienced developer looking to sharpen your skills, Cheat Sheet Project has something for you. Our courses are designed to be flexible, so you can learn at your own pace and on your own schedule.
               </p>
-              <p class="text-lg leading-7 mt-4">
+              <p className="text-lg leading-7 mt-4">
                 At Cheat Sheet Project, we're passionate about empowering people to learn how to code. We believe that anyone can become a successful software developer with the right resources and support. Join us on this exciting journey and discover the possibilities of software development.
               </p>
             </article>
             <article>
-              <h2 class="text-3xl font-bold mb-4">Our History</h2>
-              <p class="text-lg leading-7">
+              <h2 className="text-3xl font-bold mb-4">Our History</h2>
+              <p className="text-lg leading-7">
                 Cheat Sheet Project was founded in 2015 by a group of software developers who wanted to make learning how to code easier and more accessible for everyone. They recognized that traditional programming textbooks and courses could be overwhelming and confusing, especially for beginners.
               </p>
-              <p class="text-lg leading-7 mt-4">
+              <p className="text-lg leading-7 mt-4">
                 The team started by creating a series of cheat sheets that condensed complex coding concepts into simple, easy-to-understand reference guides. These cheat sheets quickly gained popularity among developers of all skill levels and became the foundation for Cheat Sheet Project's educational resources.
               </p>
-              <p class="text-lg leading-7 mt-4">
+              <p className="text-lg leading-7 mt-4">
                 As the demand for more comprehensive learning materials grew, Cheat Sheet Project began creating tutorials and courses that covered a wide range of programming languages, frameworks, and development tools. The company's mission was to provide the most up-to-date and relevant information in the industry, while still making it accessible and easy to understand.
               </p>
-              <p class="text-lg leading-7 mt-4">
+              <p className="text-lg leading-7 mt-4">
                 Today, Cheat Sheet Project has become a leading provider of online educational resources for software development. With a team of experienced developers and educators, we continue to create high-quality content that empowers individuals to learn how to code and pursue careers in tech.
               </p>
-              <p class="text-lg leading-7 mt-4">
+              <p className="text-lg leading-7 mt-4">
                 We're proud of how far we've come and remain committed to our founding mission of making software development accessible to everyone. Whether you're a complete beginner or an experienced developer, we believe that anyone can learn how to code with the right resources and support. Join us on this exciting journey and discover the possibilities
               </p>
             </article>

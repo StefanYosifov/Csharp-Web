@@ -1,5 +1,5 @@
 import './index.css'
-import Navigation from './components/Navigation/Navigation';
+import {Navigation} from './components/Navigation/Navigation';
 import { Route,Routes } from 'react-router-dom';
 import LoginPage from './components/Login/Login';
 import RegisterPage from './components/Register/Register';

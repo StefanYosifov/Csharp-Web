@@ -1,31 +1,21 @@
-import { NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getUserData } from '../../api/util';
 import { getUserId } from '../../api/Requests/profile';
+import { validateToken } from '../../api/Requests/validateJWTtoken';
 
-function Navigation() {
+export const Navigation=()=> {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userId, setUserId] = useState();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const token = getUserData();
-    if (!token) {
-      return setIsLoggedIn(false);
-    }
-    return setIsLoggedIn(true);
-  }, []);
-
-  useEffect(() => {
-    getUserId()
-      .then((res) => { setUserId(res), console.log(res.data) });
-  }, [isLoggedIn])
+  
+  const isAuthenticated = validateToken();
+  console.log(isAuthenticated);
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
   };
-
 
 
   return (
@@ -34,7 +24,7 @@ function Navigation() {
         <div className="text-lg font-bold md:py-0 py-4">
           Logo
         </div>
-        {!isLoggedIn && (
+        {isAuthenticated === false && (
           <>
             <li>
               <NavLink to="/login" className="text-white px-2 py-1 rounded-lg hover:bg-red-700">
@@ -49,7 +39,7 @@ function Navigation() {
           </>
         )}
 
-        {isLoggedIn && (
+        {isAuthenticated === true && (
           <>
             <li>
               <NavLink to="/home" className="text-ellipsis text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
@@ -66,47 +56,70 @@ function Navigation() {
                 Add
               </NavLink>
             </li>
-            <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0">
+            <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0 text-slate-100">
               <li>
-                <a href="#" className="flex md:inline-flex p-4 items-center hover:bg-gray-50">
+                <NavLink to="/home" className="flex md:inline-flex p-4 items-center hover:bg-gray-500">
                   <span>Home</span>
-                </a>
+                </NavLink>
               </li>
               <li>
-                <a href="#" className="flex md:inline-flex p-4 items-center hover:bg-gray-50">
-                  <span>Resources</span>
-                </a>
               </li>
               <li className="relative group">
-                <div className="flex justify-between md:inline-flex p-4 items-center hover:bg-gray-50 space-x-2">
+                <div className="flex justify-between md:inline-flex p-4 items-center hover:bg-gray-500 space-x-2">
+                  <span>Resources</span>
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 fill-current pt-1" viewBox="0 0 24 24">
+                    <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
+                  </svg>
+                </div>
+                <ul className="absolute top-full right-0 hidden md:block w-48 bg-slate-700 shadow-lg rounded-b opacity-0 transform -translate-y-10 group-hover:opacity-100 group-hover:translate-y-0 transition duration-300">
+                  <li>
+                    <NavLink to="resources/1" className="flex px-4 py-3 hover:bg-gray-500">
+                      All
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="resources/my" className="flex px-4 py-3 hover:bg-gray-500">
+                      My resources
+                   </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="resource/add" className="flex px-4 py-3 hover:bg-gray-500">
+                      Add
+                    </NavLink>
+                  </li>
+                 
+                </ul>
+              </li>
+              <li className="relative group">
+                <div className="flex justify-between md:inline-flex p-4 items-center hover:bg-gray-500 space-x-2">
                   <span>Courses</span>
                   <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 fill-current pt-1" viewBox="0 0 24 24">
                     <path d="M0 7.33l2.829-2.83 9.175 9.339 9.167-9.339 2.829 2.83-11.996 12.17z" />
                   </svg>
                 </div>
-                <ul className="absolute top-full right-0 hidden md:block w-48 bg-white shadow-lg rounded-b opacity-0 transform -translate-y-10 group-hover:opacity-100 group-hover:translate-y-0 transition duration-300">
-                <li>
-                    <NavLink to="course/all/1" className="flex px-4 py-3 hover:bg-gray-50">
+                <ul className="absolute top-full right-0 hidden md:block w-48 bg-slate-700 shadow-lg rounded-b opacity-0 transform -translate-y-10 group-hover:opacity-100 group-hover:translate-y-0 transition duration-300">
+                  <li>
+                    <NavLink to="course/all/1" className="flex px-4 py-3 hover:bg-gray-500">
                       All
                     </NavLink>
                   </li>
                   <li>
-                  <NavLink to="course/C#" className="flex px-4 py-3 hover:bg-gray-50">
+                    <NavLink to="course/C#" className="flex px-4 py-3 hover:bg-gray-500">
                       C#
                    </NavLink>
                   </li>
                   <li>
-                    <NavLink to="course/Java" className="flex px-4 py-3 hover:bg-gray-50">
+                    <NavLink to="course/Java" className="flex px-4 py-3 hover:bg-gray-500">
                       Java
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="course/Python" className="flex px-4 py-3 hover:bg-gray-50">
+                    <NavLink to="course/Python" className="flex px-4 py-3 hover:bg-gray-500">
                       Python
                       </NavLink>
                   </li>
                   <li>
-                  <NavLink to="resource/Javascript" className="flex px-4 py-3 hover:bg-gray-50">
+                    <NavLink to="course/Javascript" className="flex px-4 py-3 hover:bg-gray-500">
                       JavaScript
                     </NavLink>
                   </li>
@@ -141,14 +154,10 @@ function Navigation() {
                   </li>
                 </ul>
               )}
-
             </li>
           </>
         )}
       </ul>
     </nav>
-
   );
 }
-
-export default Navigation;
