@@ -10,5 +10,6 @@
 
         Task<IEnumerable<Genre>> GetGenreAsync();
 
+        Task AddMovieAsync(InputMovieViewModel movieModel);
     }
 }

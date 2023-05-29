@@ -1,6 +1,8 @@
 ﻿namespace Watchlist.Services.MovieService
 {
     using Data;
+    using Data.Models;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.EntityFrameworkCore;
     using Models;
 
@@ -26,5 +28,33 @@
                 Genre = m.Genre.Name
             }).ToArrayAsync();
         }
+
+        public async Task<IEnumerable<Genre>> GetGenreAsync()
+        {
+            return await context.Genres.ToArrayAsync();
+        }
+
+        public async Task AddMovieAsync(InputMovieViewModel movieModel)
+        {
+
+            if (context.Movies.Any(m => m.Title == movieModel.Title))
+            {
+                return;
+            }
+
+            var movie = new Movie()
+            {
+                Director = movieModel.Director,
+                Title = movieModel.Title,
+                ImageUrl = movieModel.ImageUrl,
+                Rating = movieModel.Rating,
+                GenreId = movieModel.GenreId,
+            };
+
+            context.Movies.Add(movie);
+            await context.SaveChangesAsync();
+        }
+
+        
     }
 }
