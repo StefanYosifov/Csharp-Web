@@ -42,17 +42,19 @@ export const CoursesItem = ({ course }) => {
                 {course.hasPaid === true ? (
                   <span className="flex items-center">
                     <Link to={{
-                        pathname: `/course/trainings/${course.id}/${encodeURIComponent(
-                          course.title
-                        )}`,
-                        state: { course }
-                      }}>
+                      pathname: `/course/trainings/${course.id}/${encodeURIComponent(
+                        course.title
+                      )}`,
+                      state: { course }
+                    }}>
                       Go to course!
                     </Link>
                   </span>
                 )
                   :
-                  <button>Join the course</button>}
+                  <Link to={`/course/join/${course.id}`}>
+                    <button>Join Course</button>
+                  </Link>}
               </span>
             </div>
           </div>

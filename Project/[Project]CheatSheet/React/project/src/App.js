@@ -17,12 +17,14 @@ import { Privacy } from './components/Static pages/Privacy';
 import { TermsAndConditions } from './components/Static pages/Terms and conditions';
 import { CoursesList } from './components/Courses/CoursesList';
 import { CoursePage } from './components/Courses/CoursePage';
+import { CourseVideo } from './components/Courses/CourseVideo';
+import { CourseJoin } from './components/Courses/CourseJoin';
 
 
 function App() {
   return (
   
-    <div className="App">
+    <div className="App h-screen">
         <Navigation/>
       <Routes>
         <Route path='/home' Component={HomePage}/>
@@ -38,6 +40,8 @@ function App() {
         <Route path='/course/:id' Component={CoursesList}/>
         <Route path='/course/all/:id' Component={CoursesList}/>
         <Route path="/course/trainings/:id/:courseTitle" Component={CoursePage}/>
+        <Route path="/course/trainings/videos/:id/:courseTitle" Component={CourseVideo}/>
+        <Route path='/course/join/:id' Component={CourseJoin}/>
       </Routes>
       <Footer/>
     </div>
