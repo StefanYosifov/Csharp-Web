@@ -109,5 +109,11 @@
 
             return mapper.Map<CourseRespondModel>(course);
         }
+
+        public async Task<CourseRespondPaymentModel> GetPaymentDetails(string id)
+        {
+            var getCourse = await context.Courses.FirstOrDefaultAsync(c => c.Id.ToString() == id);
+            return mapper.Map<CourseRespondPaymentModel>(getCourse);
+        }
     }
 }

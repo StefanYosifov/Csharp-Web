@@ -2,5 +2,9 @@
 {
     public interface IVideoService
     {
+
+
+        public Task<string> GetVideoId(string videoId);
+
     }
 }

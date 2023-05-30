@@ -28,6 +28,18 @@
             return Ok(courseResult);
         }
 
+        [HttpGet("payment/{id}")]
+        public async Task<IActionResult> GetCoursePaymentDetails(string id)
+        {
+            var courseResult = await service.GetPaymentDetails(id.ToLower());
+            if (courseResult == null)
+            {
+                return BadRequest(CourseMessages.OnUnsuccessfulCourseRetrieval);
+            }
+
+            return Ok(courseResult);
+        }
+
         [HttpGet("all/{page}")]
         public async Task<IActionResult> GetAllCourses(int page)
         {

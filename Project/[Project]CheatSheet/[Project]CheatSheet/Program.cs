@@ -21,6 +21,8 @@ using _Project_CheatSheet.Features.Statistics.Interfaces;
 using _Project_CheatSheet.Features.Statistics.Services;
 using _Project_CheatSheet.Features.Topics.Interfaces;
 using _Project_CheatSheet.Features.Topics.Services;
+using _Project_CheatSheet.Features.Videos.Interfaces;
+using _Project_CheatSheet.Features.Videos.Services;
 using _Project_CheatSheet.Infrastructure.Data;
 using _Project_CheatSheet.Infrastructure.Data.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -44,6 +46,7 @@ builder.Services.AddTransient<IStatisticsService, StatisticService>();
 builder.Services.AddTransient<IProfileService, ProfileService>();
 builder.Services.AddTransient<ICourseService, CourseService>();
 builder.Services.AddTransient<ITopicService, TopicService>();
+builder.Services.AddTransient<IVideoService, VideoService>();
 
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 

@@ -74,6 +74,11 @@
                     Name = t.Name
                 })));
 
+            CreateMap<Course, CourseRespondPaymentModel>()
+                .ForMember(dest => dest.CourseId, opt => opt.MapFrom(src => src.Id.ToString()))
+                .ForMember(dest=>dest.CourseName,opt=>opt.MapFrom(src=>src.Title))
+                .ForMember(dest=>dest.CourseDescription,opt=>opt.MapFrom(src=>src.Description));
+
 
             CreateMap<Course, CourseRespondAllModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
@@ -99,6 +104,7 @@
                     opt => opt.MapFrom(src => src.StartTime.ToString(Formatter.DateFormatter)))
                 .ForMember(dest => dest.EndTime,
                     opt => opt.MapFrom(src => src.EndTime.ToString(Formatter.DateFormatter)));
+
         }
     }
 }
