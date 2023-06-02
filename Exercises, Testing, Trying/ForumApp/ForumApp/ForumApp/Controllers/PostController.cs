@@ -26,7 +26,7 @@
             return View(allPosts);
         }
 
-        public async Task<IActionResult> Add()
+        public IActionResult Add()
         {
             return View();
         }
@@ -53,9 +53,17 @@
             return RedirectToAction("All");
         }
 
-        public async Task<IActionResult> Edit()
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+            try
+            {
+                var postModel=await service.GetPostByIdAsync(id);
+                return View(postModel);
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("All");
+            }
         }
 
         [HttpPost]
@@ -77,6 +85,27 @@
             }
 
             return RedirectToAction("All");
+        }
+
+        public IActionResult Delete()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+
+            await service.DeleteByIdAsync(id);
+            return RedirectToAction("All");
+            }
+            catch (Exception e)
+            {
+                return View();
+            }
+
         }
     }
 }

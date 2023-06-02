@@ -9,6 +9,10 @@
 
         Task AddPostAsync(PostInputViewModel postModel);
 
+        Task<PostOutputViewModel> GetPostByIdAsync(int id);
+
         Task EditByIdAsync(int id, PostInputViewModel editModel);
+
+        Task DeleteByIdAsync(int id);
     }
 }
