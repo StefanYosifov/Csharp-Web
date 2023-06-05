@@ -9,7 +9,6 @@ export const CoursePage = (course) => {
     const { id } = useParams();
 
     const handleItemClick = (index) => {
-        event.preventDefault();
         if (expandedItem === index) {
             setExpandedItem(null);
         } else {
@@ -26,8 +25,8 @@ export const CoursePage = (course) => {
     console.log(topics);
     return (
         <div className="w-full">
-            <header className="h-80 bg-blue-400 text-center items-center w-full text-slate-100">
-                <span className="bg-blue-100 text-blue-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">
+            <header className="h-96 bg-blue-400 text-center items-center w-full text-slate-100">
+                <span className="bg-blue-100 text-blue-800 mt-6 p-2 text-xs font-medium rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">
                     Course
                 </span>
                 <p className="text-xl">Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint et nihil iste mollitia quae laboriosam non praesentium quibusdam rem voluptas! Quae odio enim quibusdam corrupti voluptate, veritatis reiciendis est. Dicta reiciendis culpa impedit officia placeat! Sapiente numquam, veniam ducimus temporibus perspiciatis magni aut quisquam, eveniet cupiditate, possimus eaque minima aliquid.</p>
@@ -49,7 +48,6 @@ export const CoursePage = (course) => {
                     <p>sdadsa</p>
                     {topics != null ?
                         <>
-
                             <ul>
                                 <li>
                                     <article>
@@ -74,7 +72,6 @@ export const CoursePage = (course) => {
                                                 </li>
                                             ))}
                                         </ul>
-
                                     </article>
                                 </li>
                             </ul>

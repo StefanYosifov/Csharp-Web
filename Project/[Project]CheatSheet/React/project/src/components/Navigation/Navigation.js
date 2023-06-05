@@ -126,7 +126,7 @@ export const Navigation=()=> {
                 </ul>
               </li>
               <li>
-                <NavLink to="about" className="flex md:inline-flex p-4 items-center hover:bg-gray-50">
+                <NavLink to="about" className="flex md:inline-flex p-4 items-center hover:bg-gray-500">
                   <span>About us</span>
                 </NavLink>
               </li>
