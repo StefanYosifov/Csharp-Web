@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using _Project_CheatSheet;
 using _Project_CheatSheet.Common.CurrentUser;
 using _Project_CheatSheet.Common.CurrentUser.Interfaces;
+using _Project_CheatSheet.Common.Pagination;
 using _Project_CheatSheet.Features.Category.Interfaces;
 using _Project_CheatSheet.Features.Category.Services;
 using _Project_CheatSheet.Features.Comment.Interfaces;
@@ -103,7 +104,6 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-builder.Services.AddMvc(c => c.Conventions.Add(new ApiExplorerIgnore()));
 builder.Services.AddSwaggerGen(s =>
 {
     s.SwaggerDoc("v1", new OpenApiInfo { Title = "Cheat sheet swagger API", Version = "v1" });
