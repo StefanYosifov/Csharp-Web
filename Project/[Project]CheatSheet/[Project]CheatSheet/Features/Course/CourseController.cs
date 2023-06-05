@@ -4,6 +4,7 @@
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Models;
 
     [Authorize]
     [Route("/course")]
@@ -42,9 +43,16 @@
         }
 
         [HttpGet("all/{page}")]
-        public async Task<IActionResult> GetAllCourses(int page)
+        public async Task<IActionResult> GetAllCourses(int page, [FromQuery]CourseRequestQueryModel query)
         {
-            var coursesResult = await service.GetAllCourses(page);
+            var coursesResult = await service.GetAllCourses(page,query);
+            return Ok(coursesResult);
+        }
+
+        [HttpGet("my/{page}")]
+        public async Task<IActionResult> GetMyCourses(int page)
+        {
+            var coursesResult = await service.GetMyCourses(page);
             return Ok(coursesResult);
         }
 

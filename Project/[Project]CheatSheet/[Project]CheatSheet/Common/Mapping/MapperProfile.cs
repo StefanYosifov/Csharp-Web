@@ -9,6 +9,7 @@
     using Features.Topics.Models;
     using GlobalConstants;
     using Infrastructure.Data.Models;
+    using Microsoft.AspNetCore.Routing.Constraints;
 
     public class MapperProfile : Profile
     {
@@ -82,7 +83,9 @@
 
 
             CreateMap<Course, CourseRespondAllModel>()
+                .BeforeMap((src,dest)=>dest.HasPaid=false)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+                .ForMember(dest=>dest.Category,opt=>opt.MapFrom(src=>src.Category.ToString()))
                 .ForMember(dest => dest.TopicsCount, opt => opt.MapFrom(src => src.Topics.Count))
                 .ForMember(dest => dest.StartDate,
                     opt => opt.MapFrom(src => src.StartDate.ToString(Formatter.DateOnlyFormatter)))

@@ -3,26 +3,26 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Common.CurrentUser.Interfaces;
+    using Common.Pagination;
     using Infrastructure.Data;
     using Infrastructure.Data.Models;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
     using Models;
+    using static Common.CachingConstants.CachingConstants.Course;
 
     public class CourseService : ICourseService
     {
-        private const int CoursesPerPage = 12;
-
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
         private readonly IMapper mapper;
-        private IMemoryCache cache;
+        private readonly IMemoryCache cache;
 
         public CourseService(
             CheatSheetDbContext context,
             IMapper mapper,
-            ICurrentUser currentUserService, 
+            ICurrentUser currentUserService,
             IMemoryCache cache)
         {
             this.context = context;
@@ -56,46 +56,70 @@
             return true;
         }
 
-        public async Task<IEnumerable<CourseRespondAllModel>> GetAllCourses(int page)
+        public async Task<IEnumerable<CourseRespondAllModel>> GetAllCourses(int page,CourseRequestQueryModel query)
         {
-            page = page - 1;
             var userId = currentUserService.GetUserId();
 
-            //12*1=12-12=0
-            var coursesToSkip = page * CoursesPerPage - page;
-            var coursesCount = await context.Courses.CountAsync();
-
-            if (coursesToSkip > coursesCount || page < 0)
+            var cacheKey = $"Courses_{userId}_{page}_{query.Language}_{query.Price}";
+            if (cache.TryGetValue(cacheKey, out IEnumerable<CourseRespondAllModel> cachedResult))
             {
-                return Enumerable.Empty<CourseRespondAllModel>();
+                return cachedResult;
             }
 
-            //45 = 3*12=32 
-            int resourcesToTake =
-                coursesCount - page * CoursesPerPage > CoursesPerPage
-                    ? resourcesToTake = CoursesPerPage
-                    : resourcesToTake = coursesCount - page * CoursesPerPage;
+            var result = context.Courses
+                .Where(uc => !uc.UsersCourses.Any())
+                .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
+                
 
-            var coursesWhereTheUserHasPaid = await context.UserCourses.Select(uc => new UserCourses
+            IEnumerable<CourseRespondAllModel> paginationResult = await Pagination<CourseRespondAllModel>.CreateAsync(result, page);
+
+            if (!string.IsNullOrWhiteSpace(query.Language))
             {
-                UserId = uc.UserId,
-                CourseId = uc.CourseId
-            }).Where(u => u.UserId == userId).ToListAsync();
-
-            var courses = await context.Courses
-                .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider)
-                .ToArrayAsync();
-
-            foreach (var course in courses)
-            {
-                if (coursesWhereTheUserHasPaid.Select(c => c.CourseId.ToString().ToLower())
-                    .Contains(course.Id.ToLower()))
-                {
-                    course.HasPaid = true;
-                }
+                paginationResult = paginationResult
+                    .Where(p => p.Category == query.Language);
             }
 
-            return courses;
+            var cacheEntryOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(PublicCoursesCache),
+                Priority = CacheItemPriority.Low
+            };
+
+            cache.Set(cacheKey, paginationResult,cacheEntryOptions);
+
+            return paginationResult;
+        }
+
+        public async Task<IEnumerable<CourseRespondAllModel>> GetMyCourses(int page)
+        {
+            var userId = currentUserService.GetUserId();
+
+            var cacheKey = $"My_Courses_{userId}_{page}";
+            if (cache.TryGetValue(cacheKey, out IEnumerable<CourseRespondAllModel> cachedResult))
+            {
+                return cachedResult;
+            }
+
+            var result = context.Courses
+                .Where(uc => uc.UsersCourses.Any(c => c.UserId == userId))
+                .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
+
+            var paginationResult = await Pagination<CourseRespondAllModel>.CreateAsync(result, page);
+
+            foreach (var course in paginationResult) //Todo think of better way to implement, without the need of yet another class
+            {
+                course.HasPaid = true;
+            }
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(MyCoursesCache),
+                Priority = CacheItemPriority.Low
+            };
+
+            cache.Set(cacheKey, paginationResult, cacheEntryOptions);
+
+            return paginationResult;
         }
 
         public async Task<CourseRespondModel> GetCourseDetails(string id)
@@ -104,7 +128,6 @@
             var course = await context.Courses
                 .Include(u => u.UsersCourses)
                 .FirstOrDefaultAsync(c => c.Id.ToString() == id && c.UsersCourses.Any(uc => uc.UserId == userId));
-
 
             if (course == null)
             {
@@ -125,16 +148,17 @@
             ICollection<string> languages;
             if (!cache.TryGetValue(nameof(languages), out languages))
             {
-                languages = await context.Courses.AsNoTracking().Select(c => c.Category.ToString()).Distinct().ToArrayAsync();
+                languages = await context.Courses.AsNoTracking().Select(c => c.Category.ToString()).Distinct()
+                    .ToArrayAsync();
 
-                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                var cacheEntryOptions = new MemoryCacheEntryOptions
                 {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12),
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(CategoriesCoursesCache),
                     Priority = CacheItemPriority.Low
                 };
                 cache.Set(nameof(languages), languages, cacheEntryOptions);
             }
-            
+
             return languages;
         }
     }
