@@ -19,7 +19,7 @@
         [Range(CourseConstants.PriceMinRange, CourseConstants.PriceMaxRange)]
         public decimal Price { get; set; }
 
-        [Required] [Url] public string ImageUrl { get; set; }
+        [Required] [Url] public string  ImageUrl { get; set; }
 
         public bool HasPaid { get; set; }
 

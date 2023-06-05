@@ -49,6 +49,7 @@ builder.Services.AddTransient<ITopicService, TopicService>();
 builder.Services.AddTransient<IVideoService, VideoService>();
 
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddMemoryCache();
 
 builder.Services.AddDbContext<CheatSheetDbContext>(options =>
     options.UseSqlServer(connectionString));

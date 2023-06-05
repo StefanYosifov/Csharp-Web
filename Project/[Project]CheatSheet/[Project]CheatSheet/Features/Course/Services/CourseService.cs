@@ -7,6 +7,7 @@
     using Infrastructure.Data.Models;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Caching.Memory;
     using Models;
 
     public class CourseService : ICourseService
@@ -16,15 +17,18 @@
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
         private readonly IMapper mapper;
+        private IMemoryCache cache;
 
         public CourseService(
             CheatSheetDbContext context,
             IMapper mapper,
-            ICurrentUser currentUserService)
+            ICurrentUser currentUserService, 
+            IMemoryCache cache)
         {
             this.context = context;
             this.mapper = mapper;
             this.currentUserService = currentUserService;
+            this.cache = cache;
         }
 
 
@@ -114,6 +118,24 @@
         {
             var getCourse = await context.Courses.FirstOrDefaultAsync(c => c.Id.ToString() == id);
             return mapper.Map<CourseRespondPaymentModel>(getCourse);
+        }
+
+        public async Task<ICollection<string>> GetCoursesLanguages()
+        {
+            ICollection<string> languages;
+            if (!cache.TryGetValue(nameof(languages), out languages))
+            {
+                languages = await context.Courses.AsNoTracking().Select(c => c.Category.ToString()).Distinct().ToArrayAsync();
+
+                var cacheEntryOptions = new MemoryCacheEntryOptions()
+                {
+                    AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(12),
+                    Priority = CacheItemPriority.Low
+                };
+                cache.Set(nameof(languages), languages, cacheEntryOptions);
+            }
+            
+            return languages;
         }
     }
 }

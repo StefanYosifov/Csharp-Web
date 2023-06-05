@@ -28,6 +28,7 @@
             return Ok(courseResult);
         }
 
+
         [HttpGet("payment/{id}")]
         public async Task<IActionResult> GetCoursePaymentDetails(string id)
         {
@@ -45,6 +46,13 @@
         {
             var coursesResult = await service.GetAllCourses(page);
             return Ok(coursesResult);
+        }
+
+        [HttpGet("languages")]
+        public async Task<IActionResult> GetLanguages()
+        {
+            var languagesResult = await service.GetCoursesLanguages();
+            return Ok(languagesResult);
         }
 
         [HttpPost("payment/{id}")]
