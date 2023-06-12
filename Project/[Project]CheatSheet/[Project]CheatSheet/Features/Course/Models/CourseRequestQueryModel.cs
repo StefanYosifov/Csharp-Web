@@ -3,9 +3,9 @@
     public class CourseRequestQueryModel
     {
 
-        public string Language { get; set; }
+        public string? Language { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
     }
 }

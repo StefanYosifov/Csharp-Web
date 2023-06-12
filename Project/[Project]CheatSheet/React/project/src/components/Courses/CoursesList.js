@@ -39,6 +39,7 @@ export const CoursesList = () => {
       if (selectedPrice !== "") {
         queryParams.append("price", selectedPrice);
       }
+
       navigate(`${location.pathname}?${queryParams.toString()}`);
     };
 

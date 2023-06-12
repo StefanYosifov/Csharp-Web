@@ -7,6 +7,10 @@ export const getAllCourses = (page, language, price) => {
     return get(`course/all/${page}?language=${language}&price=${price}`);
 }
 
+export const getMyCourses=(page)=>{
+    return get(`course/my/${page}`);
+}
+
 export const getCoursePaymentDetails = (id) => {
     return get(`course/payment/${id}`);
 }

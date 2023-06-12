@@ -104,24 +104,9 @@ export const Navigation=()=> {
                     </NavLink>
                   </li>
                   <li>
-                    <NavLink to="course/C#" className="flex px-4 py-3 hover:bg-gray-500">
-                      C#
+                    <NavLink to="course/mine/1" className="flex px-4 py-3 hover:bg-gray-500">
+                      Mine
                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="course/Java" className="flex px-4 py-3 hover:bg-gray-500">
-                      Java
-                    </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="course/Python" className="flex px-4 py-3 hover:bg-gray-500">
-                      Python
-                      </NavLink>
-                  </li>
-                  <li>
-                    <NavLink to="course/Javascript" className="flex px-4 py-3 hover:bg-gray-500">
-                      JavaScript
-                    </NavLink>
                   </li>
                 </ul>
               </li>

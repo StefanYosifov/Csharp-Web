@@ -1,15 +1,11 @@
-using System.Text;
-using System.Text.Json.Serialization;
-using _Project_CheatSheet;
 using _Project_CheatSheet.Common.CurrentUser;
 using _Project_CheatSheet.Common.CurrentUser.Interfaces;
-using _Project_CheatSheet.Common.Pagination;
 using _Project_CheatSheet.Features.Category.Interfaces;
 using _Project_CheatSheet.Features.Category.Services;
 using _Project_CheatSheet.Features.Comment.Interfaces;
 using _Project_CheatSheet.Features.Comment.Services;
+using _Project_CheatSheet.Features.Course;
 using _Project_CheatSheet.Features.Course.Interfaces;
-using _Project_CheatSheet.Features.Course.Services;
 using _Project_CheatSheet.Features.Identity.Interfaces;
 using _Project_CheatSheet.Features.Identity.Services;
 using _Project_CheatSheet.Features.Likes.Interfaces;
@@ -26,12 +22,15 @@ using _Project_CheatSheet.Features.Videos.Interfaces;
 using _Project_CheatSheet.Features.Videos.Services;
 using _Project_CheatSheet.Infrastructure.Data;
 using _Project_CheatSheet.Infrastructure.Data.Models;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Text;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 

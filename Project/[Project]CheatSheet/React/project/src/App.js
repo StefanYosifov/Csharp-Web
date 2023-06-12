@@ -19,6 +19,7 @@ import { CoursesList } from './components/Courses/CoursesList';
 import { CoursePage } from './components/Courses/CoursePage';
 import { CourseVideo } from './components/Courses/CourseVideo';
 import { CourseJoin } from './components/Courses/CourseJoin';
+import { CourseMy } from './components/Courses/CourseMy';
 
 
 function App() {
@@ -42,6 +43,7 @@ function App() {
         <Route path="/course/trainings/:id/:courseTitle" Component={CoursePage}/>
         <Route path="/course/trainings/videos/:id/:courseTitle" Component={CourseVideo}/>
         <Route path='/course/join/:id' Component={CourseJoin}/>
+        <Route path='/course/mine/:id' Component={CourseMy}/>
       </Routes>
       <Footer/>
     </div>

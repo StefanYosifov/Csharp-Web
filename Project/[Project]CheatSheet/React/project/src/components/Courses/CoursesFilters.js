@@ -29,6 +29,12 @@ export const Filters = ({ onApplyFilter }) => {
 		onApplyFilter(selectedLanguage, selectedPrice);
 	};
 
+	const handleResetFilter = () => {
+		setSelectedLanguage("");
+		setSelectedPrice("");
+		onApplyFilter("", "");
+	  };
+
 	console.log(selectedLanguage);
 	console.log(selectedPrice);
 	return (
@@ -60,11 +66,14 @@ export const Filters = ({ onApplyFilter }) => {
 						<button
 							className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-md"
 							onClick={handleApplyFilter}
-						>							Apply Filter
+						>
+							Apply Filter
 						</button>
-						<button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-md">
+						<button className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-md"
+							onClick={handleResetFilter}
+							>
 							Reset Filter
-						</button>
+						</button >
 					</div>
 					<div className="justify-evenly">
 						<div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 mt-4">
@@ -72,19 +81,19 @@ export const Filters = ({ onApplyFilter }) => {
 								className="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
 								value={selectedLanguage}
 								onChange={handleLanguageChange}
-							>	
-							{languages.map((language, index) => (
-								<option key={index}>{language}</option>
-							))}
+							>
+								{languages.map((language, index) => (
+									<option key={index}>{language}</option>
+								))}
 							</select>
 							<select
 								className="px-4 py-3 w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0 text-sm"
 								value={selectedPrice}
 								onChange={handlePriceChange}
-							>	
-							{prices.map((price, index) => (
-								<option key={index}>{price}</option>
-							))}
+							>
+								{prices.map((price, index) => (
+									<option key={index}>{price}</option>
+								))}
 							</select>
 						</div>
 					</div>

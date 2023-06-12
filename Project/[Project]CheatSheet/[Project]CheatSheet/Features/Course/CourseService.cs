@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.Features.Course.Services
+﻿namespace _Project_CheatSheet.Features.Course
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
@@ -56,7 +56,7 @@
             return true;
         }
 
-        public async Task<IEnumerable<CourseRespondAllModel>> GetAllCourses(int page,CourseRequestQueryModel query)
+        public async Task<IEnumerable<CourseRespondAllModel>> GetAllCourses(int page, CourseRequestQueryModel query)
         {
             var userId = currentUserService.GetUserId();
 
@@ -69,7 +69,7 @@
             var result = context.Courses
                 .Where(uc => !uc.UsersCourses.Any())
                 .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
-                
+
 
             IEnumerable<CourseRespondAllModel> paginationResult = await Pagination<CourseRespondAllModel>.CreateAsync(result, page);
 
@@ -85,7 +85,7 @@
                 Priority = CacheItemPriority.Low
             };
 
-            cache.Set(cacheKey, paginationResult,cacheEntryOptions);
+            cache.Set(cacheKey, paginationResult, cacheEntryOptions);
 
             return paginationResult;
         }
