@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { FaThumbsUp, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { dislikeComment, likeComment } from "../../api/Requests/likes";
 import { deleteComment, editComment } from "../../api/Requests/comments"
@@ -9,6 +9,28 @@ export const Comments = ({ commentModels, userId }) => {
   const [hasLiked, setHasLiked] = useState(commentModels.hasLiked);
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(commentModels.content);
+  const [saveClicked, setSaveClicked] = useState(false); 
+
+console.log(commentModels);
+
+  useEffect(() => {
+    if (saveClicked) {
+      
+    }
+  }, [saveClicked]);
+
+  const handleSaveClick = (event) => {
+    event.preventDefault();
+    const commentId = commentModels.id;
+    editComment(commentId, editedComment)
+      .then((response) => {
+        if (response.status === 404 || response.status === 200) {
+          console.log('Comment edited successfully');
+          setIsEditing(false);
+          setSaveClicked(true); // Update saveClicked state when the "Save" button is clicked
+        }
+      });
+  };
 
   console.log(userId);
   console.log(commentModels);
@@ -57,18 +79,6 @@ export const Comments = ({ commentModels, userId }) => {
     event.preventDefault();
     setIsEditing(false);
     setEditedComment(commentModels.content);
-  };
-
-  const handleSaveClick = (event) => {
-    event.preventDefault();
-    const commentId = commentModels.id;
-    editComment(commentId, editedComment)
-      .then((response) => {
-        if (response.status === 404 || response.status === 200) {
-          console.log('Comment edited successfully');
-          setIsEditing(false);
-        }
-      });
   };
 
   const handleInputChange = (event) => {

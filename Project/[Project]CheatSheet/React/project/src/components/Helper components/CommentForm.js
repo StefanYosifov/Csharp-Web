@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 
 export const CommentForm = ({onSubmit}) => {
     const [comment, setComment] = useState("");
@@ -12,6 +12,11 @@ export const CommentForm = ({onSubmit}) => {
       onSubmit(comment);
       setComment("");
     }
+
+    useEffect(()=>{
+        console.log(`Added a comment`);
+    },[onSubmit]);
+
     return (
         <form onSubmit={handleSubmit}>
           <textarea placeholder="Write your comment here" className="w-full rounded-lg shadow-md p-2 mb-4" 

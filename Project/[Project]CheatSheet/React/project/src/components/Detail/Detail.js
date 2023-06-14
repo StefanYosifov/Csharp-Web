@@ -7,7 +7,6 @@ import CommentForm from "../Helper components/CommentForm";
 import { FaThumbsUp, FaComment } from 'react-icons/fa';
 import { dislikeResource, getLikes, likeResource } from "../../api/Requests/likes";
 import { deleteResource } from "../../api/Requests/resources";
-import { ResourceList } from "../Resources/ResourceList";
 import { getUserId } from "../../api/Requests/utilRequests";
 
 
@@ -34,6 +33,10 @@ export const Detail = () => {
   }, []);
 
 
+
+  useEffect(()=>{
+
+  },[comment])
 
   const handleDeleteResource = () => {
     deleteResource(id)

@@ -4,15 +4,18 @@ import { useParams } from "react-router-dom";
 
 export const CourseMy = () => {
 
-    const [courses, setCourses] = useState();
+    const [courses, setCourses] = useState([]);
     const { id } = useParams();
 
     useEffect(() => {
         getMyCourses(id).then((res) => setCourses(res.data));
     }, []);
 
+
+    console.log(courses);
     return (
         <>
+        {courses?
             <div className="flex justify-center h-screen">
                 <div className="container bg-red-500 m-16 rounded">
                     <article>
@@ -20,6 +23,7 @@ export const CourseMy = () => {
                     </article>
                 </div>
             </div>
+        :<p>Awaiting</p>}
         </>
     )
 }
