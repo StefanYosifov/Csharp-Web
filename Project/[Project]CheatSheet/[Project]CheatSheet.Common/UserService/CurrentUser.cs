@@ -1,8 +1,8 @@
-﻿namespace _Project_CheatSheet.Common.CurrentUser
+﻿namespace _Project_CheatSheet.Common.UserService
 {
     using System.Security.Claims;
-    using Infrastructure.Data;
-    using Infrastructure.Data.Models;
+    using _Project_CheatSheet.Infrastructure.Data;
+    using _Project_CheatSheet.Infrastructure.Data.Models;
     using Interfaces;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;

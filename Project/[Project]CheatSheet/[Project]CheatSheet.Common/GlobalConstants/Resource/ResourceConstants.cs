@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.GlobalConstants.Resource
+﻿namespace _Project_CheatSheet.Common.GlobalConstants.Resource
 {
     public static class ResourceConstants
     {

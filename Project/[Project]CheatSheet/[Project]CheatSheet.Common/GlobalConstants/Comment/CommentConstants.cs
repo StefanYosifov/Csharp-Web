@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.GlobalConstants.Comment
+﻿namespace _Project_CheatSheet.Common.GlobalConstants.Comment
 {
     public static class CommentConstants
     {

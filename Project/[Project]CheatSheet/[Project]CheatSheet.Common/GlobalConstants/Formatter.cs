@@ -1,9 +1,9 @@
-﻿namespace _Project_CheatSheet.GlobalConstants
+﻿namespace _Project_CheatSheet.Common.GlobalConstants
 {
     public static class Formatter
     {
-        public const string DateFormatter = "MM/dd/yyyy HH:mm";
+        public const string DateFormatter = "dd/MM/yyyy HH:mm";
 
-        public const string DateOnlyFormatter = "MM/dd/yyyy";
+        public const string DateOnlyFormatter = "dd/MM/yyyy";
     }
 }

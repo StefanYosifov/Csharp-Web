@@ -1,6 +1,6 @@
-﻿namespace _Project_CheatSheet.Common.CurrentUser.Interfaces
+﻿namespace _Project_CheatSheet.Common.UserService.Interfaces
 {
-    using Infrastructure.Data.Models;
+    using _Project_CheatSheet.Infrastructure.Data.Models;
 
     public interface ICurrentUser
     {
