@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Videos.Services
 {
-    using Common.CurrentUser.Interfaces;
+    using Common.UserService.Interfaces;
     using Infrastructure.Data;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;

@@ -2,7 +2,7 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using Common.CurrentUser.Interfaces;
+    using Common.UserService.Interfaces;
     using Infrastructure.Data;
     using Infrastructure.Data.Models;
     using Interfaces;

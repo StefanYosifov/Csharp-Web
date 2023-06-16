@@ -1,9 +1,9 @@
-﻿namespace _Project_CheatSheet.Features.Course
+﻿namespace _Project_CheatSheet.Features.Course.Services
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
-    using Common.CurrentUser.Interfaces;
     using Common.Pagination;
+    using Common.UserService.Interfaces;
     using Infrastructure.Data;
     using Infrastructure.Data.Models;
     using Interfaces;
@@ -14,10 +14,10 @@
 
     public class CourseService : ICourseService
     {
+        private readonly IMemoryCache cache;
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
         private readonly IMapper mapper;
-        private readonly IMemoryCache cache;
 
         public CourseService(
             CheatSheetDbContext context,
@@ -71,7 +71,8 @@
                 .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
 
 
-            IEnumerable<CourseRespondAllModel> paginationResult = await Pagination<CourseRespondAllModel>.CreateAsync(result, page);
+            IEnumerable<CourseRespondAllModel> paginationResult =
+                await Pagination<CourseRespondAllModel>.CreateAsync(result, page);
 
             if (!string.IsNullOrWhiteSpace(query.Language))
             {
@@ -90,11 +91,12 @@
             return paginationResult;
         }
 
-        public async Task<IEnumerable<CourseRespondAllModel>> GetMyCourses(int page)
+        public async Task<IEnumerable<CourseRespondAllModel>> GetMyCourses(int page, string? toggle)
         {
             var userId = currentUserService.GetUserId();
+            var isArchived = string.IsNullOrWhiteSpace(toggle) || toggle == "true";
 
-            var cacheKey = $"My_Courses_{userId}_{page}";
+            var cacheKey = $"My_Courses_{userId}_{page}_{isArchived}";
             if (cache.TryGetValue(cacheKey, out IEnumerable<CourseRespondAllModel> cachedResult))
             {
                 return cachedResult;
@@ -105,6 +107,17 @@
                 .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
 
             var paginationResult = await Pagination<CourseRespondAllModel>.CreateAsync(result, page);
+
+            if (isArchived)
+            {
+                paginationResult =
+                    (Pagination<CourseRespondAllModel>)paginationResult.Where(c => DateTime.Parse(c.EndDate) <= DateTime.Now);
+            }
+            else
+            {
+                paginationResult = 
+                    (Pagination<CourseRespondAllModel>)paginationResult.Where(c => DateTime.Parse(c.EndDate) > DateTime.Now);
+            }
 
             foreach (var course in paginationResult) //Todo think of better way to implement, without the need of yet another class
             {

@@ -1,7 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Likes.Models
 {
     using System.ComponentModel.DataAnnotations;
-    using GlobalConstants.Likes;
+    using Common.GlobalConstants.Likes;
 
     public class LikeResourceModel
     {

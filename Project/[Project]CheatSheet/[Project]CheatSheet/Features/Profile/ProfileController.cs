@@ -1,7 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Profile
 {
-    using Common.CurrentUser.Interfaces;
-    using GlobalConstants.Profile;
+    using Common.GlobalConstants.Profile;
+    using Common.UserService.Interfaces;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

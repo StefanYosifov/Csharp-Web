@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Identity
 {
-    using GlobalConstants.User;
+    using Common.GlobalConstants.User;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

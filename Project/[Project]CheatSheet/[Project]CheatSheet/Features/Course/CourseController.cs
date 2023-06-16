@@ -50,9 +50,9 @@
         }
 
         [HttpGet("my/{page}")]
-        public async Task<IActionResult> GetMyCourses(int page)
+        public async Task<IActionResult> GetMyCourses(int page,[FromQuery]string? toggle)
         {
-            var coursesResult = await service.GetMyCourses(page);
+            var coursesResult = await service.GetMyCourses(page,toggle);
             return Ok(coursesResult);
         }
 

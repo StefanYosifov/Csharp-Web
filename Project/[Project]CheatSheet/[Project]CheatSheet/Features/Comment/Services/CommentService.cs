@@ -1,8 +1,9 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Services
 {
-    using Common.CurrentUser.Interfaces;
-    using GlobalConstants;
+    using Common.UserService.Interfaces;
+
     using Infrastructure.Data;
+    using Infrastructure.Data.GlobalConstants;
     using Infrastructure.Data.Models;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;

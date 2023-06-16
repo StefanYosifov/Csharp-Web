@@ -1,7 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Identity.Models
 {
     using System.ComponentModel.DataAnnotations;
-    using GlobalConstants.User;
+    using Common.GlobalConstants.User;
 
     public class RegisterModel
     {

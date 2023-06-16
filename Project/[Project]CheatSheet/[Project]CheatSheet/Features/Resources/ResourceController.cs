@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Resources
 {
-    using GlobalConstants.Resource;
+    using Common.GlobalConstants.Resource;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

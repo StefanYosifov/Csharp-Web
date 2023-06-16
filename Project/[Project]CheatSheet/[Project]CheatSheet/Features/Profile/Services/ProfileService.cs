@@ -1,7 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Profile.Services
 {
     using AutoMapper;
-    using Common.CurrentUser.Interfaces;
+    using Common.UserService.Interfaces;
     using Infrastructure.Data;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;

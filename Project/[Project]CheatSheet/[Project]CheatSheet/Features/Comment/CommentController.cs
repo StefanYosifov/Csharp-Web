@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Comment
 {
-    using GlobalConstants.Comment;
+    using Common.GlobalConstants.Comment;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

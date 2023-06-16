@@ -1,7 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Likes.Services
 {
     using AutoMapper;
-    using Common.CurrentUser.Interfaces;
+    using Common.UserService.Interfaces;
     using Infrastructure.Data;
     using Infrastructure.Data.Models;
     using Interfaces;

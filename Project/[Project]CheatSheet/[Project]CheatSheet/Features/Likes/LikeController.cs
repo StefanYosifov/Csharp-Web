@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Likes
 {
-    using GlobalConstants.Likes;
+    using Common.GlobalConstants.Likes;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

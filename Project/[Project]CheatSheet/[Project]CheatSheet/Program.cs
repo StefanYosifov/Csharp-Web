@@ -1,11 +1,9 @@
-using _Project_CheatSheet.Common.CurrentUser;
-using _Project_CheatSheet.Common.CurrentUser.Interfaces;
 using _Project_CheatSheet.Features.Category.Interfaces;
 using _Project_CheatSheet.Features.Category.Services;
 using _Project_CheatSheet.Features.Comment.Interfaces;
 using _Project_CheatSheet.Features.Comment.Services;
-using _Project_CheatSheet.Features.Course;
 using _Project_CheatSheet.Features.Course.Interfaces;
+using _Project_CheatSheet.Features.Course.Services;
 using _Project_CheatSheet.Features.Identity.Interfaces;
 using _Project_CheatSheet.Features.Identity.Services;
 using _Project_CheatSheet.Features.Likes.Interfaces;
@@ -31,6 +29,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
+using _Project_CheatSheet.Common.UserService;
+using _Project_CheatSheet.Common.UserService.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
