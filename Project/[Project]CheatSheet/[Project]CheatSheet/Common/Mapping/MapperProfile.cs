@@ -9,7 +9,6 @@
     using Features.Topics.Models;
     using GlobalConstants;
     using Infrastructure.Data.Models;
-    using Microsoft.AspNetCore.Routing.Constraints;
 
     public class MapperProfile : Profile
     {

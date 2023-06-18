@@ -17,7 +17,7 @@
 
         [Authorize]
         [HttpGet("all")]
-        public async Task<ActionResult> GetAllStatistics()
+        public ActionResult GetAllStatistics()
         {
             var statistics = service.GetAllStatistics();
             if (statistics == null)

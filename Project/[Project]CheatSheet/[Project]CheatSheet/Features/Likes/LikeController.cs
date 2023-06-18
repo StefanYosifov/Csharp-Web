@@ -48,7 +48,7 @@
         }
 
         [HttpGet("resource/{id}")]
-        public async Task<ActionResult> GetResourceLikes(string id)
+        public IActionResult GetResourceLikes(string id)
         {
             return Ok(likeService.GetResourceLikesCount(id));
         }

@@ -102,24 +102,15 @@
                 return cachedResult;
             }
 
-            var result = context.Courses
-                .Where(uc => uc.UsersCourses.Any(c => c.UserId == userId))
-                .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
+            var courseResult = context.Courses
+                .Where(uc => uc.UsersCourses.Any(c => c.UserId == userId));
 
-            var paginationResult = await Pagination<CourseRespondAllModel>.CreateAsync(result, page);
+            var filteredResults = FilterWhetherArchiveOrNotQuery(isArchived, courseResult);
 
-            if (isArchived)
-            {
-                paginationResult =
-                    (Pagination<CourseRespondAllModel>)paginationResult.Where(c => DateTime.Parse(c.EndDate) <= DateTime.Now);
-            }
-            else
-            {
-                paginationResult = 
-                    (Pagination<CourseRespondAllModel>)paginationResult.Where(c => DateTime.Parse(c.EndDate) > DateTime.Now);
-            }
+            var paginationResult = await Pagination<CourseRespondAllModel>.CreateAsync(filteredResults, page);
 
-            foreach (var course in paginationResult) //Todo think of better way to implement, without the need of yet another class
+            foreach (var course in
+                     paginationResult) //Todo think of better way to implement, without the need of yet another class
             {
                 course.HasPaid = true;
             }
@@ -159,20 +150,43 @@
         public async Task<ICollection<string>> GetCoursesLanguages()
         {
             ICollection<string> languages;
-            if (!cache.TryGetValue(nameof(languages), out languages))
+            if (cache.TryGetValue(nameof(languages), out languages))
             {
-                languages = await context.Courses.AsNoTracking().Select(c => c.Category.ToString()).Distinct()
-                    .ToArrayAsync();
-
-                var cacheEntryOptions = new MemoryCacheEntryOptions
-                {
-                    AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(CategoriesCoursesCache),
-                    Priority = CacheItemPriority.Low
-                };
-                cache.Set(nameof(languages), languages, cacheEntryOptions);
+                return languages;
             }
 
+            languages = await context.Courses.AsNoTracking().Select(c => c.Category.ToString()).Distinct()
+                .ToArrayAsync();
+
+            var cacheEntryOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(CategoriesCoursesCache),
+                Priority = CacheItemPriority.Low
+            };
+            cache.Set(nameof(languages), languages, cacheEntryOptions);
+
             return languages;
+        }
+
+        private IQueryable<CourseRespondAllModel> FilterWhetherArchiveOrNotQuery(bool isArchived,
+            IQueryable<Course> courseResult)
+        {
+            IQueryable<CourseRespondAllModel> filteredResults;
+            var currentDate = DateTime.Now;
+            if (isArchived)
+            {
+                filteredResults = courseResult
+                    .Where(c => c.EndDate <= currentDate)
+                    .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
+            }
+            else
+            {
+                filteredResults = courseResult
+                    .Where(c => c.EndDate > currentDate)
+                    .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
+            }
+
+            return filteredResults;
         }
     }
 }

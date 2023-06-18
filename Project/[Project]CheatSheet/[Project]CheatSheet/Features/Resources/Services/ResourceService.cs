@@ -69,7 +69,7 @@
                     ResourceId = resource.Id
                 };
                 await context.CategoriesResources.AddAsync(categoryResource);
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
             }
 
             return resourceModel;
