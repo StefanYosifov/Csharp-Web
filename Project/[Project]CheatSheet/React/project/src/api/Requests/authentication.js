@@ -1,5 +1,5 @@
 import {get,post} from '../Requests/requests'
-import { getUserData,setUserData } from '../util';
+import { getUserData,setUserData, setUserStorage } from '../util';
 
 
 export const login=(userName,password)=>{

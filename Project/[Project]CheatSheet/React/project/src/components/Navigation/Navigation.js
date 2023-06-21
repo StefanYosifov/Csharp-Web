@@ -6,16 +6,20 @@ import { validateToken } from '../../api/Requests/validateJWTtoken';
 
 export const Navigation=()=> {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [userId, setUserId] = useState();
+  const [userId, setUserId] = useState(undefined);
   const navigate = useNavigate();
 
-  
   const isAuthenticated = validateToken();
   console.log(isAuthenticated);
+  
+  useEffect(()=>{
+    getUserId().then(res=>setUserId(res.data));
+  },[userId]);
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
   };
+
 
 
   return (
@@ -120,10 +124,10 @@ export const Navigation=()=> {
               <button className="text-white px-2 py-1 rounded-lg hover:bg-red-700 focus:outline-none mr-2" onClick={handleMenuClick}>
                 Profile <i className="fas fa-caret-down ml-2"></i>
               </button>
-              {menuOpen && (
+              {menuOpen && userId!==undefined && (
                 <ul className="absolute right-0 mt-2 py-2 w-40 bg-white rounded-lg shadow-xl">
                   <li>
-                    <NavLink to={`/profile/${userId.data}`} className="text-gray-800 hover:bg-red-700 hover:text-white px-3 py-2 rounded-lg block">
+                    <NavLink to={`/profile/${userId}`} className="text-gray-800 hover:bg-red-700 hover:text-white px-3 py-2 rounded-lg block">
                       My Profile
                     </NavLink>
                   </li>
