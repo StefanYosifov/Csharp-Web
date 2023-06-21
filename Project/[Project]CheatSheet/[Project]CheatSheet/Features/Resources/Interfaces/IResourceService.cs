@@ -1,12 +1,13 @@
 ﻿namespace _Project_CheatSheet.Features.Resources.Interfaces
 {
+    using Common.Pagination;
     using Infrastructure.Data.Models;
     using Models;
 
     public interface IResourceService
     {
         public int GetTotalPage();
-        public Task<IEnumerable<ResourceModel>> GetPublicResources(int id);
+        public Task<Pagination<ResourceModel>> GetPublicResources(int id);
         public Task<IEnumerable<ResourceModel>> GetMyResources();
         public Task<ResourceAddModel> AddResources(ResourceAddModel resourceModel);
         public Task<DetailResources> GetResourceById(string? resourceId);

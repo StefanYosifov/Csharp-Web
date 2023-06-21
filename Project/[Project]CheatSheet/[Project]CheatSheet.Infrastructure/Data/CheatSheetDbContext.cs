@@ -163,7 +163,7 @@
         private void AuditSave()
         {
             var currentTime = DateTime.UtcNow;
-            var userName = httpContext.HttpContext!.User!.Identity!.Name;
+            var userName = httpContext!.HttpContext!.User!.Identity!.Name;
 
             foreach (var item in ChangeTracker.Entries().Where(e => e.Entity is IEntity))
             {

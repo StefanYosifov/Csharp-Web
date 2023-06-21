@@ -2,12 +2,14 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using Common.Pagination;
     using Common.UserService.Interfaces;
     using Infrastructure.Data;
     using Infrastructure.Data.Models;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using System.Collections.Generic;
 
     public class ResourceService : IResourceService
     {
@@ -91,37 +93,22 @@
         }
 
 
-        public async Task<IEnumerable<ResourceModel>> GetPublicResources(int pageNumber)
+        public async Task<Pagination<ResourceModel>> GetPublicResources(int pageNumber)
         {
-            pageNumber = pageNumber - 1;
             var userId = currentUserService.GetUserId();
 
-            //12*1=12-12=0
-            var resourcesToSkip = pageNumber * ResourcesPerPage - pageNumber;
             var resourcesCount =
                 await context.Resources.Where(r => r.IsPublic == true || r.UserId == userId).CountAsync();
 
-            if (resourcesToSkip > resourcesCount || pageNumber < 0)
-            {
-                return Enumerable.Empty<ResourceModel>();
-            }
-
-            //45 = 3*12=32 
-            int resourcesToTake =
-                resourcesCount - pageNumber * ResourcesPerPage > ResourcesPerPage
-                    ? resourcesToTake = ResourcesPerPage
-                    : resourcesToTake = resourcesCount - pageNumber * ResourcesPerPage;
-
-            IEnumerable<ResourceModel> models = await context.Resources
+            IQueryable<ResourceModel> resourceModels = context.Resources
                 .Include(res => res.CategoryResources)
                 .Include(res => res.User)
                 .Where(c => c.IsPublic == true || c.UserId == userId)
-                .ProjectTo<ResourceModel>(mapper.ConfigurationProvider)
-                .Skip(resourcesToSkip)
-                .Take(resourcesToTake)
-                .ToArrayAsync();
+                .ProjectTo<ResourceModel>(mapper.ConfigurationProvider);
 
-            return models;
+            var paginatedModels = await Pagination<ResourceModel>.CreateAsync(resourceModels, pageNumber);
+
+            return paginatedModels;
         }
 
 

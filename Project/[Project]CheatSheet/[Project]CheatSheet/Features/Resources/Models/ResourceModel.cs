@@ -25,6 +25,7 @@
         [StringLength(ResourceConstants.ContentMaxLength, MinimumLength = ResourceConstants.ContentMinLength)]
         public string Content { get; set; } = null!;
 
+        public int TotalLikes { get; set; }
         public string DateTime { get; set; } = null!;
         public string? UserId { get; set; }
         public string? UserName { get; set; }

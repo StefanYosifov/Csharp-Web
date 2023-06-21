@@ -67,6 +67,7 @@
             }
 
             var result = context.Courses
+                .AsNoTracking()
                 .Where(uc => !uc.UsersCourses.Any())
                 .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
 
@@ -80,13 +81,7 @@
                     .Where(p => p.Category == query.Language);
             }
 
-            var cacheEntryOptions = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(PublicCoursesCache),
-                Priority = CacheItemPriority.Low
-            };
-
-            cache.Set(cacheKey, paginationResult, cacheEntryOptions);
+            SetCache(cacheKey, paginationResult, TimeSpan.FromMinutes(PublicCoursesCache));
 
             return paginationResult;
         }
@@ -103,6 +98,7 @@
             }
 
             var courseResult = context.Courses
+                .AsNoTracking()
                 .Where(uc => uc.UsersCourses.Any(c => c.UserId == userId));
 
             var filteredResults = FilterWhetherArchiveOrNotQuery(isArchived, courseResult);
@@ -115,13 +111,7 @@
                 course.HasPaid = true;
             }
 
-            var cacheEntryOptions = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(MyCoursesCache),
-                Priority = CacheItemPriority.Low
-            };
-
-            cache.Set(cacheKey, paginationResult, cacheEntryOptions);
+            SetCache(cacheKey, paginationResult, TimeSpan.FromMinutes(MyCoursesCache));
 
             return paginationResult;
         }
@@ -149,8 +139,9 @@
 
         public async Task<ICollection<string>> GetCoursesLanguages()
         {
-            ICollection<string> languages;
-            if (cache.TryGetValue(nameof(languages), out languages))
+
+            var cacheKey = $"Course_Languages_";
+            if (cache.TryGetValue(cacheKey, out ICollection<string> languages))
             {
                 return languages;
             }
@@ -158,14 +149,20 @@
             languages = await context.Courses.AsNoTracking().Select(c => c.Category.ToString()).Distinct()
                 .ToArrayAsync();
 
-            var cacheEntryOptions = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(CategoriesCoursesCache),
-                Priority = CacheItemPriority.Low
-            };
-            cache.Set(nameof(languages), languages, cacheEntryOptions);
+            SetCache(nameof(languages), languages, TimeSpan.FromMinutes(CategoriesCoursesCache));
 
             return languages;
+        }
+
+        private void SetCache<T>(string cacheKey, T result, TimeSpan expirationTime)
+        {
+            var cacheEntryOptions = new MemoryCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(MyCoursesCache),
+                Priority = CacheItemPriority.Low
+            };
+
+            cache.Set(cacheKey, result, cacheEntryOptions);
         }
 
         private IQueryable<CourseRespondAllModel> FilterWhetherArchiveOrNotQuery(bool isArchived,

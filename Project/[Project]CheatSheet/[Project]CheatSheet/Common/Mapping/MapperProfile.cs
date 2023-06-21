@@ -52,7 +52,9 @@
                 .ForMember(dest => dest.DateTime,
                     opt => opt.MapFrom(src => src.CreatedOn.ToString(Formatter.DateFormatter)))
                 .ForMember(dest => dest.CategoryNames,
-                    opt => opt.MapFrom(src => src.CategoryResources.Select(cr => cr.Category.Name)));
+                    opt => opt.MapFrom(src => src.CategoryResources.Select(cr => cr.Category.Name)))
+                .ForMember(dest=>dest.TotalLikes,
+                    opt=>opt.MapFrom(src=>src.ResourceLikes.Count(rl => rl.ResourceId==src.Id)));
 
             CreateMap<Resource, DetailResources>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
