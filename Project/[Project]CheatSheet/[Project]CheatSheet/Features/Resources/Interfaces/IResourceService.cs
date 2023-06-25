@@ -9,9 +9,9 @@
         public int GetTotalPage();
         public Task<Pagination<ResourceModel>> GetPublicResources(int id);
         public Task<IEnumerable<ResourceModel>> GetMyResources();
-        public Task<ResourceAddModel> AddResources(ResourceAddModel resourceModel);
+        public Task<string> AddResources(ResourceAddModel resourceModel);
         public Task<DetailResources> GetResourceById(string? resourceId);
-        public Task<ResourceEditModel> EditResource(string id, ResourceEditModel resourceEdit);
-        public Task<Resource> RemoveResource(string id);
+        public Task<string> EditResource(string id, ResourceEditModel resourceEdit);
+        public Task<string> RemoveResource(string id);
     }
 }

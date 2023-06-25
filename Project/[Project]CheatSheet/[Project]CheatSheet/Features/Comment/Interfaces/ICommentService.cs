@@ -7,10 +7,10 @@
     {
         public Task<IEnumerable<CommentModel>> GetCommentsFromResource(string resourceId);
 
-        public Task<InputCommentModel> CreateAComment(InputCommentModel comment);
+        public Task<string> CreateAComment(InputCommentModel comment);
 
-        public Task<EditCommentModel> EditComment(string id, EditCommentModel commentModel);
+        public Task<string> EditComment(string id, EditCommentModel commentModel);
 
-        public Task<Comment> DeleteComment(string id); //Todo Investigate why using isn't working
+        public Task<string> DeleteComment(string id); //Todo Investigate why using isn't working
     }
 }

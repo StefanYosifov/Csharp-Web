@@ -21,13 +21,15 @@
         [HttpPost("send")]
         public async Task<IActionResult> PostAComment(InputCommentModel comment)
         {
-            var postCommentResult = await service.CreateAComment(comment);
-            if (postCommentResult == null)
+            try
             {
-                return BadRequest(CommentMessages.OnUnsuccessfulPostComment);
+                var postCommentResult = await service.CreateAComment(comment);
+                return Ok(postCommentResult);
             }
-
-            return Ok(CommentMessages.OnSuccessfulPostComment);
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("get/{id}")]
@@ -40,25 +42,31 @@
         [HttpPatch("edit/{id}")]
         public async Task<IActionResult> EditComment(string id, EditCommentModel comment)
         {
-            var commentResult = await service.EditComment(id, comment);
-            if (commentResult == null)
+            try
             {
-                return NotFound(CommentMessages.OnUnsuccessfulEditComment);
+                var commentResult = await service.EditComment(id, comment);
+                return Ok(commentResult);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
             }
 
-            return Ok(CommentMessages.OnSuccessfulEditComment);
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteComment(string id)
         {
-            var deleteResult = await service.DeleteComment(id);
-            if (deleteResult == null)
+            try
             {
-                return Forbid();
+                var deleteResult = await service.DeleteComment(id);
+                return Ok(deleteResult);
+            }
+            catch (Exception e)
+            {
+                return Forbid(e.Message);
             }
 
-            return Ok(deleteResult);
         }
     }
 }

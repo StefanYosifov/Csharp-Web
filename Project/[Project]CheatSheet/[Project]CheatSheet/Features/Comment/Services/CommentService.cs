@@ -1,9 +1,11 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Services
 {
+    using AutoMapper;
+    using AutoMapper.QueryableExtensions;
+    using Common.GlobalConstants.Comment;
     using Common.UserService.Interfaces;
 
     using Infrastructure.Data;
-    using Infrastructure.Data.GlobalConstants;
     using Infrastructure.Data.Models;
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
@@ -13,80 +15,75 @@
     {
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
+        private readonly IMapper mapper;
 
         public CommentService(
             CheatSheetDbContext context,
-            ICurrentUser currentUserService)
+            ICurrentUser currentUserService, 
+            IMapper mapper)
         {
             this.context = context;
             this.currentUserService = currentUserService;
+            this.mapper = mapper;
         }
 
-        public async Task<InputCommentModel> CreateAComment(InputCommentModel comment)
+        public async Task<string> CreateAComment(InputCommentModel comment)
         {
             if (comment == null)
             {
-                return null;
+                throw new Exception(CommentMessages.OnEmptyComment);
             }
-
-            var user = await currentUserService.GetUser();
-            if (user == null)
-            {
-                return null;
-            }
-
+            
             var resource = await GetResource(comment.ResourceId);
             if (resource == null)
             {
-                return null;
+                throw new Exception(CommentMessages.OnUnsuccessfulPostComment);
             }
+
+            var userId = currentUserService.GetUserId();
 
             var dbComment = new Comment
             {
-                UserId = user.Id,
+                UserId = userId,
                 Content = comment.Content,
                 ResourceId = Guid.Parse(comment.ResourceId)
             };
 
             await context.Comments.AddAsync(dbComment);
             await context.SaveChangesAsync();
-            return comment;
+            return CommentMessages.OnSuccessfulPostComment;
         }
 
-        public async Task<EditCommentModel> EditComment(string id, EditCommentModel commentModel)
+        public async Task<string> EditComment(string id, EditCommentModel commentModel)
         {
             var currentUserId = currentUserService.GetUserId();
             var comment = await context.Comments.FindAsync(Guid.Parse(id));
-            if (comment == null || comment.UserId != currentUserId)
-            {
-                return null;
-            }
 
-            context.Entry(comment).CurrentValues.SetValues(commentModel);
             try
             {
+                context.Entry(comment).CurrentValues.SetValues(commentModel);
                 await context.SaveChangesAsync();
-                return commentModel;
+                return CommentMessages.OnSuccessfulEditComment;
             }
             catch (DbUpdateException)
             {
-                return null!;
+                return CommentMessages.OnUnsuccessfulEditComment!;
             }
         }
 
-        public async Task<Comment> DeleteComment(string id)
+        public async Task<string> DeleteComment(string id)
         {
             var comment = await context.Comments.FindAsync(Guid.Parse(id));
             var userId = currentUserService.GetUserId();
 
             if (comment == null || comment.UserId != userId || comment.IsDeleted)
             {
-                return null;
+                return CommentMessages.OnUnsuccessfulDeleteComment;
             }
 
             context.Remove(comment);
             await context.SaveChangesAsync();
-            return comment;
+            return CommentMessages.OnSuccessfulDeleteComment;
         }
 
         public async Task<IEnumerable<CommentModel>> GetCommentsFromResource(string resourceId)
@@ -100,19 +97,13 @@
 
             IEnumerable<CommentModel> comments = await context.Comments
                 .OrderBy(c => c.CreatedOn)
-                .Select(c => new CommentModel
-                {
-                    Id = c.Id.ToString(),
-                    Content = c.Content,
-                    CreatedAt = c.CreatedOn.ToString(Formatter.DateFormatter),
-                    ResourceId = c.ResourceId.ToString(),
-                    UserId = c.UserId,
-                    UserName = c.User.UserName,
-                    UserProfileImage = c.User.ProfilePictureUrl,
-                    CommentLikes = c.CommentLikes,
-                    HasLiked = c.CommentLikes.Select(cl => cl.UserId).Any(c => c == userId)
-                }).Where(c => c.ResourceId == resourceId).ToArrayAsync();
+                .ProjectTo<CommentModel>(mapper.ConfigurationProvider)
+                .Where(c => c.ResourceId == resourceId).ToArrayAsync();
 
+            foreach (var comment in comments)
+            {
+                comment.HasLiked = comment.CommentLikes.Select(cl => cl.UserId).Any(c => c == userId);
+            }
             return comments;
         }
 

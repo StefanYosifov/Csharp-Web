@@ -26,25 +26,29 @@
         [HttpPost("comment/like")]
         public async Task<ActionResult> LikeAComment(LikeCommentModel commentModel)
         {
-            var likeCommentResult = await likeService.LikeAComment(commentModel);
-            if (likeCommentResult.StatusCode == 404)
+            try
             {
-                return BadRequest(LikeMessages.OnFailedLikedComments);
+                var likeCommentResult = await likeService.LikeAComment(commentModel);
+                return Ok(likeCommentResult);
             }
-
-            return Ok(likeCommentResult);
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost("comment/remove")]
         public async Task<ActionResult> RemoveLikeFromComment(LikeCommentModel commentModel)
         {
-            var removedLikedCommentResult = await likeService.RemoveLikeFromComment(commentModel);
-            if (removedLikedCommentResult.StatusCode == 404)
+            try
             {
-                return BadRequest(LikeMessages.OnFailedRemoveComment);
+                var removedLikedCommentResult = await likeService.RemoveLikeFromComment(commentModel);
+                return Ok(removedLikedCommentResult);
             }
-
-            return Ok(removedLikedCommentResult);
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpGet("resource/{id}")]
@@ -56,25 +60,30 @@
         [HttpPost("resource/like/{id}")]
         public async Task<ActionResult> LikeAResource(LikeResourceModelAdd likeResource)
         {
-            var likeResourceResult = await likeService.LikeAResource(likeResource);
-            if (likeResourceResult.StatusCode == 404)
+            try
             {
-                return BadRequest(LikeMessages.OnFailedLikedResource);
+                var likeResourceResult = await likeService.LikeAResource(likeResource);
+                return Ok(likeResourceResult);
             }
-
-            return Ok(likeResourceResult);
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPost("resource/remove/{id}")]
         public async Task<ActionResult> RemoveLikeResource(LikeResourceModel likeResource)
         {
-            var likedResourceResult = await likeService.RemoveLikeFromResource(likeResource);
-            if (likedResourceResult.StatusCode == 404)
+            try
             {
-                return BadRequest(LikeMessages.OnFailedRemoveResource);
+                var likedResourceResult = await likeService.RemoveLikeFromResource(likeResource);
+                return Ok(likedResourceResult);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
 
-            return Ok(likedResourceResult);
         }
 
         [HttpGet("resource/all")]

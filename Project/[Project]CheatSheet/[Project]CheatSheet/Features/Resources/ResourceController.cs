@@ -52,13 +52,15 @@
         [HttpPost("add")]
         public async Task<IActionResult> AddResource([FromBody] ResourceAddModel resourceAdd)
         {
-            var resourceResult = await resourceService.AddResources(resourceAdd);
-            if (resourceResult == null)
+            try
             {
-                return BadRequest(ResourceMessages.OnUnsuccessfulResourceAdd);
+                var resourceResult = await resourceService.AddResources(resourceAdd);
+                return Ok(resourceResult);
             }
-
-            return Ok(ResourceMessages.OnSuccessfulResourceAdd);
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [HttpPatch("edit/{id}")]
@@ -69,25 +71,30 @@
                 return NotFound(ResourceMessages.OnInvalidRequestsResourceEdit);
             }
 
-            var resourceResult = await resourceService.EditResource(id, resourceEdit);
-            if (resourceResult == null)
+            try
             {
-                return NotFound(ResourceMessages.OnUnsuccessfulResourceEdit);
+                var resourceResult = await resourceService.EditResource(id, resourceEdit);
+                return Ok(resourceResult);
+            }
+            catch (Exception e)
+            {
+                return NotFound(e.Message);
             }
 
-            return Ok(ResourceMessages.OnSuccessfulResourceEdit);
         }
 
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> RemoveResource(string id)
         {
-            var resourceResult = await resourceService.RemoveResource(id);
-            if (resourceResult == null)
+            try
             {
-                return BadRequest(ResourceMessages.OnUnsuccessfulResourceRemove);
+                var resourceResult = await resourceService.RemoveResource(id);
+                return Ok(resourceResult);
             }
-
-            return Ok(ResourceMessages.OnSuccessfulResourceEdit);
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

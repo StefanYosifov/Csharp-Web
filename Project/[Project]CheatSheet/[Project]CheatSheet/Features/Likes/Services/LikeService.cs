@@ -1,11 +1,11 @@
 ﻿namespace _Project_CheatSheet.Features.Likes.Services
 {
     using AutoMapper;
+    using Common.GlobalConstants.Likes;
     using Common.UserService.Interfaces;
     using Infrastructure.Data;
     using Infrastructure.Data.Models;
     using Interfaces;
-    using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
 
@@ -31,13 +31,13 @@
                 .Count(c => c.Id.ToString() == commentModel.CommentId);
         }
 
-        public async Task<StatusCodeResult> LikeAComment(LikeCommentModel likeComment)
+        public async Task<string> LikeAComment(LikeCommentModel likeComment)
         {
             var currentUser = await currentUserService.GetUser();
             var findComment = await context.Comments.FindAsync(Guid.Parse(likeComment.CommentId));
             if (findComment == null || findComment.CommentLikes.Any(cl => cl.UserId == currentUser.Id))
             {
-                return new StatusCodeResult(StatusCodes.Status404NotFound);
+                throw new Exception(LikeMessages.OnFailedLikedResource);
             }
 
             var commentLike = new CommentLike
@@ -49,22 +49,26 @@
 
             await context.CommentLikes.AddAsync(commentLike);
             await context.SaveChangesAsync();
-            return new StatusCodeResult(StatusCodes.Status200OK);
+            return LikeMessages.OnSuccessfulLikedComment;
         }
 
-        public async Task<StatusCodeResult> RemoveLikeFromComment(LikeCommentModel likeComment)
+        public async Task<string> RemoveLikeFromComment(LikeCommentModel likeComment)
         {
-            var currentUser = await currentUserService.GetUser();
+            var userId = currentUserService.GetUserId();
             var commentLike =
                 await context.CommentLikes.FirstOrDefaultAsync(c => c.CommentId.ToString() == likeComment.CommentId);
-            if (commentLike == null || currentUser.Id != commentLike.UserId)
+            if (commentLike == null)
             {
-                return new StatusCodeResult(StatusCodes.Status404NotFound);
+                throw new Exception(LikeMessages.OnFailedRemoveComment);
+            }
+            else if (commentLike.UserId != userId)
+            {
+                throw new Exception(LikeMessages.OnFailedUserDoNoMatch);
             }
 
             context.Remove(commentLike);
             await context.SaveChangesAsync();
-            return new StatusCodeResult(StatusCodes.Status200OK);
+            return LikeMessages.OnSuccessfulRemovedComment;
         }
 
         public int GetResourceLikesCount(string id)
@@ -73,38 +77,43 @@
                 .Count(rl => rl.ResourceId.ToString() == id);
         }
 
-        public async Task<StatusCodeResult> LikeAResource(LikeResourceModelAdd likeResource)
+        public async Task<string> LikeAResource(LikeResourceModelAdd likeResource)
         {
-            var currentUser = await currentUserService.GetUser();
-            if (context.ResourceLikes.Any(rl => rl.UserId == currentUser.Id
+            var userId = currentUserService.GetUserId();
+            if (context.ResourceLikes.Any(rl => rl.UserId == userId
                                                 && rl.ResourceId.ToString() == likeResource.ResourceId))
             {
-                return new StatusCodeResult(StatusCodes.Status404NotFound);
+                throw new Exception( LikeMessages.OnFailedLikedResource);
             }
 
             var likeResult = mapper.Map<ResourceLike>(likeResource);
-            likeResult.UserId = currentUser.Id;
+            likeResult.UserId = userId;
             likeResult.CreatedAt = DateTime.Now;
 
             await context.ResourceLikes.AddAsync(likeResult);
             await context.SaveChangesAsync();
-            return new StatusCodeResult(StatusCodes.Status201Created);
+            return LikeMessages.OnSuccessfulLikedResource;
         }
 
-        public async Task<StatusCodeResult> RemoveLikeFromResource(LikeResourceModel likeResource)
+        public async Task<string> RemoveLikeFromResource(LikeResourceModel likeResource)
         {
-            var currentUser = await currentUserService.GetUser();
+            var userId = currentUserService.GetUserId();
             var resourceLike =
                 await context.ResourceLikes.FirstOrDefaultAsync(rl =>
                     rl.ResourceId.ToString() == likeResource.ResourceId);
-            if (resourceLike == null || resourceLike.UserId != currentUser.Id)
+            if (resourceLike == null)
             {
-                return new StatusCodeResult(StatusCodes.Status404NotFound);
+                throw new Exception(LikeMessages.OnFailedRemoveResource);
+            }
+            if (resourceLike.UserId != userId)
+            {
+                throw new Exception(LikeMessages.OnFailedUserDoNoMatch);
             }
 
             context.Remove(resourceLike);
             await context.SaveChangesAsync();
-            return new StatusCodeResult(StatusCodes.Status200OK);
+            return LikeMessages.OnSuccesfulRemoveLikeResource;
+
         }
 
         public async Task<IEnumerable<LikeResourceModel>> ResourcesLikes()

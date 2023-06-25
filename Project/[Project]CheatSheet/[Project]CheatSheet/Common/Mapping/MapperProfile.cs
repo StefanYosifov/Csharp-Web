@@ -1,6 +1,7 @@
 ﻿namespace _Project_CheatSheet.Common.Mapping
 {
     using AutoMapper;
+    using Features.Comment.Models;
     using Features.Course.Models;
     using Features.Identity.Models;
     using Features.Likes.Models;
@@ -53,8 +54,8 @@
                     opt => opt.MapFrom(src => src.CreatedOn.ToString(Formatter.DateFormatter)))
                 .ForMember(dest => dest.CategoryNames,
                     opt => opt.MapFrom(src => src.CategoryResources.Select(cr => cr.Category.Name)))
-                .ForMember(dest=>dest.TotalLikes,
-                    opt=>opt.MapFrom(src=>src.ResourceLikes.Count(rl => rl.ResourceId==src.Id)));
+                .ForMember(dest => dest.TotalLikes,
+                    opt => opt.MapFrom(src => src.ResourceLikes.Count(rl => rl.ResourceId == src.Id)));
 
             CreateMap<Resource, DetailResources>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
@@ -65,6 +66,20 @@
                 .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.ResourceLikes.Count))
                 .ForMember(dest => dest.CategoryNames,
                     opt => opt.MapFrom(src => src.CategoryResources.Select(cr => cr.Category.Name)));
+
+            //Comments
+
+            CreateMap<Comment, CommentModel>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
+                .ForMember(dest => dest.CreatedAt,
+                    opt => opt.MapFrom(src => src.CreatedOn.ToString(Formatter.DateFormatter)))
+                .ForMember(dest => dest.ResourceId, opt => opt.MapFrom(src => src.ResourceId.ToString()))
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
+                .ForMember(dest => dest.UserProfileImage, opt => opt.MapFrom(src => src.User.ProfilePictureUrl))
+                .ForMember(dest => dest.CommentLikes, opt => opt.MapFrom(src => src.CommentLikes));
+
 
             //Courses
             CreateMap<Course, CourseRespondModel>()
@@ -80,13 +95,14 @@
                 .ForMember(dest => dest.CourseId, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.CourseName, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.CourseDescription, opt => opt.MapFrom(src => src.Description))
-                .ForMember(dest => dest.StartTime, opt => opt.MapFrom(src => src.StartDate.ToString(Formatter.DateOnlyFormatter)));
+                .ForMember(dest => dest.StartTime,
+                    opt => opt.MapFrom(src => src.StartDate.ToString(Formatter.DateOnlyFormatter)));
 
 
             CreateMap<Course, CourseRespondAllModel>()
-                .BeforeMap((src,dest)=>dest.HasPaid=false)
+                .BeforeMap((src, dest) => dest.HasPaid = false)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest=>dest.Category,opt=>opt.MapFrom(src=>src.Category.ToString()))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.ToString()))
                 .ForMember(dest => dest.TopicsCount, opt => opt.MapFrom(src => src.Topics.Count))
                 .ForMember(dest => dest.StartDate,
                     opt => opt.MapFrom(src => src.StartDate.ToString(Formatter.DateOnlyFormatter)))
@@ -109,7 +125,6 @@
                     opt => opt.MapFrom(src => src.StartTime.ToString(Formatter.DateFormatter)))
                 .ForMember(dest => dest.EndTime,
                     opt => opt.MapFrom(src => src.EndTime.ToString(Formatter.DateFormatter)));
-
         }
     }
 }
