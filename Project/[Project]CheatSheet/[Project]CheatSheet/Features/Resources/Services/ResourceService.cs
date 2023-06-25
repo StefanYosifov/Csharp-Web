@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using Common.GlobalConstants.Resource;
     using Common.Pagination;
     using Common.UserService.Interfaces;
     using Infrastructure.Data;
@@ -9,12 +10,10 @@
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Models;
-    using System.Collections.Generic;
 
     public class ResourceService : IResourceService
     {
         private const int ResourcesPerPage = 12;
-
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
         private readonly IMapper mapper;
@@ -30,11 +29,11 @@
         }
 
 
-        public async Task<ResourceAddModel> AddResources(ResourceAddModel resourceModel)
+        public async Task<string> AddResources(ResourceAddModel resourceModel)
         {
             if (resourceModel == null)
             {
-                return null;
+                throw new Exception( ResourceMessages.SuchModelDoesNotExist);
             }
 
             var isNull = resourceModel
@@ -44,7 +43,7 @@
 
             if (isNull || resourceModel.CategoryIds.Count == 0)
             {
-                return null;
+                throw new Exception(ResourceMessages.OnUnsuccessfulResourceAdd);
             }
 
             var userId = currentUserService.GetUserId();
@@ -74,7 +73,7 @@
                 await context.SaveChangesAsync();
             }
 
-            return resourceModel;
+            return ResourceMessages.OnSuccessfulResourceAdd;
         }
 
 
@@ -83,6 +82,7 @@
             var userId = currentUserService.GetUserId();
 
             IEnumerable<ResourceModel> resources = await context.Resources
+                .AsNoTracking()
                 .Include(res => res.CategoryResources)
                 .Include(res => res.User)
                 .ProjectTo<ResourceModel>(mapper.ConfigurationProvider)
@@ -100,7 +100,7 @@
             var resourcesCount =
                 await context.Resources.Where(r => r.IsPublic == true || r.UserId == userId).CountAsync();
 
-            IQueryable<ResourceModel> resourceModels = context.Resources
+            var resourceModels = context.Resources
                 .Include(res => res.CategoryResources)
                 .Include(res => res.User)
                 .Where(c => c.IsPublic == true || c.UserId == userId)
@@ -142,39 +142,43 @@
             return totalPages;
         }
 
-        public async Task<ResourceEditModel> EditResource(string id, ResourceEditModel resourceEdit)
+        public async Task<string> EditResource(string id, ResourceEditModel resourceEdit)
         {
             var resource = await context.Resources.FindAsync(Guid.Parse(id));
             if (resource == null)
             {
-                return null;
+                throw new Exception(ResourceMessages.SuchModelDoesNotExist);
             }
 
             context.Entry(resource).CurrentValues.SetValues(resourceEdit);
             try
             {
                 await context.SaveChangesAsync();
-                return resourceEdit;
+                return ResourceMessages.OnSuccessfulResourceEdit;
             }
             catch (DbUpdateException)
             {
-                return null!;
+                throw new Exception(ResourceMessages.OnUnsuccessfulResourceEdit);
             }
         }
 
-        public async Task<Resource> RemoveResource(string id)
+        public async Task<string> RemoveResource(string id)
         {
             var userId = currentUserService.GetUserId();
             var resource = await context.Resources.FindAsync(Guid.Parse(id));
 
-            if (resource == null || resource.UserId != userId || resource.IsDeleted)
+            if (resource == null)
             {
-                return null;
+                throw new Exception(ResourceMessages.SuchModelDoesNotExist);
+            }
+            if (resource.UserId != userId || resource.IsDeleted)
+            {
+                throw new Exception(ResourceMessages.OnUnsuccessfulResourceRemove);
             }
 
             context.Remove(resource);
             await context.SaveChangesAsync();
-            return resource;
+            return ResourceMessages.OnSuccessfulResourceRemove;
         }
     }
 }
