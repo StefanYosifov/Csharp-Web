@@ -5,6 +5,7 @@
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Models.Base.Interfaces;
+    using Seed;
 
     public class CheatSheetDbContext : IdentityDbContext<User>
     {
@@ -144,6 +145,7 @@
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
+            DataSeeder.SeedRoles(modelBuilder);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,

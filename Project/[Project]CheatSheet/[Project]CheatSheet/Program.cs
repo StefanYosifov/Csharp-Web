@@ -58,6 +58,14 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<CheatSheetDbContext>();
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ElevatedRights", policy =>
+    {
+        policy.RequireRole("Administrator", "Moderator");
+    });
+});
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.Configure<IdentityOptions>(options =>
