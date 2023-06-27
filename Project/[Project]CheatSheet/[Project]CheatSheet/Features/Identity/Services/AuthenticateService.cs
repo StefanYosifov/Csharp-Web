@@ -5,6 +5,7 @@
     using System.Text;
     using AutoMapper;
     using Infrastructure.Data.Models;
+    using Infrastructure.Data.Models.Enums;
     using Interfaces;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.IdentityModel.Tokens;
@@ -13,6 +14,7 @@
     public class AuthenticateService : IAuthenticateService
     {
         private const int IdentityTokenHoursExpiration = 48;
+
         private readonly IConfiguration configuration;
         private readonly IMapper mapper;
         private readonly SignInManager<User> signInManager;
@@ -83,6 +85,8 @@
             {
                 return null;
             }
+
+            await userManager.AddToRoleAsync(user, ApplicationRolesEnum.User.ToString());
 
             var authClaims = new List<Claim>
             {

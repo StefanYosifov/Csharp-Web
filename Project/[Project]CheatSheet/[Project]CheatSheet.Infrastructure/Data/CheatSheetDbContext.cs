@@ -144,8 +144,8 @@
                 .WithOne(t => t.Video)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            base.OnModelCreating(modelBuilder);
             DataSeeder.SeedRoles(modelBuilder);
+            base.OnModelCreating(modelBuilder);
         }
 
         public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
@@ -186,7 +186,10 @@
                     if (item.State == EntityState.Added)
                     {
                         entity.CreatedOn = currentTime;
-                        entity.CreatedBy = userName!;
+                        if (userName != null)
+                        {
+                            entity.CreatedBy = userName!;
+                        }
                     }
                     else if (item.State == EntityState.Modified)
                     {

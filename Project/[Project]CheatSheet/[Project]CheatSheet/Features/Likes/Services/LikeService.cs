@@ -61,7 +61,7 @@
             {
                 throw new Exception(LikeMessages.OnFailedRemoveComment);
             }
-            else if (commentLike.UserId != userId)
+            if (commentLike.UserId != userId)
             {
                 throw new Exception(LikeMessages.OnFailedUserDoNoMatch);
             }

@@ -6,7 +6,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    internal enum ApplicationRolesEnum
+    public enum ApplicationRolesEnum
     {
 
         Administrator=0,

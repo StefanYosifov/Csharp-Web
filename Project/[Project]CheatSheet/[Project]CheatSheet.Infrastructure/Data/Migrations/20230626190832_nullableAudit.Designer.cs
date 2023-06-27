@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _Project_CheatSheet.Infrastructure.Data;
 
@@ -11,9 +12,10 @@ using _Project_CheatSheet.Infrastructure.Data;
 namespace _Project_CheatSheet.Data.Migrations
 {
     [DbContext(typeof(CheatSheetDbContext))]
-    partial class CheatSheetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230626190832_nullableAudit")]
+    partial class nullableAudit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -318,6 +320,7 @@ namespace _Project_CheatSheet.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DeletedOn")
@@ -480,21 +483,21 @@ namespace _Project_CheatSheet.Data.Migrations
                         new
                         {
                             Id = "1",
-                            ConcurrencyStamp = "02174cf0–9412–4cfe-afbf-59f706d72cf0",
+                            ConcurrencyStamp = "a2f73ed6-7892-4a35-9af7-40bf2044fd50",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "2",
-                            ConcurrencyStamp = "02174cf0–9412–4cfe-afbf-59f706d72cf1",
+                            ConcurrencyStamp = "685ad182-7aa6-4514-a253-b0e07f22b388",
                             Name = "Moderator",
                             NormalizedName = "MODERATOR"
                         },
                         new
                         {
                             Id = "3",
-                            ConcurrencyStamp = "02174cf0–9412–4cfe-afbf-59f706d72cf2",
+                            ConcurrencyStamp = "f6dd89fe-24e1-4fbd-aeaf-6169603c26dd",
                             Name = "User",
                             NormalizedName = "USER"
                         });
