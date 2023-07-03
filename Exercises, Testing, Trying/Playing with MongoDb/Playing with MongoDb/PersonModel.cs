@@ -20,5 +20,7 @@
         [BsonRequired]
         [BsonRepresentation(BsonType.Decimal128)]
         public decimal Age { get; set; }
+
+        public byte[] FileBytes { get; set; }
     }
 }
