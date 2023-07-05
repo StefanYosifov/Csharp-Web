@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using Common.Caching;
     using Common.Pagination;
     using Common.UserService.Interfaces;
     using Infrastructure.Data;
@@ -18,27 +19,26 @@
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
         private readonly IMapper mapper;
+        private readonly ICache setCache;
 
         public CourseService(
             CheatSheetDbContext context,
             IMapper mapper,
             ICurrentUser currentUserService,
-            IMemoryCache cache)
+            IMemoryCache cache, ICache setCache)
         {
             this.context = context;
             this.mapper = mapper;
             this.currentUserService = currentUserService;
             this.cache = cache;
+            this.setCache = setCache;
         }
-
 
         public async Task<bool> JoinCourse(string id)
         {
-            var getUser = await currentUserService.GetUser();
             var getCourse = await context.Courses.FirstOrDefaultAsync(c => c.Id.ToString() == id);
 
-
-            if (getCourse == null || getUser == null)
+            if (getCourse == null)
             {
                 return false;
             }
@@ -47,8 +47,7 @@
             {
                 Course = getCourse,
                 CourseId = getCourse.Id,
-                User = getUser,
-                UserId = getUser.Id
+                UserId = currentUserService.GetUserId()
             };
 
             context.UserCourses.Add(userCourse);
@@ -81,7 +80,7 @@
                     .Where(p => p.Category == query.Language);
             }
 
-            SetCache(cacheKey, paginationResult, TimeSpan.FromMinutes(PublicCoursesCache));
+            setCache.SetCache(cacheKey, paginationResult, PublicCoursesCache);
 
             return paginationResult;
         }
@@ -111,7 +110,8 @@
                 course.HasPaid = true;
             }
 
-            SetCache(cacheKey, paginationResult, TimeSpan.FromMinutes(MyCoursesCache));
+
+            setCache.SetCache(cacheKey, paginationResult, MyCoursesCache);
 
             return paginationResult;
         }
@@ -139,8 +139,7 @@
 
         public async Task<ICollection<string>> GetCoursesLanguages()
         {
-
-            var cacheKey = $"Course_Languages_";
+            var cacheKey = "Course_Languages_";
             if (cache.TryGetValue(cacheKey, out ICollection<string> languages))
             {
                 return languages;
@@ -149,20 +148,9 @@
             languages = await context.Courses.AsNoTracking().Select(c => c.Category.ToString()).Distinct()
                 .ToArrayAsync();
 
-            SetCache(nameof(languages), languages, TimeSpan.FromMinutes(CategoriesCoursesCache));
+            setCache.SetCache(nameof(languages), languages, CategoriesCoursesCache);
 
             return languages;
-        }
-
-        private void SetCache<T>(string cacheKey, T result, TimeSpan expirationTime)
-        {
-            var cacheEntryOptions = new MemoryCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(MyCoursesCache),
-                Priority = CacheItemPriority.Low
-            };
-
-            cache.Set(cacheKey, result, cacheEntryOptions);
         }
 
         private IQueryable<CourseRespondAllModel> FilterWhetherArchiveOrNotQuery(bool isArchived,
