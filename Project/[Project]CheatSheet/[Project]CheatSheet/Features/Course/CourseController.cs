@@ -1,9 +1,11 @@
 ﻿namespace _Project_CheatSheet.Features.Course
 {
+    using Common.Filters;
     using Infrastructure.Data.GlobalConstants.Course;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Models;
 
     [Authorize]
@@ -18,61 +20,33 @@
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetCourse(string id)
-        {
-            var courseResult = await service.GetCourseDetails(id);
-            if (courseResult == null)
-            {
-                return NotFound(CourseMessages.OnUnsuccessfulCourseRetrieval);
-            }
-
-            return Ok(courseResult);
-        }
-
+        [ActionFilter("",CourseMessages.OnUnsuccessfulCourseRetrieval,StatusCodes.Status404NotFound)]
+        public async Task<CourseRespondModel> GetCourse(string id) => 
+            await service.GetCourseDetails(id);
 
         [HttpGet("payment/{id}")]
-        public async Task<IActionResult> GetCoursePaymentDetails(string id)
-        {
-            var courseResult = await service.GetPaymentDetails(id.ToLower());
-            if (courseResult == null)
-            {
-                return BadRequest(CourseMessages.OnUnsuccessfulCourseRetrieval);
-            }
-
-            return Ok(courseResult);
-        }
+        [ActionFilter("",CourseMessages.OnUnsuccessfulCourseRetrieval)]
+        public async Task<CourseRespondPaymentModel> GetCoursePaymentDetails(string id) => 
+            await service.GetPaymentDetails(id.ToLower());
 
         [HttpGet("all/{page}")]
-        public async Task<IActionResult> GetAllCourses(int page, [FromQuery]CourseRequestQueryModel query)
-        {
-            var coursesResult = await service.GetAllCourses(page,query);
-            return Ok(coursesResult);
-        }
+        [ActionFilter()]
+        public async Task<IEnumerable<CourseRespondAllModel>> GetAllCourses(int page, [FromQuery] CourseRequestQueryModel query) => 
+            await service.GetAllCourses(page, query);
 
         [HttpGet("my/{page}")]
-        public async Task<IActionResult> GetMyCourses(int page,[FromQuery]string? toggle)
-        {
-            var coursesResult = await service.GetMyCourses(page,toggle);
-            return Ok(coursesResult);
-        }
+        [ActionFilter()]
+        public async Task<IEnumerable<CourseRespondAllModel>> GetMyCourses(int page, [FromQuery] string? toggle) => 
+            await service.GetMyCourses(page, toggle);
 
         [HttpGet("languages")]
-        public async Task<IActionResult> GetLanguages()
-        {
-            var languagesResult = await service.GetCoursesLanguages();
-            return Ok(languagesResult);
-        }
+        [ActionFilter()]
+        public async Task<ICollection<string>> GetLanguages() =>
+            await service.GetCoursesLanguages();
 
         [HttpPost("payment/{id}")]
-        public async Task<IActionResult> JoinCourse(string id)
-        {
-            var courseResult = await service.JoinCourse(id);
-            if (!courseResult)
-            {
-                return Forbid(CourseMessages.OnSuccessfulPayment);
-            }
-
-            return Ok(CourseMessages.OnSuccessfulPayment);
-        }
+        [ActionFilter(CourseMessages.OnSuccessfulPayment, CourseMessages.OnSuccessfulPayment,StatusCodes.Status403Forbidden)]
+        public async Task<bool> JoinCourse(string id) => 
+            await service.JoinCourse(id);
     }
 }

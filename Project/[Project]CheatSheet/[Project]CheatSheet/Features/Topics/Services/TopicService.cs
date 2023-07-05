@@ -28,9 +28,9 @@
 
         public async Task<TopicDetailRespondModel> GetTopicDetail(string id)
         {
-            return await
+            return (await
                 context.Topics.ProjectTo<TopicDetailRespondModel>(mapper.ConfigurationProvider)
-                    .FirstOrDefaultAsync(t => t.Id.ToString() == id);
+                    .FirstOrDefaultAsync(t => t.Id.ToString() == id))!;
         }
 
         public async Task<IEnumerable<TopicRespondModel>> GetAllTopics(string id)
