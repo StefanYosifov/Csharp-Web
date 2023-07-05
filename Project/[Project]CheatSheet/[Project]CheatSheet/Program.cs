@@ -29,6 +29,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
+using _Project_CheatSheet.Common.Caching;
+using _Project_CheatSheet.Common.Filters;
 using _Project_CheatSheet.Common.UserService;
 using _Project_CheatSheet.Common.UserService.Interfaces;
 
@@ -49,6 +51,7 @@ builder.Services.AddTransient<ITopicService, TopicService>();
 builder.Services.AddTransient<IVideoService, VideoService>();
 
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
+builder.Services.AddScoped<ICache, Cache>();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddDbContext<CheatSheetDbContext>(options =>
@@ -121,7 +124,6 @@ builder.Services.Configure<JsonOptions>(options =>
     options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -130,7 +132,7 @@ if (app.Environment.IsDevelopment())
     app.UseMigrationsEndPoint();
     app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI(s => { s.SwaggerEndpoint("/swagger/v1/swagger.json", "Cheat sheet swagger API"); });
+    app.UseSwaggerUI(s => { s.SwaggerEndpoint("/swagger/swagger.json", "Cheat sheet swagger API"); });
 }
 
 app.UseCors();
@@ -142,4 +144,4 @@ app.UseAuthorization();
 
 app.UseEndpoints(e => { e.MapControllers(); });
 
-app.Run();
+await app.RunAsync();
