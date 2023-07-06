@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using Common.Exceptions;
     using Common.GlobalConstants.Comment;
     using Common.UserService.Interfaces;
 
@@ -31,13 +32,13 @@
         {
             if (comment == null)
             {
-                throw new Exception(CommentMessages.OnEmptyComment);
+                throw new ServiceException(CommentMessages.OnEmptyComment);
             }
             
             var resource = await GetResource(comment.ResourceId);
             if (resource == null)
             {
-                throw new Exception(CommentMessages.OnUnsuccessfulPostComment);
+                throw new ServiceException(CommentMessages.OnUnsuccessfulPostComment);
             }
 
             var userId = currentUserService.GetUserId();

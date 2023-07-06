@@ -1,6 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Likes.Services
 {
     using AutoMapper;
+    using Common.Exceptions;
     using Common.GlobalConstants.Likes;
     using Common.UserService.Interfaces;
     using Infrastructure.Data;
@@ -33,16 +34,17 @@
 
         public async Task<string> LikeAComment(LikeCommentModel likeComment)
         {
-            var currentUser = await currentUserService.GetUser();
-            var findComment = await context.Comments.FindAsync(Guid.Parse(likeComment.CommentId));
-            if (findComment == null || findComment.CommentLikes.Any(cl => cl.UserId == currentUser.Id))
+            var userId = currentUserService.GetUserId();
+            var findComment = await context.CommentLikes
+                .FirstOrDefaultAsync(c => c.Id.ToString() == likeComment.CommentId && c.UserId == userId);
+            if (findComment == null)
             {
-                throw new Exception(LikeMessages.OnFailedLikedResource);
+                throw new ServiceException(LikeMessages.OnFailedLikedResource);
             }
 
             var commentLike = new CommentLike
             {
-                UserId = currentUser.Id,
+                UserId = userId,
                 CommentId = Guid.Parse(likeComment.CommentId),
                 CreatedOn = DateTime.Now
             };
@@ -59,11 +61,12 @@
                 await context.CommentLikes.FirstOrDefaultAsync(c => c.CommentId.ToString() == likeComment.CommentId);
             if (commentLike == null)
             {
-                throw new Exception(LikeMessages.OnFailedRemoveComment);
+                throw new ServiceException(LikeMessages.OnFailedRemoveComment);
             }
+
             if (commentLike.UserId != userId)
             {
-                throw new Exception(LikeMessages.OnFailedUserDoNoMatch);
+                throw new ServiceException(LikeMessages.OnFailedUserDoNoMatch);
             }
 
             context.Remove(commentLike);
@@ -83,7 +86,7 @@
             if (context.ResourceLikes.Any(rl => rl.UserId == userId
                                                 && rl.ResourceId.ToString() == likeResource.ResourceId))
             {
-                throw new Exception( LikeMessages.OnFailedLikedResource);
+                throw new ServiceException(LikeMessages.OnFailedLikedResource);
             }
 
             var likeResult = mapper.Map<ResourceLike>(likeResource);
@@ -103,17 +106,17 @@
                     rl.ResourceId.ToString() == likeResource.ResourceId);
             if (resourceLike == null)
             {
-                throw new Exception(LikeMessages.OnFailedRemoveResource);
+                throw new ServiceException(LikeMessages.OnFailedRemoveResource);
             }
+
             if (resourceLike.UserId != userId)
             {
-                throw new Exception(LikeMessages.OnFailedUserDoNoMatch);
+                throw new ServiceException(LikeMessages.OnFailedUserDoNoMatch);
             }
 
             context.Remove(resourceLike);
             await context.SaveChangesAsync();
             return LikeMessages.OnSuccesfulRemoveLikeResource;
-
         }
 
         public async Task<IEnumerable<LikeResourceModel>> ResourcesLikes()

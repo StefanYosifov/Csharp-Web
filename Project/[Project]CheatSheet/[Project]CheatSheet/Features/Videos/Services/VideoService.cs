@@ -24,12 +24,10 @@
             var getCourseId = await context.Courses
                 .FirstOrDefaultAsync(c => c.Topics.Any(t => t.VideoId.ToString() == videoId));
 
-
             if (!await context.UserCourses.AnyAsync(uc => uc.CourseId == getCourseId.Id && uc.UserId == userId))
             {
                 return null;
             }
-
 
             var youtubeVideoUrl =
                 await context.Videos.FirstOrDefaultAsync(v => v.Id.ToString() == videoId);

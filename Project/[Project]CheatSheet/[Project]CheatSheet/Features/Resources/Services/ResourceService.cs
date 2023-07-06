@@ -2,6 +2,7 @@
 {
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using Common.Exceptions;
     using Common.GlobalConstants.Resource;
     using Common.Pagination;
     using Common.UserService.Interfaces;
@@ -33,7 +34,7 @@
         {
             if (resourceModel == null)
             {
-                throw new Exception( ResourceMessages.SuchModelDoesNotExist);
+                throw new ServiceException( ResourceMessages.SuchModelDoesNotExist);
             }
 
             var isNull = resourceModel
@@ -43,7 +44,7 @@
 
             if (isNull || resourceModel.CategoryIds.Count == 0)
             {
-                throw new Exception(ResourceMessages.OnUnsuccessfulResourceAdd);
+                throw new ServiceException(ResourceMessages.OnUnsuccessfulResourceAdd);
             }
 
             var userId = currentUserService.GetUserId();
