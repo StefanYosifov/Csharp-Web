@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Likes
 {
-    using Common.GlobalConstants.Likes;
+    using Common.Filters;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -18,79 +18,41 @@
         }
 
         [HttpGet("comment/{id}")]
-        public int CommentLikesCount(LikeCommentModel likeComment)
-        {
-            return likeService.GetCommentLikesCount(likeComment);
-        }
+        public int CommentLikesCount(LikeCommentModel likeComment) 
+            => likeService.GetCommentLikesCount(likeComment);
 
         [HttpPost("comment/like")]
-        public async Task<ActionResult> LikeAComment(LikeCommentModel commentModel)
-        {
-            try
-            {
-                var likeCommentResult = await likeService.LikeAComment(commentModel);
-                return Ok(likeCommentResult);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        [ActionFilter()]
+        [ExceptionHandlingActionFilter]
+        public async Task<string> LikeAComment(LikeCommentModel commentModel)
+            => await likeService.LikeAComment(commentModel);
 
         [HttpPost("comment/remove")]
-        public async Task<ActionResult> RemoveLikeFromComment(LikeCommentModel commentModel)
-        {
-            try
-            {
-                var removedLikedCommentResult = await likeService.RemoveLikeFromComment(commentModel);
-                return Ok(removedLikedCommentResult);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        [ActionFilter()]
+        [ExceptionHandlingActionFilter]
+        public async Task<string> RemoveLikeFromComment(LikeCommentModel commentModel) 
+            => await likeService.RemoveLikeFromComment(commentModel);
 
         [HttpGet("resource/{id}")]
-        public IActionResult GetResourceLikes(string id)
-        {
-            return Ok(likeService.GetResourceLikesCount(id));
-        }
+        [ActionFilter()]
+        public int GetResourceLikes(string id) 
+            => likeService.GetResourceLikesCount(id);
 
         [HttpPost("resource/like/{id}")]
-        public async Task<ActionResult> LikeAResource(LikeResourceModelAdd likeResource)
-        {
-            try
-            {
-                var likeResourceResult = await likeService.LikeAResource(likeResource);
-                return Ok(likeResourceResult);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        [ActionFilter()]
+        [ExceptionHandlingActionFilter]
+        public async Task<string> LikeAResource(LikeResourceModelAdd likeResource) 
+            => await likeService.LikeAResource(likeResource);
 
         [HttpPost("resource/remove/{id}")]
-        public async Task<ActionResult> RemoveLikeResource(LikeResourceModel likeResource)
-        {
-            try
-            {
-                var likedResourceResult = await likeService.RemoveLikeFromResource(likeResource);
-                return Ok(likedResourceResult);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-
-        }
+        [ActionFilter()]
+        [ExceptionHandlingActionFilter]
+        public async Task<string> RemoveLikeResource(LikeResourceModel likeResource) 
+            => await likeService.RemoveLikeFromResource(likeResource);
 
         [HttpGet("resource/all")]
-        public async Task<ActionResult<IEnumerable<LikeResourceModel>>> GetAllResourceLikes()
-        {
-            var likeResourceResults = await likeService.ResourcesLikes();
-            return Ok(likeResourceResults);
-        }
+        [ActionFilter()]
+        public async Task<IEnumerable<LikeResourceModel>> GetAllResourceLikes() 
+            => await likeService.ResourcesLikes();
     }
 }

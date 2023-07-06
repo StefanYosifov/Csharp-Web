@@ -1,6 +1,8 @@
 ﻿namespace _Project_CheatSheet.Features.Resources
 {
+    using Common.Filters;
     using Common.GlobalConstants.Resource;
+    using Common.Pagination;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -19,49 +21,27 @@
 
         [HttpGet("pages")]
         public IActionResult GetPageCount()
-        {
-            return Ok(resourceService.GetTotalPage());
-        }
+            => Ok(resourceService.GetTotalPage());
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAllResources(int id)
-        {
-            var resourcesResult = await resourceService.GetPublicResources(id);
-            return Ok(resourcesResult);
-        }
+        [ActionFilter]
+        public async Task<Pagination<ResourceModel>> GetAllResources(int id)
+            => await resourceService.GetPublicResources(id);
 
         [HttpGet("my")]
-        public async Task<IActionResult> GetMyResources()
-        {
-            var resourcesResult = await resourceService.GetMyResources();
-            return Ok(resourcesResult);
-        }
+        public async Task<IEnumerable<ResourceModel>> GetMyResources() 
+            => await resourceService.GetMyResources();
 
         [HttpGet("details/{id}")]
-        public async Task<IActionResult> GetResourceDetails(string id)
-        {
-            var resourceResult = await resourceService.GetResourceById(id);
-            if (resourceResult == null)
-            {
-                return NotFound("You do not have access to the resource or it does not exist");
-            }
-
-            return Ok(resourceResult);
-        }
+        [ActionFilter("", ResourceMessages.SuchModelDoesNotExist, StatusCodes.Status404NotFound)]
+        public async Task<DetailResources> GetResourceDetails(string id) 
+            => await resourceService.GetResourceById(id);
 
         [HttpPost("add")]
-        public async Task<IActionResult> AddResource([FromBody] ResourceAddModel resourceAdd)
-        {
-            try
-            {
-                var resourceResult = await resourceService.AddResources(resourceAdd);
-                return Ok(resourceResult);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        [ActionFilter]
+        [ExceptionHandlingActionFilter]
+        public async Task<string> AddResource([FromBody] ResourceAddModel resourceAdd) 
+            => await resourceService.AddResources(resourceAdd);
 
         [HttpPatch("edit/{id}")]
         public async Task<IActionResult> EditResource(string id, [FromBody] ResourceEditModel resourceEdit)
@@ -80,21 +60,12 @@
             {
                 return NotFound(e.Message);
             }
-
         }
 
         [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> RemoveResource(string id)
-        {
-            try
-            {
-                var resourceResult = await resourceService.RemoveResource(id);
-                return Ok(resourceResult);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        [ActionFilter]
+        [ExceptionHandlingActionFilter]
+        public async Task<string> RemoveResource(string id) 
+            => await resourceService.RemoveResource(id);
     }
 }

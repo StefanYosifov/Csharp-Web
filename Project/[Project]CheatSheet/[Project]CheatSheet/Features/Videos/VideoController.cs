@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Videos
 {
+    using Common.Filters;
     using Common.GlobalConstants.Videos;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
@@ -17,15 +18,8 @@
         }
 
         [HttpGet("id/{videoId}")]
-        public async Task<IActionResult> GetVideoId(string videoId)
-        {
-            var videoResult = await service.GetVideoId(videoId.ToLower());
-            if (videoResult == null)
-            {
-                return BadRequest(VideoMessages.OnUnsuccessfulGetVideoId);
-            }
-            return Ok(videoResult);
-        }
-
+        [ActionFilter("",VideoMessages.OnUnsuccessfulGetVideoId)]
+        public async Task<string> GetVideoId(string videoId) 
+            => await service.GetVideoId(videoId.ToLower());
     }
 }

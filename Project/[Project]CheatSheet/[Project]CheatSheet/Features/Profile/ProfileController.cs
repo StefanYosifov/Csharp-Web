@@ -1,11 +1,14 @@
 ﻿namespace _Project_CheatSheet.Features.Profile
 {
+    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Profile;
+    using Common.Filters;
     using Common.GlobalConstants.Profile;
     using Common.UserService.Interfaces;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using ProfileMessages = Common.GlobalConstants.Profile.ProfileMessages;
 
     [Route("/profile")]
     public class ProfileController : ApiController
@@ -33,23 +36,14 @@
 
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetProfileData(string id)
-        {
-            var dataResult = await service.GetProfileData(id);
-            return Ok(dataResult);
-        }
+        [ActionFilter()]
+        public async Task<ProfileModel> GetProfileData(string id) 
+            => await service.GetProfileData(id);
 
         [Authorize]
         [HttpPatch("update")]
-        public async Task<IActionResult> UpdateProfileData(UserEditModel userModel)
-        {
-            var updateResult = await service.EditProfileData(userModel);
-            if (updateResult == null)
-            {
-                return BadRequest(ProfileMessages.OnUnsuccessfulUserChange);
-            }
-
-            return Ok(ProfileMessages.OnSuccessfulUserChange);
-        }
+        [ActionFilter("",ProfileMessages.OnUnsuccessfulUserChange)]
+        public async Task<UserEditModel> UpdateProfileData(UserEditModel userModel) 
+            => await service.EditProfileData(userModel);
     }
 }

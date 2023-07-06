@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Comment
 {
+    using Common.Filters;
     using Common.GlobalConstants.Comment;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
@@ -19,54 +20,26 @@
 
 
         [HttpPost("send")]
-        public async Task<IActionResult> PostAComment(InputCommentModel comment)
-        {
-            try
-            {
-                var postCommentResult = await service.CreateAComment(comment);
-                return Ok(postCommentResult);
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-        }
+        [ActionFilter]
+        [ExceptionHandlingActionFilter]
+        public async Task<string> PostAComment(InputCommentModel comment) 
+            => await service.CreateAComment(comment);
 
         [HttpGet("get/{id}")]
-        public async Task<ActionResult<IEnumerable<CommentModel>>> GetComments(string id)
-        {
-            var commentsResult = await service.GetCommentsFromResource(id);
-            return Ok(commentsResult);
-        }
+        [ActionFilter()]
+        public async Task<IEnumerable<CommentModel>> GetComments(string id) 
+            => await service.GetCommentsFromResource(id);
 
         [HttpPatch("edit/{id}")]
-        public async Task<IActionResult> EditComment(string id, EditCommentModel comment)
-        {
-            try
-            {
-                var commentResult = await service.EditComment(id, comment);
-                return Ok(commentResult);
-            }
-            catch (Exception e)
-            {
-                return NotFound(e.Message);
-            }
-
-        }
+        [ActionFilter]
+        [ExceptionHandlingActionFilter]
+        public async Task<string> EditComment(string id, EditCommentModel comment)
+            => await service.EditComment(id, comment);
 
         [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteComment(string id)
-        {
-            try
-            {
-                var deleteResult = await service.DeleteComment(id);
-                return Ok(deleteResult);
-            }
-            catch (Exception e)
-            {
-                return Forbid(e.Message);
-            }
-
-        }
+        [ActionFilter]
+        [ExceptionHandlingActionFilter]
+        public async Task<string> DeleteComment(string id)
+            => await service.DeleteComment(id);
     }
 }

@@ -1,8 +1,10 @@
 ﻿namespace _Project_CheatSheet.Features.Statistics
 {
+    using Common.Filters;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Models;
 
     [Authorize]
     [Route("/statistics")]
@@ -17,15 +19,10 @@
 
         [Authorize]
         [HttpGet("all")]
-        public ActionResult GetAllStatistics()
+        [ActionFilter("","",StatusCodes.Status403Forbidden)]
+        public StatisticsModel GetAllStatistics()
         {
-            var statistics = service.GetAllStatistics();
-            if (statistics == null)
-            {
-                return Forbid();
-            }
-
-            return Ok(statistics);
+             return service.GetAllStatistics();
         }
     }
 }

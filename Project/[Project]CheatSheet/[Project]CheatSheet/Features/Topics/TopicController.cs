@@ -1,9 +1,11 @@
 ﻿namespace _Project_CheatSheet.Features.Topics
 {
+    using Common.Filters;
     using Infrastructure.Data.GlobalConstants.Topic;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Models;
 
     [Authorize]
     [Route("/course/topic")]
@@ -18,22 +20,12 @@
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTopic(string id)
-        {
-            var topicResult = await service.GetTopic(id);
-            if (topicResult == null)
-            {
-                return BadRequest(TopicMessages.OnUnsuccessful);
-            }
-
-            return Ok(topicResult);
-        }
+        [ActionFilter("",TopicMessages.OnUnsuccessful)]
+        public async Task<TopicRespondModel?> GetTopic(string id)
+            => await service.GetTopic(id);
 
         [HttpGet("all/{id}")]
-        public async Task<IActionResult> GetAllTopics(string id)
-        {
-            var topicResult = await service.GetAllTopics(id);
-            return Ok(topicResult);
-        }
+        public async Task<IEnumerable<TopicRespondModel>> GetAllTopics(string id)
+            => await service.GetAllTopics(id);
     }
 }

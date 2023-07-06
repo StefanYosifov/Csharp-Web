@@ -18,10 +18,7 @@
 
         [Authorize]
         [HttpGet("get")]
-        public async Task<IEnumerable<CategoryModel>> GetCategory()
-        {
-            var resources = await service.GetCategories();
-            return resources;
-        }
+        public async Task<IEnumerable<CategoryModel>> GetCategory() 
+            => await service.GetCategories();
     }
 }

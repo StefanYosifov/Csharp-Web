@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Identity
 {
+    using Common.Filters;
     using Common.GlobalConstants.User;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
@@ -18,6 +19,7 @@
         }
 
         [HttpPost("login")]
+        [ActionFilter()]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
             var authenticateResult = await service.AuthenticateLogin(loginModel);
