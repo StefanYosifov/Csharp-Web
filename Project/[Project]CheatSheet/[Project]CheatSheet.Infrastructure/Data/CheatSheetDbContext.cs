@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Infrastructure.Data
 {
+    using _Project_CheatSheet.Data.Migrations;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,8 @@
         public virtual DbSet<UserCourses> UserCourses { get; set; } = null!;
         public virtual DbSet<Topic> Topics { get; set; } = null!;
         public virtual DbSet<Video> Videos { get; set; } = null!;
+        public virtual DbSet<Issue> Issues { get; set; } = null!;
+        public virtual DbSet<CategoryIssue> CategoriesIssues { get; set; } = null!;
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

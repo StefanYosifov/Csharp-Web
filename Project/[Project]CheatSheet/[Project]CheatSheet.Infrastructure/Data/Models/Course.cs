@@ -11,6 +11,7 @@
         {
             Topics = new HashSet<Topic>();
             UsersCourses = new HashSet<UserCourses>();
+            this.Issues=new HashSet<Issue>();
         }
 
         public Guid Id { get; set; }
@@ -39,5 +40,7 @@
         public ICollection<Topic> Topics { get; set; }
 
         public ICollection<UserCourses> UsersCourses { get; set; }
+
+        public ICollection<Issue?> Issues { get; set; }
     }
 }
