@@ -1,7 +1,10 @@
-import { useState,useEffect } from 'react';
-import { FaThumbsUp, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
 import { dislikeComment, likeComment } from "../../api/Requests/likes";
 import { deleteComment, editComment } from "../../api/Requests/comments"
+import { PostRequestWithRedirection } from '../../common/Request';
+import { SuccessfulAlert } from './SuccessfulAlert';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export const Comments = ({ commentModels, userId }) => {
@@ -9,13 +12,13 @@ export const Comments = ({ commentModels, userId }) => {
   const [hasLiked, setHasLiked] = useState(commentModels.hasLiked);
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(commentModels.content);
-  const [saveClicked, setSaveClicked] = useState(false); 
+  const [saveClicked, setSaveClicked] = useState(false);
 
-console.log(commentModels);
+  console.log(commentModels);
 
   useEffect(() => {
     if (saveClicked) {
-      
+
     }
   }, [saveClicked]);
 
@@ -25,10 +28,12 @@ console.log(commentModels);
     editComment(commentId, editedComment)
       .then((response) => {
         if (response.status === 404 || response.status === 200) {
-          console.log('Comment edited successfully');
+          toast.success(response.data);
           setIsEditing(false);
-          setSaveClicked(true); // Update saveClicked state when the "Save" button is clicked
+          setSaveClicked(true);
         }
+      }).catch((error) => {
+        toast.error(error.response.data);
       });
   };
 
@@ -42,17 +47,24 @@ console.log(commentModels);
     if (hasLiked) {
       dislikeComment(commentId)
         .then((response) => {
-          if (response.status === 404 || response.status === 200) {
+          if (response.status === 200) {
+            toast.success(response.data);
             setNumLikes((oldLikes) => (oldLikes - 1));
           }
-        });
+        }).catch((error) => {
+          toast.error(error.response.data);
+        })
     } else {
       likeComment(commentId)
         .then((response) => {
-          if (response.status === 404 || response.status === 200) {
+          if (response.status === 200) {
+            toast.success(response.data);
             setNumLikes((oldLikes) => (oldLikes + 1));
           }
-        });
+        }
+        ).catch((error) => {
+          toast.error(error.response.data);
+        })
     }
     setHasLiked(state => !state);
   }

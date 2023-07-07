@@ -65,10 +65,9 @@ export const ResourceAdd = () => {
 
     const onSubmit = (event) => {
         console.log(formData);
-        // console.log(formData.categoryIds);
         event.preventDefault();
         addResource(formData);
-        //navigate('/resources')
+        navigate('/resources/1')
     }
     return (
         <>

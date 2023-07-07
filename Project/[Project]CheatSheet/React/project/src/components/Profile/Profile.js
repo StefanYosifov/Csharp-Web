@@ -39,7 +39,6 @@ export const Profile = () => {
 
   return (
     <>
-
       {profileData != undefined ? (
         <div className="bg-gradient-to-b from-gray-500 to-gray-700 flex justify-center">
           <div className="bg-slate-100 h-full my-48 w-3/4 rounded">
@@ -71,7 +70,6 @@ export const Profile = () => {
                       </li>
                     )
                   }
-
                 </ul>
               </nav>
               <div className="p-6 text-gray-800 text-lg">

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { NavLink, Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getDetails } from "../../api/Requests/details";
 import { getComments, sendAComment } from '../../api/Requests/comments'
 import { Comments } from '../Helper components/Comments'
@@ -57,10 +57,10 @@ export const Detail = () => {
     console.log(details);
     event.preventDefault();
     if (hasLiked) {
-      dislikeResource(id);
+      dislikeResource(id).then((res)=>console.log(res));
       setLikes((oldLikes) => oldLikes - 1);
     } else {
-      likeResource(id);
+      likeResource(id).then((res)=>console.log(res));
       setLikes((oldLikes) => oldLikes + 1);
     }
     setHasLiked((state) => !state);
