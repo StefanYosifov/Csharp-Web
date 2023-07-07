@@ -20,9 +20,7 @@
         [Authorize]
         [HttpGet("all")]
         [ActionFilter("","",StatusCodes.Status403Forbidden)]
-        public StatisticsModel GetAllStatistics()
-        {
-             return service.GetAllStatistics();
-        }
+        public StatisticsModel GetAllStatistics() 
+            => service.GetAllStatistics();
     }
 }

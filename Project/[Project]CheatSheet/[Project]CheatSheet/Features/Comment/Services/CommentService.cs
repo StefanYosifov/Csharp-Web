@@ -110,7 +110,7 @@
 
         private async Task<Resource?> GetResource(string resourceId)
         {
-            var resource = await context.Resources.FirstOrDefaultAsync(r => r.Id.ToString() == resourceId);
+            var resource = await context.Resources.FindAsync(resourceId);
             return resource;
         }
     }

@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Issue\Services\" />
     <Folder Include="Features\Videos\Models\" />
     <Folder Include="Features\Videos\Services\" />
   </ItemGroup>

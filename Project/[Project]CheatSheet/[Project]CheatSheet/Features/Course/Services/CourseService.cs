@@ -25,7 +25,8 @@
             CheatSheetDbContext context,
             IMapper mapper,
             ICurrentUser currentUserService,
-            IMemoryCache cache, ICache setCache)
+            IMemoryCache cache, 
+            ICache setCache)
         {
             this.context = context;
             this.mapper = mapper;
@@ -36,9 +37,16 @@
 
         public async Task<bool> JoinCourse(string id)
         {
-            var getCourse = await context.Courses.FirstOrDefaultAsync(c => c.Id.ToString() == id);
+            var getCourse = await context.Courses.FindAsync(id);
 
             if (getCourse == null)
+            {
+                return false;
+            }
+
+            var userId = currentUserService.GetUserId();
+
+            if (getCourse.UsersCourses.Any(uc => uc.UserId == userId))
             {
                 return false;
             }
@@ -47,7 +55,7 @@
             {
                 Course = getCourse,
                 CourseId = getCourse.Id,
-                UserId = currentUserService.GetUserId()
+                UserId = userId
             };
 
             context.UserCourses.Add(userCourse);
@@ -133,7 +141,7 @@
 
         public async Task<CourseRespondPaymentModel> GetPaymentDetails(string id)
         {
-            var getCourse = await context.Courses.FirstOrDefaultAsync(c => c.Id.ToString() == id);
+            var getCourse = await context.Courses.FindAsync(id);
             return mapper.Map<CourseRespondPaymentModel>(getCourse);
         }
 

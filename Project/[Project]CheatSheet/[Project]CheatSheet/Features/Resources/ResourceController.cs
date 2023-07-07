@@ -44,22 +44,16 @@
             => await resourceService.AddResources(resourceAdd);
 
         [HttpPatch("edit/{id}")]
+        [ActionFilter]
+        [ExceptionHandlingActionFilter]
         public async Task<IActionResult> EditResource(string id, [FromBody] ResourceEditModel resourceEdit)
         {
             if (!await TryUpdateModelAsync(resourceEdit))
             {
                 return NotFound(ResourceMessages.OnInvalidRequestsResourceEdit);
             }
-
-            try
-            {
-                var resourceResult = await resourceService.EditResource(id, resourceEdit);
-                return Ok(resourceResult);
-            }
-            catch (Exception e)
-            {
-                return NotFound(e.Message);
-            }
+            var resourceResult = await resourceService.EditResource(id, resourceEdit);
+            return Ok(resourceResult);
         }
 
         [HttpDelete("delete/{id}")]

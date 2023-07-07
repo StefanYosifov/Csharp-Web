@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Likes.Services
 {
+    using _Project_CheatSheet.Common.UserService;
     using AutoMapper;
     using Common.Exceptions;
     using Common.GlobalConstants.Likes;
@@ -35,9 +36,9 @@
         public async Task<string> LikeAComment(LikeCommentModel likeComment)
         {
             var userId = currentUserService.GetUserId();
-            var findComment = await context.CommentLikes
-                .FirstOrDefaultAsync(c => c.Id.ToString() == likeComment.CommentId && c.UserId == userId);
-            if (findComment == null)
+            var findComment = await context.Comments.FindAsync(Guid.Parse(likeComment.CommentId));
+            
+            if (findComment == null || findComment.CommentLikes.Any(cl => cl.UserId == userId))
             {
                 throw new ServiceException(LikeMessages.OnFailedLikedResource);
             }
