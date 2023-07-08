@@ -1,3 +1,6 @@
+using _Project_CheatSheet.Common.Caching;
+using _Project_CheatSheet.Common.UserService;
+using _Project_CheatSheet.Common.UserService.Interfaces;
 using _Project_CheatSheet.Features.Category.Interfaces;
 using _Project_CheatSheet.Features.Category.Services;
 using _Project_CheatSheet.Features.Comment.Interfaces;
@@ -6,6 +9,8 @@ using _Project_CheatSheet.Features.Course.Interfaces;
 using _Project_CheatSheet.Features.Course.Services;
 using _Project_CheatSheet.Features.Identity.Interfaces;
 using _Project_CheatSheet.Features.Identity.Services;
+using _Project_CheatSheet.Features.Issue.Interfaces;
+using _Project_CheatSheet.Features.Issue.Services;
 using _Project_CheatSheet.Features.Likes.Interfaces;
 using _Project_CheatSheet.Features.Likes.Services;
 using _Project_CheatSheet.Features.Profile.Interfaces;
@@ -20,7 +25,6 @@ using _Project_CheatSheet.Features.Videos.Interfaces;
 using _Project_CheatSheet.Features.Videos.Services;
 using _Project_CheatSheet.Infrastructure.Data;
 using _Project_CheatSheet.Infrastructure.Data.Models;
-
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Identity;
@@ -29,10 +33,6 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
-using _Project_CheatSheet.Common.Caching;
-using _Project_CheatSheet.Common.Filters;
-using _Project_CheatSheet.Common.UserService;
-using _Project_CheatSheet.Common.UserService.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +49,7 @@ builder.Services.AddTransient<IProfileService, ProfileService>();
 builder.Services.AddTransient<ICourseService, CourseService>();
 builder.Services.AddTransient<ITopicService, TopicService>();
 builder.Services.AddTransient<IVideoService, VideoService>();
+builder.Services.AddTransient<IIssueService, IssueService>();
 
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddScoped<ICache, Cache>();

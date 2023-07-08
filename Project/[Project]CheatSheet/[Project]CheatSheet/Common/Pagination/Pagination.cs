@@ -1,5 +1,7 @@
 ﻿namespace _Project_CheatSheet.Common.Pagination
 {
+    using Features.Issue.Models;
+    using Infrastructure.Data.Models;
     using Microsoft.EntityFrameworkCore;
 
     public class Pagination<T> : List<T>
@@ -24,5 +26,6 @@
             var items = await source.Skip((pageIndex - 1) * PageSize).Take(PageSize).ToListAsync();
             return new Pagination<T>(items, count, pageIndex, PageSize);
         }
+
     }
 }

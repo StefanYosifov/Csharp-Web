@@ -4,6 +4,7 @@
     using Features.Comment.Models;
     using Features.Course.Models;
     using Features.Identity.Models;
+    using Features.Issue.Models;
     using Features.Likes.Models;
     using Features.Profile.Models;
     using Features.Resources.Models;
@@ -125,6 +126,10 @@
                     opt => opt.MapFrom(src => src.StartTime.ToString(Formatter.DateFormatter)))
                 .ForMember(dest => dest.EndTime,
                     opt => opt.MapFrom(src => src.EndTime.ToString(Formatter.DateFormatter)));
+
+
+            CreateMap<Issue, IssueRespondModel>()
+                .ForMember(dest=>dest.LocationIssue,opt=>opt.MapFrom(src=>src.CategoryIssue.LocationIssue));
         }
     }
 }
