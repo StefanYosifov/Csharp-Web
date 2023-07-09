@@ -19,29 +19,15 @@
         }
 
         [HttpPost("login")]
-        [ActionFilter()]
-        public async Task<IActionResult> Login(LoginModel loginModel)
-        {
-            var authenticateResult = await service.AuthenticateLogin(loginModel);
-            if (string.IsNullOrWhiteSpace(authenticateResult))
-            {
-                return BadRequest(UserIdentityMessages.OnFailedRegister);
-            }
-
-            return Ok(authenticateResult);
-        }
+        [ActionFilter("",UserIdentityMessages.OnFailedLogin)]
+        public async Task<Response> Login(LoginModel loginModel)
+            => await service.AuthenticateLogin(loginModel);
+        
 
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterModel registerModel)
-        {
-            var authenticateResult = await service.AuthenticateRegister(registerModel);
-            if (string.IsNullOrWhiteSpace(authenticateResult))
-            {
-                return BadRequest(UserIdentityMessages.OnFailedRegister);
-            }
-
-            return Ok(authenticateResult);
-        }
+        public async Task<Response> Register(RegisterModel registerModel)
+            => await service.AuthenticateRegister(registerModel);
+        
     }
 }

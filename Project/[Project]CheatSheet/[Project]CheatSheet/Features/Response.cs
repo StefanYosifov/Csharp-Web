@@ -2,6 +2,8 @@
 {
     public class Response
     {
-        public string? Message { get; set; }
+        public ICollection<string> Roles { get; set; }
+
+        public string accessToken { get; set; }
     }
 }

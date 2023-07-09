@@ -4,8 +4,8 @@
 
     public interface IAuthenticateService
     {
-        Task<string> AuthenticateLogin(LoginModel loginModel);
+        Task<Response> AuthenticateLogin(LoginModel loginModel);
 
-        Task<string> AuthenticateRegister(RegisterModel registerModel);
+        Task<Response> AuthenticateRegister(RegisterModel registerModel);
     }
 }

@@ -129,7 +129,9 @@
 
 
             CreateMap<Issue, IssueRespondModel>()
-                .ForMember(dest=>dest.LocationIssue,opt=>opt.MapFrom(src=>src.CategoryIssue.LocationIssue));
+                .ForMember(dest=>dest.LocationIssue,opt=>opt.MapFrom(src=>src.CategoryIssue!.LocationIssue));
+
+            CreateMap<IssueRespondModel, Issue>();
         }
     }
 }
