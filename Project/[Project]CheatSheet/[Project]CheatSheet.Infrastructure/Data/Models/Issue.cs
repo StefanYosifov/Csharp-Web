@@ -7,6 +7,12 @@ using GlobalConstants.Issue;
 
 public class Issue : DeletableEntity
 {
+
+    public Issue()
+    {
+        this.IssuesTopic = new HashSet<TopicIssues>();
+    }
+
     [Key] public int Id { get; set; }
 
     [Required]
@@ -17,11 +23,6 @@ public class Issue : DeletableEntity
     [MaxLength(IssueConstants.IssueDescriptionMaxLength)]
     public string Description { get; set; } = null!;
 
-    [Required]
-    [ForeignKey(nameof(Course))]
-    public Guid CourseId { get; set; }
-    public Course Course { get; set; } = null!;
-
     [Required] [ForeignKey(nameof(User))] public string UserId { get; set; } = null!;
     public User User { get; set; } = null!;
 
@@ -29,4 +30,5 @@ public class Issue : DeletableEntity
     [ForeignKey(nameof(CategoryIssue))]
     public int? CategoryIssueId { get; set; }
     public CategoryIssue? CategoryIssue { get; set; }
+    public ICollection<TopicIssues> IssuesTopic { get; set; }
 }

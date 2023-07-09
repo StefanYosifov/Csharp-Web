@@ -147,6 +147,12 @@
                 .WithOne(t => t.Video)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<TopicIssues>()
+                .HasKey(k => new
+                {
+                    k.IssueId, k.TopicId
+                });
+
             DataSeeder.SeedRoles(modelBuilder);
             base.OnModelCreating(modelBuilder);
         }

@@ -10,6 +10,7 @@
         public Topic()
         {
             Id = Guid.NewGuid();
+            this.TopicIssues = new HashSet<TopicIssues>();
         }
 
         public Guid Id { get; set; }
@@ -32,5 +33,6 @@
         [ForeignKey(nameof(Video))] public Guid VideoId { get; set; }
 
         public virtual Video Video { get; set; } = null!;
+        public ICollection<TopicIssues?> TopicIssues { get; set; }
     }
 }
