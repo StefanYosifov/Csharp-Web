@@ -8,6 +8,8 @@
 
         public string? SearchString { get; set; }
 
+        public string TopicId { get; set; }
+
         public IssueSorting IssueSorting { get; set; }
 
     }

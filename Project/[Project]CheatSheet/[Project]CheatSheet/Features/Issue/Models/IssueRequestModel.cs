@@ -9,7 +9,7 @@
         public int Id { get; set; }
 
         [Required]
-        public string LocationIssue { get; set; }
+        public IssueCategoryModel IssueCategory { get; set; }
 
         [Required]
         [StringLength(IssueConstants.IssueTitleMaxLength,MinimumLength = IssueConstants.IssueTitleMinLength)]

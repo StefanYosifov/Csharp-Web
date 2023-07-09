@@ -13,6 +13,7 @@ using Infrastructure.Data.Models;
 using Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using System.Linq;
 
 public class IssueService : IIssueService
 {
@@ -42,6 +43,10 @@ public class IssueService : IIssueService
                 .Where(i => EF.Functions.Like(i.Title.ToLower(), wildcard));
         }
 
+        if (!string.IsNullOrWhiteSpace(query.TopicId))
+        {
+            issues = issues.Where(it => it.IssuesTopic.Any(t => t.TopicId.ToString() == query.TopicId));
+        }
 
         issues = query.IssueSorting switch
         {
@@ -84,8 +89,23 @@ public class IssueService : IIssueService
         }
     }
 
-    public Task<string> CreateIssue()
+    public Task<ICollection<IssueRespondModel>> GetIssuesByTopicId(string topicId)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task<string> CreateIssue(IssueRequestModel issue)
+    {
+        try
+        {
+            var mappedIssue = mapper.Map<Issue>(issue);
+            await context.AddAsync(mappedIssue);
+            await context.SaveChangesAsync();
+            return IssueMessages.SuccessfullyAddedIssue;
+        }
+        catch (Exception e)
+        {
+            return IssueMessages.SuccessfullyAddedIssue;
+        }
     }
 }

@@ -21,5 +21,10 @@
         [ActionFilter()]
         public async Task<ICollection<IssueRespondModel>> GetIssues([FromQuery]IssueQuery? query) 
             => await service.GetIssues(query);
+
+        [ActionFilter()]
+        [ExceptionHandlingActionFilter()]
+        public async Task<string> AddIssue(IssueRequestModel createdIssue)
+            => await service.CreateIssue(createdIssue);
     }
 }

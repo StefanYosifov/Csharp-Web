@@ -11,7 +11,9 @@
         //Maybe admin logic
         public Task<string> WithdrawIssue(string issueId);
 
-        public Task<string> CreateIssue();
+        public Task<ICollection<IssueRespondModel>> GetIssuesByTopicId(string topicId);
+
+        public Task<string> CreateIssue(IssueRequestModel issue);
 
     }
 }
