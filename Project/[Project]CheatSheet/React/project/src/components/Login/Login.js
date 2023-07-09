@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import RegisterPage from '../Register/Register';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../../api/Requests/authentication';
+import useAuth from '../../hooks/useAuth';
 
 export function LoginPage() {
+
+    const { setAuth } = useAuth();
+
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathName || "/";
+
 
     const [formData, setFormData] = useState({
         userName: "",
@@ -16,9 +23,14 @@ export function LoginPage() {
         event.preventDefault();
         try {
             const response = await login(formData.userName, formData.password);
-            console.log(response);
-            if (response === 200) {
-                navigate('/home', { replace: true });
+
+            if (response.status === 200) {
+                const accessToken = response?.data?.accessToken;
+                const roles = response?.data?.roles;
+                setAuth({ user:formData.userName,roles, accessToken });
+                console.log(setAuth);
+                console.log(`${formData.userName} ${accessToken} ${roles}`);
+                navigate(from, { replace: true });
             } else {
             }
         } catch (error) {

@@ -14,11 +14,10 @@ export const login = (userName, password) => {
   return postWithoutNotification("authenticate/login", { userName, password })
     .then((response) => {
       if (response.status === 200) {
-        setUserData(response.data);
+        setUserData(response.data.accessToken);
         toast.success(`You have successfully logged in!`);
-        setUserData(response.data);
       }
-      return response.status;
+      return response;
     }).catch((error) => {
       toast.error(error.response.data);
     });
@@ -30,9 +29,10 @@ export const register = (userData) => {
   return postWithoutNotification("authenticate/register", userData)
     .then((response) => {
       if (response.status === 200) {
-        setUserData(response.data);
+        setUserData(response.data.accessToken);
         toast.success(`You have successfully registered!`);
       }
+      return response;
     })
     .catch((error) => {
       toast.error(`There was an error when registering!`);
