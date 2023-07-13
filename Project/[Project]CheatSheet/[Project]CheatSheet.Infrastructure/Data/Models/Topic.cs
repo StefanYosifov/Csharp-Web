@@ -10,15 +10,16 @@
         public Topic()
         {
             Id = Guid.NewGuid();
-            this.TopicIssues = new HashSet<TopicIssues>();
+            this.TopicIssues = new HashSet<Issue>();
         }
-
+        [Key]
         public Guid Id { get; set; }
 
         [Required]
         [MaxLength(TopicConstants.NameMaxLength)]
         public string Name { get; set; }
 
+        [Required]
         [MaxLength(TopicConstants.ContentMaxLength)]
         public string Content { get; set; }
 
@@ -33,6 +34,6 @@
         [ForeignKey(nameof(Video))] public Guid VideoId { get; set; }
 
         public virtual Video Video { get; set; } = null!;
-        public ICollection<TopicIssues?> TopicIssues { get; set; }
+        public ICollection<Issue?> TopicIssues { get; set; }
     }
 }

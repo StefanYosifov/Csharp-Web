@@ -8,6 +8,8 @@
     {
         public Task<ICollection<IssueRespondModel>> GetIssues(IssueQuery? query);
 
+        public Task<ICollection<IssueCategoryModel>> GetIssuesCategories();
+
         //Maybe admin logic
         public Task<string> WithdrawIssue(string issueId);
 

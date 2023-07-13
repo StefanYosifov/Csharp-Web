@@ -6,6 +6,10 @@
 
         public const string UnAuthorized = "The issue does not belong to you or you don't have permission";
 
+        public const string NotInCourse = "You are not in the course!";
+
+        public const string TopicDoesNotExist = "Topic doesn't exist, please refresh the page";
+
         public const string UnSuccessfullyDeletedIssue = "There was an error, removing the issue";
         public const string SuccessfullyDeletedIssue = "You have successfully removed the issue";
 

@@ -39,6 +39,7 @@
         public virtual DbSet<CategoryIssue> CategoriesIssues { get; set; } = null!;
 
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -146,12 +147,6 @@
                 .HasMany(v => v.Topics)
                 .WithOne(t => t.Video)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<TopicIssues>()
-                .HasKey(k => new
-                {
-                    k.IssueId, k.TopicId
-                });
 
             DataSeeder.SeedRoles(modelBuilder);
             base.OnModelCreating(modelBuilder);

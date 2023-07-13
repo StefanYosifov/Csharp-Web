@@ -8,11 +8,6 @@ using GlobalConstants.Issue;
 public class Issue : DeletableEntity
 {
 
-    public Issue()
-    {
-        this.IssuesTopic = new HashSet<TopicIssues>();
-    }
-
     [Key] public int Id { get; set; }
 
     [Required]
@@ -29,6 +24,10 @@ public class Issue : DeletableEntity
     [Required]
     [ForeignKey(nameof(CategoryIssue))]
     public int? CategoryIssueId { get; set; }
+
     public CategoryIssue? CategoryIssue { get; set; }
-    public ICollection<TopicIssues> IssuesTopic { get; set; }
+
+    [Required] [ForeignKey(nameof(Topic))] public Guid TopicId { get; set; }
+
+    public virtual Topic Topic { get; set; }
 }

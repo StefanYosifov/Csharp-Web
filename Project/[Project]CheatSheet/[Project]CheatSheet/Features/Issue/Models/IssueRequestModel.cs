@@ -9,7 +9,7 @@
         public int Id { get; set; }
 
         [Required]
-        public IssueCategoryModel IssueCategory { get; set; }
+        public int IssueCategoryId { get; set; }
 
         [Required]
         [StringLength(IssueConstants.IssueTitleMaxLength,MinimumLength = IssueConstants.IssueTitleMinLength)]
@@ -18,6 +18,8 @@
         [Required]
         [StringLength(IssueConstants.IssueDescriptionMaxLength,MinimumLength = IssueConstants.IssueDescriptionMinLength)]
         public string Description { get; set; }
+
+        public Guid TopicId { get; set; }
 
     }
 }

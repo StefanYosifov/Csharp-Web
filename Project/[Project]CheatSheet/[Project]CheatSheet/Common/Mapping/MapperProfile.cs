@@ -128,10 +128,17 @@
                     opt => opt.MapFrom(src => src.EndTime.ToString(Formatter.DateFormatter)));
 
 
+            //Issues
+
             CreateMap<Issue, IssueRespondModel>()
                 .ForMember(dest=>dest.LocationIssue,opt=>opt.MapFrom(src=>src.CategoryIssue!.LocationIssue));
 
             CreateMap<IssueRespondModel, Issue>();
+
+            CreateMap<IssueRequestModel, Issue>()
+                .ForMember(dest=>dest.CategoryIssueId,opt=>opt.MapFrom(src=>src.IssueCategoryId));
+
+            CreateMap<CategoryIssue, IssueCategoryModel>();
         }
     }
 }
