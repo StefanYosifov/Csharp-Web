@@ -27,7 +27,7 @@ export const CourseMyItem = ({ course }) => {
                                         <span className="flex items-center">
                                             <Link to={{
                                                 pathname: `/course/trainings/${course.id}/${encodeURIComponent(course.title)}`,
-                                                state: { course }
+                                                state:'mystate' 
                                             }}>
                                                 Go to course!
                                             </Link>

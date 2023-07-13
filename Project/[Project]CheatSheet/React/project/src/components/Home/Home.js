@@ -39,7 +39,7 @@ const HomePage = () => {
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               <Link
-                to="/courses"
+                to="/course/all/1"
                 className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 px-8 rounded transition duration-200 ease-in-out transform hover:-translate-y-1 hover:scale-110"
               >
                 View Courses

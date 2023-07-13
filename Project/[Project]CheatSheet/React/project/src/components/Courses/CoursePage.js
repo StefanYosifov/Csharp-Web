@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaCalendarCheck } from "react-icons/fa";
 import { getAllTopics } from "../../api/Requests/topics";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { TiWarningOutline, TiSocialYoutube } from "react-icons/ti";
 import { Issue } from "../Issue/Issue";
 
@@ -10,6 +10,11 @@ export const CoursePage = () => {
   const [showIssueForm, setShowIssueForm] = useState(false);
   const [topics, setTopics] = useState([]);
   const { id } = useParams();
+  const location = useLocation();
+  const data = location.state?.course;
+
+
+  console.log(location);
 
   useEffect(() => {
     getAllTopics(id).then((res) => {
@@ -30,29 +35,31 @@ export const CoursePage = () => {
     setShowIssueForm((res)=>res=!showIssueForm); 
   };
 
+  
   console.log(topics);
   return (
-    <div className="w-full">
+    <div className="w-full h-full bg-slate-100">
+      <h1 className="text-center mt-24">Welcome to </h1>
       <section className="h-screen bg-slate-100 justify-center flex">
-        <div className="w-4/5 rounded bg-red-400 my-16">
-          <p>sdadsa</p>
+        <div className="w-5/6 rounded bg-slate-200 my-16 shadow-2xl p-4">
+          <p className="text-left ml-5 text-lg">Themes</p>
           {topics != null ? (
             <>
               <ul>
                 <li>
                   <article>
-                    <ul className="grid grid-cols-2 gap-2">
+                    <ul className="grid grid-cols-2 gap-2 mr-1 p-1">
                       {topics.map((item, index) => (
                         <li
                           key={index}
                           className={`border rounded-lg p-4 ${
-                            expandedItem === index ? "bg-blue-200" : ""
+                            expandedItem === index ? "bg-slate-300" : ""
                           }`}
                           onClick={() => handleItemClick(index)}
                         >
-                          <div className="flex items-center justify-between cursor-pointer">
+                          <div className="flex items-center justify-between cursor-pointer p-2 bg-slate-300">
                             {showIssueForm && <Issue showIssue={true}topicId={item.id} />}
-                            <span>{item.name}</span>
+                            <span>{index+1}. {item.name}</span>
                             <span>{expandedItem === index ? "-" : "+"}</span>
                           </div>
                           {expandedItem === index && (
