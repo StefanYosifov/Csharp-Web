@@ -8,8 +8,9 @@ export const getResourceLikes=()=>{
     return get(`like/resource/all`);
 }
 
-export const getPublicResources=(id)=>{
-    return get(`resource/${id}`);
+export const getPublicResources=(id,search)=>{
+    console.log(search);
+    return get(`resource/${id}/${search}`);
 }
 
 export const getMyResource=()=>{

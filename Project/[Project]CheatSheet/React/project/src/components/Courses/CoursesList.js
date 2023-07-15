@@ -6,7 +6,6 @@ import {Filters} from "./CoursesFilters"
 
 
 export const CoursesList = () => {
-
     const [courses, setCourses] = useState([]);
     const [searchParams]=useSearchParams();
     const {id}=useParams();

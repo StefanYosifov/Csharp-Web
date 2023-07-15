@@ -1,20 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { CategoryItem } from "../Helper components/CategoryItem";
 import { FaHeart } from 'react-icons/fa';
+const parse = require('html-react-parser');
+
 
 
 export const ResourceItem = (props) => {
   const resources = props.props
   const navigate = useNavigate();
-  console.log(resources);
+
   function navigationHandle(event) {
     event.preventDefault();
     navigate(`/details/${resources.id}`)
   }
-
-
-  console.log(resources);
-
+  
   return (
     <>
       {resources  &&
@@ -31,7 +30,7 @@ export const ResourceItem = (props) => {
             </div>
             <div className="p-4">
               <h1 className="text-3xl text-gray-700 font-bold hover:text-gray-700 my-2">{resources.title}</h1>
-              <p className="text-gray-700 text-base max-h-36 overflow-hidden">{resources.content}</p>
+              <div className="text-gray-700 text-base max-h-36 overflow-hidden">{parse(resources.content)}</div>
               <a className="text-blue-600 hover:underline mt-4 inline-block cursor-pointer" onClick={navigationHandle}>Read more</a>
             </div>
             <div className="flex items-center justify-between p-4 mt-auto">

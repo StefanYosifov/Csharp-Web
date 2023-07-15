@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { addResource } from "../../api/Requests/resources";
 import { getCategories } from "../../api/Requests/categories";
 import { useNavigate } from "react-router-dom";
-
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 
 export const ResourceAdd = () => {
@@ -13,7 +14,7 @@ export const ResourceAdd = () => {
         "content": "",
         "categoryIds": []
     });
-    
+
 
     const [categories, setCategories] = useState([]);
     const [categoryDictionary, setCategoryDictionary] = useState({});
@@ -34,7 +35,7 @@ export const ResourceAdd = () => {
     const handleCategoryChange = (event) => {
         const { value } = event.target;
         const isChecked = event.target.checked;
-    
+
         setFormData(prevState => {
             if (isChecked) {
                 return {
@@ -49,17 +50,28 @@ export const ResourceAdd = () => {
             }
         });
     };
-    
 
 
-    const onChange = (event) => {
-        const { name, value } = event.target;
 
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: [value]
-        }));
+    const onChange = (event, editor) => {
+        if (editor == undefined || editor == null) {
 
+            const { name, value } = event.target;
+
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
+        else {
+            const data = editor.getData();
+            setFormData((prevState) => ({
+                ...prevState,
+                content: data,
+            }));
+        }
+
+        console.log(formData);
     };
 
 
@@ -106,15 +118,12 @@ export const ResourceAdd = () => {
                             <label htmlFor="content" className="block text-lg text-gray-700 font-bold mb-2">
                                 Content
                             </label>
-                            <textarea
+                            <CKEditor
+                                editor={ClassicEditor}
                                 id="content"
-                                name="content"
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                required
-                                minLength="3"
-                                rows="12"
-                                onChange={onChange}
-                            ></textarea>
+                                data="<p>Write content here!</p>"
+                                onChange={(_, editor) => onChange(_, editor)}
+                            />
                         </div>
                         <div className="my-4">
                             <span className="block text-gray-700 font-bold mb-2">Categories:</span>
@@ -133,7 +142,6 @@ export const ResourceAdd = () => {
                                     </div>
                                 ))}
                             </div>
-
                         </div>
                         <div className="flex items-center justify-between">
                             <button

@@ -8,6 +8,8 @@ import { FaThumbsUp, FaComment } from 'react-icons/fa';
 import { dislikeResource, getLikes, likeResource } from "../../api/Requests/likes";
 import { deleteResource } from "../../api/Requests/resources";
 import { getUserId } from "../../api/Requests/utilRequests";
+const parse = require('html-react-parser');
+
 
 
 export const Detail = () => {
@@ -31,12 +33,6 @@ export const Detail = () => {
       })
       .catch((error) => console.error(error));
   }, []);
-
-
-
-  useEffect(()=>{
-
-  },[comment])
 
   const handleDeleteResource = () => {
     deleteResource(id)
@@ -110,7 +106,7 @@ console.log(userId);
               </div>
               <div className="max-w-2xl mb-4">
                 <h2 className="text-2xl font-bold mb-2">{details.title}</h2>
-                <p className="text-gray-700 leading-7">{details.content}</p>
+                {parse(details.content)}
               </div>
               <div className="flex justify-between w-full">
                 <button
