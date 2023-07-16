@@ -3,9 +3,6 @@ import React from 'react';
 function SearchBar(props) {
   const { searchTerm, handleChange } = props;
 
-  console.log(searchTerm);
-  console.log(handleChange);
-
   return (
     <div className='relative m-2'>
       <label htmlFor="Search" className="sr-only"> Search </label>

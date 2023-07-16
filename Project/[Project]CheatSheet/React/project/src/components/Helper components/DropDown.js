@@ -1,4 +1,4 @@
-export const DropDown = ({ category, handleChange }) => {
+export const DropDown = ({ category,value, handleChange }) => {
     return (
         <div className="w-72 m-2">
             <select
@@ -9,7 +9,7 @@ export const DropDown = ({ category, handleChange }) => {
                     unmount: { y: 25 },
 
                 }}
-                value={category}
+                value={value}
                 onChange={handleChange}>
                 {Object.values(category).map((ctg) => (
                     <option

@@ -70,15 +70,13 @@ export function ResourceList() {
   }, [])
 
 
-  const handleChange = (state, setStateFunc) => {
-    return (event) => {
-      setStateFunc(event.target.value);
-    };
+  const handleChange = (setStateFunc) => (event) => {
+    setStateFunc(event.target.value);
   };
 
-  const onClick = (event) => {
+  const onClick = async (event) => {
     event.preventDefault();
-    changeUrl();
+    const url=await changeUrl();
     getPublicResources(id, location.search)
       .then(response => {
         setResources(response.data);
@@ -143,9 +141,9 @@ export function ResourceList() {
 
           <div className="flex flex-col w-full p-10">
             <div className="flex justify-self-center items-start">
-              <SearchBar searchTerm={searchTerm} handleChange={handleChange(searchTerm, setSearchTerm)} />
-              <DropDown category={category} handleChange={handleChange(searchCategory, setSearchCategory)} />
-              <DropDown category={sortArray} handleChange={handleChange(sortArray, setSearchSort)} />
+              <SearchBar searchTerm={searchTerm} handleChange={handleChange(setSearchTerm)} />
+              <DropDown category={category} value={searchCategory} handleChange={handleChange(setSearchCategory)}/>  
+              <DropDown category={sortArray} handleChange={handleChange(setSearchSort)} />
               <button type="button" className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-norma bg-blue-600 m-2"
                 onClick={onClick}>
                 Apply filters
