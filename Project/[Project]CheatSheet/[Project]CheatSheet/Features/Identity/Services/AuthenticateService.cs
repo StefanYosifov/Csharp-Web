@@ -95,13 +95,12 @@ public class AuthenticateService : IAuthenticateService
             new(ClaimTypes.Name, user.UserName),
             new(ClaimTypes.NameIdentifier, user.Id),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new(ClaimTypes.Role, "User")
+            new(ClaimTypes.Role, ApplicationRolesEnum.User.ToString())
         };
 
         var token = GetToken(authClaims);
-        var response = new Response();
-        response.accessToken = new JwtSecurityTokenHandler().WriteToken(token);
-        response.Roles = await userManager.GetRolesAsync(user);
+
+        var response = await GetResponse(token, user);
         return response;
     }
 

@@ -1,11 +1,13 @@
 ﻿namespace _Project_CheatSheet.Features.Resources.Services
 {
+    using System.Net;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Common.Exceptions;
     using Common.GlobalConstants.Resource;
     using Common.Pagination;
     using Common.UserService.Interfaces;
+    using Enums;
     using Infrastructure.Data;
     using Infrastructure.Data.Models;
     using Interfaces;
@@ -29,12 +31,11 @@
             this.currentUserService = currentUserService;
         }
 
-
         public async Task<string> AddResources(ResourceAddModel resourceModel)
         {
             if (resourceModel == null)
             {
-                throw new ServiceException( ResourceMessages.SuchModelDoesNotExist);
+                throw new ServiceException(ResourceMessages.SuchModelDoesNotExist);
             }
 
             var isNull = resourceModel
@@ -49,9 +50,11 @@
 
             var userId = currentUserService.GetUserId();
 
+            var sanitizedContent = WebUtility.HtmlDecode(resourceModel.Content);
+
             var resource = new Resource
             {
-                Content = resourceModel.Content,
+                Content = sanitizedContent,
                 Title = resourceModel.Title,
                 ImageUrl = resourceModel.ImageUrl,
                 UserId = userId
@@ -77,7 +80,6 @@
             return ResourceMessages.OnSuccessfulResourceAdd;
         }
 
-
         public async Task<IEnumerable<ResourceModel>> GetMyResources()
         {
             var userId = currentUserService.GetUserId();
@@ -93,25 +95,47 @@
             return resources;
         }
 
-
-        public async Task<Pagination<ResourceModel>> GetPublicResources(int pageNumber)
+        public async Task<Pagination<ResourceModel>> GetPublicResources(int pageNumber, ResourceQueryModel query)
         {
             var userId = currentUserService.GetUserId();
 
-            var resourcesCount =
-                await context.Resources.Where(r => r.IsPublic == true || r.UserId == userId).CountAsync();
+            var resourceModels = context.Resources.AsQueryable();
 
-            var resourceModels = context.Resources
-                .Include(res => res.CategoryResources)
-                .Include(res => res.User)
-                .Where(c => c.IsPublic == true || c.UserId == userId)
-                .ProjectTo<ResourceModel>(mapper.ConfigurationProvider);
+            if (!string.IsNullOrWhiteSpace(query.Search))
+            {
+                var wildcard = $"%{query.Search.ToLower()}%";
 
-            var paginatedModels = await Pagination<ResourceModel>.CreateAsync(resourceModels, pageNumber);
+                resourceModels = resourceModels
+                    .Where(i => EF.Functions.Like(i.Title.ToLower(), wildcard));
+            }
+
+            if (!string.IsNullOrWhiteSpace(query.Category) && query.Sort.ToString()!="None")
+            {
+                resourceModels =
+                    resourceModels.Where(r => r.CategoryResources.Any(cr => cr.Category.Name == query.Category));
+            }
+
+            if (query.Sort != null && query.Sort.ToString() != "None")
+            {
+                resourceModels = query.Sort switch
+                {
+                    ResourceSorting.MostLiked => resourceModels.OrderByDescending(r => r.ResourceLikes.Count),
+                    ResourceSorting.LeastLiked => resourceModels.OrderBy(r => r.ResourceLikes.Count),
+                    ResourceSorting.MostCommented => resourceModels.OrderByDescending(r => r.Comments.Count),
+                    ResourceSorting.LeastCommented => resourceModels.OrderBy(r => r.Comments.Count),
+                    ResourceSorting.LargestContent => resourceModels.OrderByDescending(r => r.Content.Length),
+                    ResourceSorting.SmallestContent => resourceModels.OrderBy(r => r.Content.Length)
+                };
+            }
+
+            var filteredResources =
+                resourceModels.Where(r => r.IsPublic == true || r.UserId == userId)
+                    .ProjectTo<ResourceModel>(mapper.ConfigurationProvider);
+
+            var paginatedModels = await Pagination<ResourceModel>.CreateAsync(filteredResources, pageNumber);
 
             return paginatedModels;
         }
-
 
         public async Task<DetailResources> GetResourceById(string? resourceId)
         {
@@ -172,6 +196,7 @@
             {
                 throw new Exception(ResourceMessages.SuchModelDoesNotExist);
             }
+
             if (resource.UserId != userId || resource.IsDeleted)
             {
                 throw new Exception(ResourceMessages.OnUnsuccessfulResourceRemove);

@@ -25,8 +25,8 @@
 
         [HttpGet("{id}")]
         [ActionFilter]
-        public async Task<Pagination<ResourceModel>> GetAllResources(int id)
-            => await resourceService.GetPublicResources(id);
+        public async Task<Pagination<ResourceModel>> GetAllResources(int id,[FromQuery] ResourceQueryModel query)
+            => await resourceService.GetPublicResources(id,query);
 
         [HttpGet("my")]
         public async Task<IEnumerable<ResourceModel>> GetMyResources() 

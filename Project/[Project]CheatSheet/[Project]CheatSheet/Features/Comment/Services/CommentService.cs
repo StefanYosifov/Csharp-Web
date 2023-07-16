@@ -35,7 +35,7 @@
                 throw new ServiceException(CommentMessages.OnEmptyComment);
             }
             
-            var resource = await GetResource(comment.ResourceId);
+            var resource = await GetResource(comment.ResourceId.ToLower());
             if (resource == null)
             {
                 throw new ServiceException(CommentMessages.OnUnsuccessfulPostComment);
@@ -110,7 +110,7 @@
 
         private async Task<Resource?> GetResource(string resourceId)
         {
-            var resource = await context.Resources.FindAsync(resourceId);
+            var resource = await context.Resources.FindAsync(Guid.Parse(resourceId));
             return resource;
         }
     }
