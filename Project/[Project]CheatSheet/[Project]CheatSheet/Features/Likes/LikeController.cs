@@ -40,7 +40,6 @@
 
         [HttpPost("resource/like/{id}")]
         [ActionFilter()]
-        [ExceptionHandlingActionFilter]
         public async Task<string> LikeAResource(LikeResourceModelAdd likeResource) 
             => await likeService.LikeAResource(likeResource);
 

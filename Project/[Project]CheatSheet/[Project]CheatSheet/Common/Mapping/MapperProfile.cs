@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Common.Mapping
 {
+    using _Project_CheatSheet.Features.Category.Models;
     using AutoMapper;
     using Features.Comment.Models;
     using Features.Course.Models;
@@ -59,14 +60,21 @@
                     opt => opt.MapFrom(src => src.ResourceLikes.Count(rl => rl.ResourceId == src.Id)));
 
             CreateMap<Resource, DetailResources>()
-                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.DateTime,
-                    opt => opt.MapFrom(src => src.CreatedOn.ToString(Formatter.DateFormatter)))
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName.ToString()))
-                .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.User.ProfilePictureUrl))
-                .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.ResourceLikes.Count))
-                .ForMember(dest => dest.CategoryNames,
-                    opt => opt.MapFrom(src => src.CategoryResources.Select(cr => cr.Category.Name)));
+         .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+         .ForMember(dest => dest.DateTime, opt => opt.MapFrom(src => src.CreatedOn.ToString(Formatter.DateFormatter)))
+         .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName.ToString()))
+         .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.User.ProfilePictureUrl))
+         .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.ResourceLikes.Count))
+         .ForMember(dest => dest.CategoryNames, opt => opt.MapFrom(src => src.CategoryResources.Select(cr => cr.Category.Name)))
+         .ForMember(dest=>dest.UserImage,opt=>opt.MapFrom(src=>src.User.ProfilePictureUrl))
+         .ForMember(dest=>dest.CategoryNames,opt=>opt.MapFrom(src=>src.CategoryResources.Select(c=>c.Category.Name)))
+         .ForMember(dest => dest.ResourceComments, opt => opt.MapFrom(src => src.Comments.Select(rc => new ResourceCommentModel()
+         {
+             Id = rc.Id.ToString(),
+             Content = rc.Content
+         })))
+         .ForMember(dest=>dest.ResourceLikes,opt=>opt.MapFrom(src=>src.ResourceLikes.Where(rl=>rl.ResourceId==src.Id)));
+
 
             //Comments
 
@@ -131,12 +139,12 @@
             //Issues
 
             CreateMap<Issue, IssueRespondModel>()
-                .ForMember(dest=>dest.LocationIssue,opt=>opt.MapFrom(src=>src.CategoryIssue!.LocationIssue));
+                .ForMember(dest => dest.LocationIssue, opt => opt.MapFrom(src => src.CategoryIssue!.LocationIssue));
 
             CreateMap<IssueRespondModel, Issue>();
 
             CreateMap<IssueRequestModel, Issue>()
-                .ForMember(dest=>dest.CategoryIssueId,opt=>opt.MapFrom(src=>src.IssueCategoryId));
+                .ForMember(dest => dest.CategoryIssueId, opt => opt.MapFrom(src => src.IssueCategoryId));
 
             CreateMap<CategoryIssue, IssueCategoryModel>();
         }

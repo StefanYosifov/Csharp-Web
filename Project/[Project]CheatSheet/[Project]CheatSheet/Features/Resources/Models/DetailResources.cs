@@ -1,6 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Resources.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using _Project_CheatSheet.Features.Comment.Models;
     using Common.GlobalConstants.Resource;
     using Infrastructure.Data.Models;
 
@@ -10,6 +11,7 @@
         {
             ResourceLikes = new HashSet<ResourceLike>();
             CategoryNames = new List<string>();
+            ResourceComments=new HashSet<ResourceCommentModel>();
         }
 
         [Required] public string Id { get; set; } = null!;
@@ -34,6 +36,7 @@
         public string? UserName { get; set; }
         public string? UserImage { get; set; }
         public IEnumerable<ResourceLike> ResourceLikes { get; set; }
+        public IEnumerable<ResourceCommentModel> ResourceComments { get; set; }
         public IEnumerable<string> CategoryNames { get; set; }
     }
 }

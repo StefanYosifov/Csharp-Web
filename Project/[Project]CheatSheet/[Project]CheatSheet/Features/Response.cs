@@ -5,5 +5,7 @@
         public ICollection<string> Roles { get; set; }
 
         public string accessToken { get; set; }
+
+        public string UserId { get; set; }
     }
 }

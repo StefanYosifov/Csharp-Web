@@ -88,6 +88,7 @@
                 .AsNoTracking()
                 .Include(res => res.CategoryResources)
                 .Include(res => res.User)
+                .Include(res=>res.Comments)
                 .ProjectTo<ResourceModel>(mapper.ConfigurationProvider)
                 .Where(res => res.UserId == userId)
                 .ToArrayAsync();
@@ -142,6 +143,7 @@
             IEnumerable<DetailResources> details = await context.Resources
                 .Include(r => r.User)
                 .Include(r => r.Comments)
+                .Include(r=>r.Comments)
                 .ProjectTo<DetailResources>(mapper.ConfigurationProvider)
                 .Where(r => r.Id == resourceId).ToListAsync();
 

@@ -6,6 +6,7 @@
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Filters;
     using Models;
 
     [Route("/resource")]
@@ -34,6 +35,7 @@
 
         [HttpGet("details/{id}")]
         [ActionFilter("", ResourceMessages.SuchModelDoesNotExist, StatusCodes.Status404NotFound)]
+        [ExceptionHandlingActionFilter]
         public async Task<DetailResources> GetResourceDetails(string id) 
             => await resourceService.GetResourceById(id);
 

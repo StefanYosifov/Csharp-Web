@@ -92,7 +92,6 @@
 
             var likeResult = mapper.Map<ResourceLike>(likeResource);
             likeResult.UserId = userId;
-            likeResult.CreatedAt = DateTime.Now;
 
             await context.ResourceLikes.AddAsync(likeResult);
             await context.SaveChangesAsync();

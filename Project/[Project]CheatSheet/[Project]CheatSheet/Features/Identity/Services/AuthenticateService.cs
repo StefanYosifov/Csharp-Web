@@ -3,6 +3,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using _Project_CheatSheet.Common.UserService.Interfaces;
 using AutoMapper;
 using Infrastructure.Data.Models;
 using Infrastructure.Data.Models.Enums;
@@ -17,6 +18,7 @@ public class AuthenticateService : IAuthenticateService
 
     private readonly IConfiguration configuration;
     private readonly IMapper mapper;
+    private readonly ICurrentUser userService;
     private readonly SignInManager<User> signInManager;
     private readonly UserManager<User> userManager;
 
@@ -24,12 +26,14 @@ public class AuthenticateService : IAuthenticateService
         UserManager<User> userManager,
         SignInManager<User> signInManager,
         IConfiguration configuration,
-        IMapper mapper)
+        IMapper mapper,
+        ICurrentUser userService)
     {
         this.userManager = userManager;
         this.signInManager = signInManager;
         this.configuration = configuration;
         this.mapper = mapper;
+        this.userService = userService;
     }
 
     public async Task<Response> AuthenticateLogin(LoginModel loginModel)
@@ -99,7 +103,6 @@ public class AuthenticateService : IAuthenticateService
         };
 
         var token = GetToken(authClaims);
-
         var response = await GetResponse(token, user);
         return response;
     }
@@ -109,6 +112,7 @@ public class AuthenticateService : IAuthenticateService
         var response = new Response();
         response.accessToken = new JwtSecurityTokenHandler().WriteToken(token);
         response.Roles = await userManager.GetRolesAsync(user);
+        response.UserId=userService.GetUserId();
         return response;
     }
 
