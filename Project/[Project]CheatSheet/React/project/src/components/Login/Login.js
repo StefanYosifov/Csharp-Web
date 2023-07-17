@@ -1,12 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import RegisterPage from '../Register/Register';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../../api/Requests/authentication';
 import useAuth from '../../hooks/useAuth';
+import { UserContext } from '../../context/UserDataProvider';
 
 export function LoginPage() {
 
     const { setAuth } = useAuth();
+    const [user, setUser] = useContext(UserContext);
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -27,8 +29,8 @@ export function LoginPage() {
             if (response.status === 200) {
                 const accessToken = response?.data?.accessToken;
                 const roles = response?.data?.roles;
-                setAuth({ user:formData.userName,roles, accessToken });
-                console.log(setAuth);
+                setAuth({ user: formData.userName, roles, accessToken });
+                setUser(response.data)
                 console.log(`${formData.userName} ${accessToken} ${roles}`);
                 navigate(from, { replace: true });
             } else {

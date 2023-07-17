@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CategoryItem } from "../Helper components/CategoryItem";
 import { FaHeart } from 'react-icons/fa';
 const parse = require('html-react-parser');
@@ -32,6 +32,7 @@ export const ResourceItem = (props) => {
               <h1 className="text-3xl text-gray-700 font-bold hover:text-gray-700 my-2">{resources.title}</h1>
               <div className="text-gray-700 text-base max-h-36 overflow-hidden">{parse(resources.content)}</div>
               <a className="text-blue-600 hover:underline mt-4 inline-block cursor-pointer" onClick={navigationHandle}>Read more</a>
+              <Link to={`/details2/${resources.id}`} className="text-blue-600 hover:underline mt-4 inline-block cursor-pointer">Read more</Link>
             </div>
             <div className="flex items-center justify-between p-4 mt-auto">
               <div className="flex items-center">

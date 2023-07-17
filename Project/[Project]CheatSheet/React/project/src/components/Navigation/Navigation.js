@@ -1,26 +1,25 @@
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { getUserData } from '../../api/util';
+import { useContext, useEffect, useState } from 'react';
 import { getUserId } from '../../api/Requests/profile';
 import { validateToken } from '../../api/Requests/validateJWTtoken';
+import { UserContext, UserDataProvider } from '../../context/UserDataProvider';
 
-export const Navigation=()=> {
+export const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userId, setUserId] = useState(undefined);
+  const [user, setUser] = useContext(UserContext);
   const navigate = useNavigate();
 
   const isAuthenticated = validateToken();
   console.log(isAuthenticated);
-  
-  useEffect(()=>{
-    getUserId().then(res=>setUserId(res.data));
-  },[userId]);
+
+  useEffect(() => {
+    getUserId().then(res => setUserId(res.data));
+  }, [userId]);
 
   const handleMenuClick = () => {
     setMenuOpen(!menuOpen);
   };
-
-
 
   return (
     <nav className="bg-gray-800">
@@ -28,7 +27,7 @@ export const Navigation=()=> {
         <div className="text-lg font-bold md:py-0 py-4">
           Logo
         </div>
-        {isAuthenticated === false && (
+        {!user && (
           <>
             <li>
               <NavLink to="/login" className="text-white px-2 py-1 rounded-lg hover:bg-red-700">
@@ -43,23 +42,8 @@ export const Navigation=()=> {
           </>
         )}
 
-        {isAuthenticated === true && (
+        {user && (
           <>
-            <li>
-              <NavLink to="/home" className="text-ellipsis text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/resources/1" className="text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
-                Resource
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/resource/add" className="text-white px-2 py-1 rounded-lg hover:bg-red-700 mr-2">
-                Add
-              </NavLink>
-            </li>
             <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0 text-slate-100">
               <li>
                 <NavLink to="/home" className="flex md:inline-flex p-4 items-center hover:bg-gray-500">
@@ -84,14 +68,14 @@ export const Navigation=()=> {
                   <li>
                     <NavLink to="resources/my" className="flex px-4 py-3 hover:bg-gray-500">
                       My resources
-                   </NavLink>
+                    </NavLink>
                   </li>
                   <li>
                     <NavLink to="resource/add" className="flex px-4 py-3 hover:bg-gray-500">
                       Add
                     </NavLink>
                   </li>
-                 
+
                 </ul>
               </li>
               <li className="relative group">
@@ -110,7 +94,7 @@ export const Navigation=()=> {
                   <li>
                     <NavLink to="course/mine/1" className="flex px-4 py-3 hover:bg-gray-500">
                       Mine
-                   </NavLink>
+                    </NavLink>
                   </li>
                 </ul>
               </li>
@@ -124,7 +108,7 @@ export const Navigation=()=> {
               <button className="text-white px-2 py-1 rounded-lg hover:bg-red-700 focus:outline-none mr-2" onClick={handleMenuClick}>
                 Profile <i className="fas fa-caret-down ml-2"></i>
               </button>
-              {menuOpen && userId!==undefined && (
+              {menuOpen && userId !== undefined && (
                 <ul className="absolute right-0 mt-2 py-2 w-40 bg-white rounded-lg shadow-xl">
                   <li>
                     <NavLink to={`/profile/${userId}`} className="text-gray-800 hover:bg-red-700 hover:text-white px-3 py-2 rounded-lg block">

@@ -7,7 +7,6 @@ export const DropDown = ({ category,value, handleChange }) => {
                 animate={{
                     mount: { y: 0 },
                     unmount: { y: 25 },
-
                 }}
                 value={value}
                 onChange={handleChange}>
