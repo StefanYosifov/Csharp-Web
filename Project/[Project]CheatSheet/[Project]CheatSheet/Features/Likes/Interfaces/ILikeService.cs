@@ -1,6 +1,5 @@
 ﻿namespace _Project_CheatSheet.Features.Likes.Interfaces
 {
-    using Microsoft.AspNetCore.Mvc;
     using Models;
 
     public interface ILikeService

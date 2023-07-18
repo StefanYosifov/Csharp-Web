@@ -1,9 +1,9 @@
 ﻿namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
-    using System.ComponentModel.DataAnnotations;
-    using System.ComponentModel.DataAnnotations.Schema;
     using Base;
     using GlobalConstants.Comment;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
 
     public class Comment : DeletableEntity
     {

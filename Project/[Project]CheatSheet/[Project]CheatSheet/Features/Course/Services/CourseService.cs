@@ -25,7 +25,7 @@
             CheatSheetDbContext context,
             IMapper mapper,
             ICurrentUser currentUserService,
-            IMemoryCache cache, 
+            IMemoryCache cache,
             ICache setCache)
         {
             this.context = context;

@@ -20,7 +20,7 @@
 
         public CommentService(
             CheatSheetDbContext context,
-            ICurrentUser currentUserService, 
+            ICurrentUser currentUserService,
             IMapper mapper)
         {
             this.context = context;
@@ -34,7 +34,7 @@
             {
                 throw new ServiceException(CommentMessages.OnEmptyComment);
             }
-            
+
             var resource = await GetResource(comment.ResourceId.ToLower());
             if (resource == null)
             {

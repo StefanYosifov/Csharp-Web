@@ -1,11 +1,11 @@
 ﻿namespace _Project_CheatSheet.Common.UserService
 {
-    using System.Security.Claims;
     using _Project_CheatSheet.Infrastructure.Data;
     using _Project_CheatSheet.Infrastructure.Data.Models;
     using Interfaces;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
+    using System.Security.Claims;
 
     public class CurrentUser : ICurrentUser
     {

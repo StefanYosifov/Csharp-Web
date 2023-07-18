@@ -1,8 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Profile
 {
-    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Profile;
     using Common.Filters;
-    using Common.GlobalConstants.Profile;
     using Common.UserService.Interfaces;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
@@ -37,13 +35,13 @@
         [Authorize]
         [HttpGet("{id}")]
         [ActionFilter()]
-        public async Task<ProfileModel> GetProfileData(string id) 
+        public async Task<ProfileModel> GetProfileData(string id)
             => await service.GetProfileData(id);
 
         [Authorize]
         [HttpPatch("update")]
-        [ActionFilter("",ProfileMessages.OnUnsuccessfulUserChange)]
-        public async Task<UserEditModel> UpdateProfileData(UserEditModel userModel) 
+        [ActionFilter("", ProfileMessages.OnUnsuccessfulUserChange)]
+        public async Task<UserEditModel> UpdateProfileData(UserEditModel userModel)
             => await service.EditProfileData(userModel);
     }
 }

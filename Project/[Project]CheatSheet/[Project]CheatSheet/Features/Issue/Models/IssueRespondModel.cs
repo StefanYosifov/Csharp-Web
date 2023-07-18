@@ -1,7 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Issue.Models;
 
-using System.ComponentModel.DataAnnotations;
 using Infrastructure.Data.GlobalConstants.Issue;
+using System.ComponentModel.DataAnnotations;
 
 public class IssueRespondModel
 {

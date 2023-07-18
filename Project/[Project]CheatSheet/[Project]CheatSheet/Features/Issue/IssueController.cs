@@ -2,15 +2,13 @@
 {
     using _Project_CheatSheet.Features.Issue.Models;
     using Common.Filters;
-    using Infrastructure.Data.GlobalConstants.Issue;
-    using Infrastructure.Data.Models;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     [Authorize]
     [Route("/issue")]
-    public class IssueController:ApiController
+    public class IssueController : ApiController
     {
         private readonly IIssueService service;
 
@@ -21,7 +19,7 @@
 
         [HttpGet("all")]
         [ActionFilter()]
-        public async Task<ICollection<IssueRespondModel>> GetIssues([FromQuery]IssueQuery? query) 
+        public async Task<ICollection<IssueRespondModel>> GetIssues([FromQuery] IssueQuery? query)
             => await service.GetIssues(query);
 
         [HttpPost("add")]

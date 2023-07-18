@@ -2,8 +2,8 @@
 {
     public enum IssueSorting
     {
-        Newest=0,
-        Oldest=1,
-        Deleted=2
+        Newest = 0,
+        Oldest = 1,
+        Deleted = 2
     }
 }

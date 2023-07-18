@@ -18,7 +18,7 @@
         }
 
         [HttpGet("comment/{id}")]
-        public int CommentLikesCount(LikeCommentModel likeComment) 
+        public int CommentLikesCount(LikeCommentModel likeComment)
             => likeService.GetCommentLikesCount(likeComment);
 
         [HttpPost("comment/like")]
@@ -30,28 +30,28 @@
         [HttpPost("comment/remove")]
         [ActionFilter()]
         [ExceptionHandlingActionFilter]
-        public async Task<string> RemoveLikeFromComment(LikeCommentModel commentModel) 
+        public async Task<string> RemoveLikeFromComment(LikeCommentModel commentModel)
             => await likeService.RemoveLikeFromComment(commentModel);
 
         [HttpGet("resource/{id}")]
         [ActionFilter()]
-        public int GetResourceLikes(string id) 
+        public int GetResourceLikes(string id)
             => likeService.GetResourceLikesCount(id);
 
         [HttpPost("resource/like/{id}")]
         [ActionFilter()]
-        public async Task<string> LikeAResource(LikeResourceModelAdd likeResource) 
+        public async Task<string> LikeAResource(LikeResourceModelAdd likeResource)
             => await likeService.LikeAResource(likeResource);
 
         [HttpPost("resource/remove/{id}")]
         [ActionFilter()]
         [ExceptionHandlingActionFilter]
-        public async Task<string> RemoveLikeResource(LikeResourceModel likeResource) 
+        public async Task<string> RemoveLikeResource(LikeResourceModel likeResource)
             => await likeService.RemoveLikeFromResource(likeResource);
 
         [HttpGet("resource/all")]
         [ActionFilter()]
-        public async Task<IEnumerable<LikeResourceModel>> GetAllResourceLikes() 
+        public async Task<IEnumerable<LikeResourceModel>> GetAllResourceLikes()
             => await likeService.ResourcesLikes();
     }
 }

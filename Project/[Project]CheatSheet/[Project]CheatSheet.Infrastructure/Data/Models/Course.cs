@@ -1,9 +1,9 @@
 ﻿namespace _Project_CheatSheet.Infrastructure.Data.Models
 {
-    using System.ComponentModel.DataAnnotations;
     using Base;
     using Enums;
     using GlobalConstants.Course;
+    using System.ComponentModel.DataAnnotations;
 
     public class Course : Entity
     {

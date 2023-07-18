@@ -1,8 +1,5 @@
 ﻿namespace _Project_CheatSheet.Features.Identity.Services;
 
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using _Project_CheatSheet.Common.UserService.Interfaces;
 using AutoMapper;
 using Infrastructure.Data.Models;
@@ -11,6 +8,9 @@ using Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Models;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 public class AuthenticateService : IAuthenticateService
 {
@@ -112,7 +112,7 @@ public class AuthenticateService : IAuthenticateService
         var response = new Response();
         response.accessToken = new JwtSecurityTokenHandler().WriteToken(token);
         response.Roles = await userManager.GetRolesAsync(user);
-        response.UserId=userService.GetUserId();
+        response.UserId = userService.GetUserId();
         return response;
     }
 

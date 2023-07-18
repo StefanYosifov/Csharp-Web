@@ -1,6 +1,5 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Interfaces
 {
-    using Infrastructure.Data.Models;
     using Models;
 
     public interface ICommentService

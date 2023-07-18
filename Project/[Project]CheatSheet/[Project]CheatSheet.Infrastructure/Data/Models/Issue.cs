@@ -1,9 +1,9 @@
 ﻿namespace _Project_CheatSheet.Infrastructure.Data.Models;
 
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using Base;
 using GlobalConstants.Issue;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Issue : DeletableEntity
 {
@@ -18,7 +18,7 @@ public class Issue : DeletableEntity
     [MaxLength(IssueConstants.IssueDescriptionMaxLength)]
     public string Description { get; set; } = null!;
 
-    [Required] [ForeignKey(nameof(User))] public string UserId { get; set; } = null!;
+    [Required][ForeignKey(nameof(User))] public string UserId { get; set; } = null!;
     public User User { get; set; } = null!;
 
     [Required]
@@ -27,7 +27,7 @@ public class Issue : DeletableEntity
 
     public CategoryIssue? CategoryIssue { get; set; }
 
-    [Required] [ForeignKey(nameof(Topic))] public Guid TopicId { get; set; }
+    [Required][ForeignKey(nameof(Topic))] public Guid TopicId { get; set; }
 
     public virtual Topic Topic { get; set; }
 }

@@ -1,9 +1,9 @@
 ﻿namespace _Project_CheatSheet.Common.Filters
 {
-    using System.Text;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
+    using System.Text;
 
     public class ActionFilter : Attribute, IAsyncResultFilter
     {
@@ -44,7 +44,7 @@
             }
         }
 
-        
+
 
         //private object GetObjectInstance(Type type, string failedMessage)
         //{

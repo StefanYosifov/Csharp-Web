@@ -18,13 +18,13 @@ public class ExceptionHandlingActionFilter : ExceptionFilterAttribute
     public override async Task OnExceptionAsync(ExceptionContext context)
     {
 
-            string message;
-            message = context.Exception is ServiceException ? context.Exception.Message : "There was an error";
+        string message;
+        message = context.Exception is ServiceException ? context.Exception.Message : "There was an error";
 
-            context.ExceptionHandled = true;
-            context.HttpContext.Response.StatusCode = statusCode;
-            context.HttpContext.Response.ContentLength = Encoding.UTF8.GetByteCount(message);
-            await context.HttpContext.Response.WriteAsync(message, Encoding.UTF8);
-        
+        context.ExceptionHandled = true;
+        context.HttpContext.Response.StatusCode = statusCode;
+        context.HttpContext.Response.ContentLength = Encoding.UTF8.GetByteCount(message);
+        await context.HttpContext.Response.WriteAsync(message, Encoding.UTF8);
+
     }
 }

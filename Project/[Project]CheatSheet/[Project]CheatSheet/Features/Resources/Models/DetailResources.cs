@@ -1,9 +1,8 @@
 ﻿namespace _Project_CheatSheet.Features.Resources.Models
 {
-    using System.ComponentModel.DataAnnotations;
-    using _Project_CheatSheet.Features.Comment.Models;
     using Common.GlobalConstants.Resource;
     using Infrastructure.Data.Models;
+    using System.ComponentModel.DataAnnotations;
 
     public class DetailResources
     {
@@ -11,7 +10,7 @@
         {
             ResourceLikes = new HashSet<ResourceLike>();
             CategoryNames = new List<string>();
-            ResourceComments=new HashSet<ResourceCommentModel>();
+            ResourceComments = new HashSet<ResourceCommentModel>();
         }
 
         [Required] public string Id { get; set; } = null!;

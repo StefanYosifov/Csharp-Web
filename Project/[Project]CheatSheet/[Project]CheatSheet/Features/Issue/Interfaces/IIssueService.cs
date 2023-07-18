@@ -1,7 +1,5 @@
 ﻿namespace _Project_CheatSheet.Features.Issue.Interfaces
 {
-    using _Project_CheatSheet.Common.Pagination;
-    using Infrastructure.Data.Models;
     using Models;
 
     public interface IIssueService

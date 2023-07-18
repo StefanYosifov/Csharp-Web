@@ -26,23 +26,23 @@
 
         [HttpGet("{id}")]
         [ActionFilter]
-        public async Task<Pagination<ResourceModel>> GetAllResources(int id,[FromQuery] ResourceQueryModel query)
-            => await resourceService.GetPublicResources(id,query);
+        public async Task<Pagination<ResourceModel>> GetAllResources(int id, [FromQuery] ResourceQueryModel query)
+            => await resourceService.GetPublicResources(id, query);
 
         [HttpGet("my")]
-        public async Task<IEnumerable<ResourceModel>> GetMyResources() 
+        public async Task<IEnumerable<ResourceModel>> GetMyResources()
             => await resourceService.GetMyResources();
 
         [HttpGet("details/{id}")]
         [ActionFilter("", ResourceMessages.SuchModelDoesNotExist, StatusCodes.Status404NotFound)]
         [ExceptionHandlingActionFilter]
-        public async Task<DetailResources> GetResourceDetails(string id) 
+        public async Task<DetailResources> GetResourceDetails(string id)
             => await resourceService.GetResourceById(id);
 
         [HttpPost("add")]
         [ActionFilter]
         [ExceptionHandlingActionFilter]
-        public async Task<string> AddResource([FromBody] ResourceAddModel resourceAdd) 
+        public async Task<string> AddResource([FromBody] ResourceAddModel resourceAdd)
             => await resourceService.AddResources(resourceAdd);
 
         [HttpPatch("edit/{id}")]
@@ -61,7 +61,7 @@
         [HttpDelete("delete/{id}")]
         [ActionFilter]
         [ExceptionHandlingActionFilter]
-        public async Task<string> RemoveResource(string id) 
+        public async Task<string> RemoveResource(string id)
             => await resourceService.RemoveResource(id);
     }
 }

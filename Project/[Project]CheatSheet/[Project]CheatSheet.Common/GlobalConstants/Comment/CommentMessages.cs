@@ -11,7 +11,7 @@
         public const string OnEmptyComment = "You have submitted an empty comment";
         public const string OnMissingResource = "There was an issue corelating to a specific resouce";
 
-        public const string OnSuccessfulDeleteComment="You have succesfully deleted your comment";
+        public const string OnSuccessfulDeleteComment = "You have succesfully deleted your comment";
         public const string OnUnsuccessfulDeleteComment = "There was an issue deleting the comment";
 
     }

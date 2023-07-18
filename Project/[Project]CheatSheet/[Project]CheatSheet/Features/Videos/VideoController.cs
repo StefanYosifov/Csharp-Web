@@ -8,7 +8,7 @@
 
     [Authorize]
     [Route("/videos")]
-    public class VideoController:ApiController
+    public class VideoController : ApiController
     {
         private readonly IVideoService service;
 
@@ -18,8 +18,8 @@
         }
 
         [HttpGet("id/{videoId}")]
-        [ActionFilter("",VideoMessages.OnUnsuccessfulGetVideoId)]
-        public async Task<string> GetVideoId(string videoId) 
+        [ActionFilter("", VideoMessages.OnUnsuccessfulGetVideoId)]
+        public async Task<string> GetVideoId(string videoId)
             => await service.GetVideoId(videoId.ToLower());
     }
 }

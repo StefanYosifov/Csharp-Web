@@ -1,6 +1,5 @@
 ﻿namespace _Project_CheatSheet.Common.Mapping
 {
-    using _Project_CheatSheet.Features.Category.Models;
     using AutoMapper;
     using Features.Comment.Models;
     using Features.Course.Models;
@@ -66,19 +65,19 @@
          .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.User.ProfilePictureUrl))
          .ForMember(dest => dest.Likes, opt => opt.MapFrom(src => src.ResourceLikes.Count))
          .ForMember(dest => dest.CategoryNames, opt => opt.MapFrom(src => src.CategoryResources.Select(cr => cr.Category.Name)))
-         .ForMember(dest=>dest.UserImage,opt=>opt.MapFrom(src=>src.User.ProfilePictureUrl))
-         .ForMember(dest=>dest.CategoryNames,opt=>opt.MapFrom(src=>src.CategoryResources.Select(c=>c.Category.Name)))
+         .ForMember(dest => dest.UserImage, opt => opt.MapFrom(src => src.User.ProfilePictureUrl))
+         .ForMember(dest => dest.CategoryNames, opt => opt.MapFrom(src => src.CategoryResources.Select(c => c.Category.Name)))
          .ForMember(dest => dest.ResourceComments, opt => opt.MapFrom(src => src.Comments.Select(rc => new ResourceCommentModel()
          {
              Id = rc.Id.ToString(),
              Content = rc.Content
          })))
-         .ForMember(dest=>dest.ResourceLikes,opt=>opt.MapFrom(src=>src.ResourceLikes.Where(rl=>rl.ResourceId==src.Id)));
+         .ForMember(dest => dest.ResourceLikes, opt => opt.MapFrom(src => src.ResourceLikes.Where(rl => rl.ResourceId == src.Id)));
 
 
             //Comments
 
-            CreateMap<Comment, CommentModel>()
+            _ = CreateMap<Comment, CommentModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content))
                 .ForMember(dest => dest.CreatedAt,
@@ -87,7 +86,15 @@
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId))
                 .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
                 .ForMember(dest => dest.UserProfileImage, opt => opt.MapFrom(src => src.User.ProfilePictureUrl))
-                .ForMember(dest => dest.CommentLikes, opt => opt.MapFrom(src => src.CommentLikes));
+                .ForMember(dest => dest.CommentLikes, opt => opt.MapFrom(src => src.CommentLikes.Select(cl => new CommentLikeModel
+                {
+                    Id = src.CommentLikes.FirstOrDefault(l => l.CommentId == cl.CommentId).Id.ToString(),
+                    CommentId = src.Id.ToString(),
+                    CreatedOn = src.CreatedOn.ToString(Formatter.DateFormatter),
+                    UserId = src.UserId.ToString(),
+
+                })))
+                .ForMember(dest => dest.LikeCount, opt => opt.MapFrom(dest => dest.CommentLikes.Count));
 
 
             //Courses

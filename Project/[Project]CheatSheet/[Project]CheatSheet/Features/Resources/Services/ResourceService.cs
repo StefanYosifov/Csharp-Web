@@ -1,6 +1,5 @@
 ﻿namespace _Project_CheatSheet.Features.Resources.Services
 {
-    using System.Net;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Common.Exceptions;
@@ -13,6 +12,7 @@
     using Interfaces;
     using Microsoft.EntityFrameworkCore;
     using Models;
+    using System.Net;
 
     public class ResourceService : IResourceService
     {
@@ -88,7 +88,7 @@
                 .AsNoTracking()
                 .Include(res => res.CategoryResources)
                 .Include(res => res.User)
-                .Include(res=>res.Comments)
+                .Include(res => res.Comments)
                 .ProjectTo<ResourceModel>(mapper.ConfigurationProvider)
                 .Where(res => res.UserId == userId)
                 .ToArrayAsync();
@@ -110,7 +110,7 @@
                     .Where(i => EF.Functions.Like(i.Title.ToLower(), wildcard));
             }
 
-            if (!string.IsNullOrWhiteSpace(query.Category) && query.Sort.ToString()!="None")
+            if (!string.IsNullOrWhiteSpace(query.Category) && query.Sort.ToString() != "None")
             {
                 resourceModels =
                     resourceModels.Where(r => r.CategoryResources.Any(cr => cr.Category.Name == query.Category));
@@ -143,7 +143,7 @@
             IEnumerable<DetailResources> details = await context.Resources
                 .Include(r => r.User)
                 .Include(r => r.Comments)
-                .Include(r=>r.Comments)
+                .Include(r => r.Comments)
                 .ProjectTo<DetailResources>(mapper.ConfigurationProvider)
                 .Where(r => r.Id == resourceId).ToListAsync();
 

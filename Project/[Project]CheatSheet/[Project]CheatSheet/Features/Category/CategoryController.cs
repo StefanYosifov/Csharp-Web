@@ -18,7 +18,7 @@
 
         [Authorize]
         [HttpGet("get")]
-        public async Task<IEnumerable<CategoryModel>> GetCategory() 
+        public async Task<IEnumerable<CategoryModel>> GetCategory()
             => await service.GetCategories();
     }
 }

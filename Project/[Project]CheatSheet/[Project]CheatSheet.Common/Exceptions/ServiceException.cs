@@ -6,7 +6,7 @@
         {
         }
 
-        public ServiceException(string message) 
+        public ServiceException(string message)
             : base(message)
         {
         }

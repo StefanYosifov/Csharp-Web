@@ -1,7 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Comment
 {
     using Common.Filters;
-    using Common.GlobalConstants.Comment;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -22,12 +21,12 @@
         [HttpPost("send")]
         [ActionFilter]
         [ExceptionHandlingActionFilter]
-        public async Task<string> PostAComment(InputCommentModel comment) 
+        public async Task<string> PostAComment(InputCommentModel comment)
             => await service.CreateAComment(comment);
 
         [HttpGet("get/{id}")]
         [ActionFilter()]
-        public async Task<IEnumerable<CommentModel>> GetComments(string id) 
+        public async Task<IEnumerable<CommentModel>> GetComments(string id)
             => await service.GetCommentsFromResource(id);
 
         [HttpPatch("edit/{id}")]

@@ -1,7 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Course.Models
 {
-    using System.ComponentModel.DataAnnotations;
     using Infrastructure.Data.GlobalConstants.Course;
+    using System.ComponentModel.DataAnnotations;
 
     public class CourseRespondAllModel
     {
@@ -19,7 +19,7 @@
         [Range(CourseConstants.PriceMinRange, CourseConstants.PriceMaxRange)]
         public decimal Price { get; set; }
 
-        [Required] [Url] public string ImageUrl { get; set; }
+        [Required][Url] public string ImageUrl { get; set; }
 
         [Required] public string Category { get; set; } = null!;
 

@@ -1,6 +1,5 @@
 ﻿namespace _Project_CheatSheet.Infrastructure.Data
 {
-    using _Project_CheatSheet.Data.Migrations;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;

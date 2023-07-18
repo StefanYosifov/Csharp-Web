@@ -4,7 +4,6 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Common.Exceptions;
 using Common.Pagination;
-using Common.UserService;
 using Common.UserService.Interfaces;
 using Enums;
 using Infrastructure.Data;
@@ -14,7 +13,6 @@ using Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using System.Linq;
-using System.Runtime.Serialization;
 
 public class IssueService : IIssueService
 {
@@ -24,7 +22,7 @@ public class IssueService : IIssueService
 
     public IssueService(
         CheatSheetDbContext context,
-        IMapper mapper, 
+        IMapper mapper,
         ICurrentUser userService)
     {
         this.context = context;
@@ -46,7 +44,7 @@ public class IssueService : IIssueService
 
         if (!string.IsNullOrWhiteSpace(query.TopicId))
         {
-            issues = issues.Where(it => it.TopicId.ToString()==query.TopicId);
+            issues = issues.Where(it => it.TopicId.ToString() == query.TopicId);
         }
 
         issues = query.IssueSorting switch
@@ -103,24 +101,24 @@ public class IssueService : IIssueService
     public async Task<string> CreateIssue(IssueRequestModel issue)
     {
 
-            var userId = userService.GetUserId();
+        var userId = userService.GetUserId();
 
-            if (await context.UserCourses.AllAsync(uc =>uc.UserId != userId))
-            {
-                throw new ServiceException(IssueMessages.NotInCourse);
-            }
+        if (await context.UserCourses.AllAsync(uc => uc.UserId != userId))
+        {
+            throw new ServiceException(IssueMessages.NotInCourse);
+        }
 
-            if (await context.Topics.FindAsync(issue.TopicId) == null)
-            {
-                throw new ServiceException(IssueMessages.TopicDoesNotExist);
-            }
+        if (await context.Topics.FindAsync(issue.TopicId) == null)
+        {
+            throw new ServiceException(IssueMessages.TopicDoesNotExist);
+        }
 
-            var mappedIssue = mapper.Map<Issue>(issue);
-            mappedIssue.UserId=userId;
-            await context.AddAsync(mappedIssue);
-            await context.SaveChangesAsync();
+        var mappedIssue = mapper.Map<Issue>(issue);
+        mappedIssue.UserId = userId;
+        await context.AddAsync(mappedIssue);
+        await context.SaveChangesAsync();
 
-            return IssueMessages.SuccessfullyAddedIssue;
+        return IssueMessages.SuccessfullyAddedIssue;
 
     }
 }

@@ -1,15 +1,15 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Models
 {
-    using System.ComponentModel.DataAnnotations;
     using Common.GlobalConstants.Comment;
     using Infrastructure.Data.Models;
+    using System.ComponentModel.DataAnnotations;
 
     public class CommentModel
     {
         public CommentModel()
         {
             Id = Guid.NewGuid().ToString();
-            CommentLikes = new HashSet<CommentLike>();
+            CommentLikes = new HashSet<CommentLikeModel>();
         }
 
         [Required] public string Id { get; set; }
@@ -24,6 +24,7 @@
         public string? CreatedAt { get; set; } = null!;
         public string? ResourceId { get; set; }
         public bool HasLiked { get; set; }
-        public ICollection<CommentLike> CommentLikes { get; set; }
+        public int LikeCount {get;set;}
+        public ICollection<CommentLikeModel> CommentLikes { get; set; }
     }
 }

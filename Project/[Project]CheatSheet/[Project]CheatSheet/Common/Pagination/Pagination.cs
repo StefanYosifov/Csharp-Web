@@ -1,7 +1,5 @@
 ﻿namespace _Project_CheatSheet.Common.Pagination
 {
-    using Features.Issue.Models;
-    using Infrastructure.Data.Models;
     using Microsoft.EntityFrameworkCore;
 
     public class Pagination<T> : List<T>
