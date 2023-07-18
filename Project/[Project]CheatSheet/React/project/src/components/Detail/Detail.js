@@ -136,7 +136,7 @@ console.log(userId);
           </div>
           <div className="mt-4 w-10/12 mx-auto">
             <h3 className="text-lg font-bold mb-2">Add a Comment</h3>
-            <CommentForm onSubmit={handleSubmitComment} />
+            <CommentForm />
           </div>
           <div className="bg-gray-200 py-4 w-10/12 mx-auto rounded-lg shadow-lg">
             <div className="w-full">

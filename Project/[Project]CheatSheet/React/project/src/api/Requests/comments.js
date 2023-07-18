@@ -14,7 +14,6 @@ export const sendAComment=(comment)=>{
   }
 
 export const editComment=(id,comment)=>{
-  console.log(comment);
   return patch(`comment/edit/${id}`,{"content":comment});
 }
 

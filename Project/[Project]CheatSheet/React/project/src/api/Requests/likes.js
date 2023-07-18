@@ -1,4 +1,4 @@
-import { get, post } from "./requests";
+import { get, post, postWithoutNotification } from "./requests";
 
 export const getLikes = (resourceId) => {
   return get(`like/resource/${resourceId}`, { resourceId })
@@ -15,9 +15,9 @@ export const dislikeResource=(resourceId)=>{
 }
 
 export const likeComment=(commentId)=>{
-   return post('like/comment/like',{commentId})
+   return postWithoutNotification('like/comment/like',{commentId})
 }
 
 export const dislikeComment=(commentId)=>{
-   return post('like/comment/remove',{commentId})
+   return postWithoutNotification('like/comment/remove',{commentId})
 }
