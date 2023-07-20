@@ -19,14 +19,14 @@
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
         private readonly IMapper mapper;
-        private readonly ICache setCache;
+        private readonly ICacheService setCache;
 
         public CourseService(
             CheatSheetDbContext context,
             IMapper mapper,
             ICurrentUser currentUserService,
             IMemoryCache cache,
-            ICache setCache)
+            ICacheService setCache)
         {
             this.context = context;
             this.mapper = mapper;
@@ -78,7 +78,6 @@
                 .Where(uc => !uc.UsersCourses.Any())
                 .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
 
-
             IEnumerable<CourseRespondAllModel> paginationResult =
                 await Pagination<CourseRespondAllModel>.CreateAsync(result, page);
 
@@ -117,7 +116,6 @@
             {
                 course.HasPaid = true;
             }
-
 
             setCache.SetCache(cacheKey, paginationResult, MyCoursesCache);
 

@@ -17,7 +17,6 @@
 
         [Required]
         [MaxLength(CourseConstants.TitleMaxLength)]
-
         public string Title { get; set; } = null!;
 
         [Required]
@@ -39,6 +38,5 @@
         public ICollection<Topic> Topics { get; set; }
 
         public ICollection<UserCourses> UsersCourses { get; set; }
-
     }
 }

@@ -96,7 +96,7 @@
             return resources;
         }
 
-        public async Task<Pagination<ResourceModel>> GetPublicResources(int pageNumber, ResourceQueryModel query)
+        public async Task<ResourceCollectionModel> GetPublicResources(int pageNumber, ResourceQueryModel query)
         {
             var userId = currentUserService.GetUserId();
 
@@ -129,13 +129,20 @@
                 };
             }
 
-            var filteredResources =
+            var mappedResources =
                 resourceModels.Where(r => r.IsPublic == true || r.UserId == userId)
                     .ProjectTo<ResourceModel>(mapper.ConfigurationProvider);
 
-            var paginatedModels = await Pagination<ResourceModel>.CreateAsync(filteredResources, pageNumber);
+            var paginatedModels = await Pagination<ResourceModel>.CreateAsync(mappedResources, pageNumber);
 
-            return paginatedModels;
+
+            var filteredResources = new ResourceCollectionModel()
+            {
+                Resources = paginatedModels,
+                TotalPageCount = (int)Math.Ceiling((double)mappedResources.Count() / ResourcesPerPage)
+            };
+
+            return filteredResources;
         }
 
         public async Task<DetailResources> GetResourceById(string? resourceId)

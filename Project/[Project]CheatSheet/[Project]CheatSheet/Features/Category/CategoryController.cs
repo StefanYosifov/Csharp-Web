@@ -15,7 +15,6 @@
             this.service = service;
         }
 
-
         [Authorize]
         [HttpGet("get")]
         public async Task<IEnumerable<CategoryModel>> GetCategory()

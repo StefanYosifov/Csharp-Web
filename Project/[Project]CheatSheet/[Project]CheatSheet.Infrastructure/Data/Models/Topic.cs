@@ -12,6 +12,7 @@
             Id = Guid.NewGuid();
             this.TopicIssues = new HashSet<Issue>();
         }
+
         [Key]
         public Guid Id { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿namespace _Project_CheatSheet.Common.Pagination
 {
     using Microsoft.EntityFrameworkCore;
+    using System.Linq;
 
     public class Pagination<T> : List<T>
     {
@@ -17,13 +18,17 @@
         public int PageIndex { get; private set; }
         public int TotalPages { get; private set; }
 
-        public static async Task<Pagination<T>> CreateAsync(IQueryable<T> source, int pageIndex,
+        public static async Task<Pagination<T>> CreateAsync(IQueryable<T> source, int pageIndex = 1,
             byte itemsPerPage = PageSize)
         {
             var count = await source.CountAsync();
+            if (pageIndex <= 0)
+            {
+                pageIndex = 1;
+            }
+
             var items = await source.Skip((pageIndex - 1) * PageSize).Take(PageSize).ToListAsync();
             return new Pagination<T>(items, count, pageIndex, PageSize);
         }
-
     }
 }

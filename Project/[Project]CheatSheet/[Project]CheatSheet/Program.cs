@@ -52,7 +52,7 @@ builder.Services.AddTransient<IVideoService, VideoService>();
 builder.Services.AddTransient<IIssueService, IssueService>();
 
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
-builder.Services.AddScoped<ICache, Cache>();
+builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddMemoryCache();
 
 builder.Services.AddDbContext<CheatSheetDbContext>(options =>

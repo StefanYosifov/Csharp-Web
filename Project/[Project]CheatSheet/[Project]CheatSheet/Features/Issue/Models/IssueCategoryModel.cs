@@ -9,6 +9,5 @@
 
         [Required]
         public string LocationIssue { get; set; }
-
     }
 }

@@ -2,11 +2,11 @@
 {
     using Microsoft.Extensions.Caching.Memory;
 
-    public class Cache : ICache
+    public class CacheService : ICacheService
     {
         private readonly IMemoryCache cache;
 
-        public Cache(IMemoryCache cache)
+        public CacheService(IMemoryCache cache)
         {
             this.cache = cache;
         }

@@ -15,6 +15,5 @@
 
         public const string UnSuccessfullyAddedIssue = "There was an error saving your issue,please try again";
         public const string SuccessfullyAddedIssue = "You have successfully added an issue";
-
     }
 }

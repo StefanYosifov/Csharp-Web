@@ -1,7 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Models
 {
     using Common.GlobalConstants.Comment;
-    using Infrastructure.Data.Models;
     using System.ComponentModel.DataAnnotations;
 
     public class CommentModel
@@ -24,7 +23,7 @@
         public string? CreatedAt { get; set; } = null!;
         public string? ResourceId { get; set; }
         public bool HasLiked { get; set; }
-        public int LikeCount {get;set;}
+        public int LikeCount { get; set; }
         public ICollection<CommentLikeModel> CommentLikes { get; set; }
     }
 }

@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Issue : DeletableEntity
 {
-
     [Key] public int Id { get; set; }
 
     [Required]

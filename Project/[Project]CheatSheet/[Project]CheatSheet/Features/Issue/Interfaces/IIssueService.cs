@@ -14,6 +14,5 @@
         public Task<ICollection<IssueRespondModel>> GetIssuesByTopicId(string topicId);
 
         public Task<string> CreateIssue(IssueRequestModel issue);
-
     }
 }

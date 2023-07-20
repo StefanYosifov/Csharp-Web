@@ -28,7 +28,6 @@
         public async Task<string> AddIssue(IssueRequestModel createdIssue)
             => await service.CreateIssue(createdIssue);
 
-
         [HttpGet("categories")]
         [ActionFilter()]
         public async Task<ICollection<IssueCategoryModel>> GetCategoryIssues()

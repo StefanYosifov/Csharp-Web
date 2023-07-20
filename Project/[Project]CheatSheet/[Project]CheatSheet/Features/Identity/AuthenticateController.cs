@@ -23,11 +23,8 @@
         public async Task<Response> Login(LoginModel loginModel)
             => await service.AuthenticateLogin(loginModel);
 
-
-
         [HttpPost("register")]
         public async Task<Response> Register(RegisterModel registerModel)
             => await service.AuthenticateRegister(registerModel);
-
     }
 }
