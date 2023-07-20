@@ -3,11 +3,12 @@ import { useContext, useEffect, useState } from 'react';
 import { getUserId } from '../../api/Requests/profile';
 import { validateToken } from '../../api/Requests/validateJWTtoken';
 import { UserContext, UserDataProvider } from '../../context/UserDataProvider';
+import { useUserDetails } from '../../stores/useUserDetails';
 
 export const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [userId, setUserId] = useState(undefined);
-  const [user, setUser] = useContext(UserContext);
+  const userData=useUserDetails((state)=>state.user);
   const navigate = useNavigate();
 
   const isAuthenticated = validateToken();
@@ -21,13 +22,15 @@ export const Navigation = () => {
     setMenuOpen(!menuOpen);
   };
 
+  console.log(userData);
+
   return (
     <nav className="bg-gray-800">
       <ul className="flex justify-start text-lg items-center py-4 px-6 m-0">
         <div className="text-lg font-bold md:py-0 py-4">
           Logo
         </div>
-        {!user && (
+        {userData===null && (
           <>
             <li>
               <NavLink to="/login" className="text-white px-2 py-1 rounded-lg hover:bg-red-700">
@@ -42,7 +45,7 @@ export const Navigation = () => {
           </>
         )}
 
-        {user && (
+        {userData && (
           <>
             <ul className="md:px-2 ml-auto md:flex md:space-x-2 absolute md:relative top-full left-0 right-0 text-slate-100">
               <li>

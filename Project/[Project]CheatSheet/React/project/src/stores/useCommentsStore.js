@@ -1,5 +1,5 @@
 import { create } from "zustand"
-import { editComment, getComments, sendAComment } from "../api/Requests/comments";
+import { deleteComment, editComment, getComments, sendAComment } from "../api/Requests/comments";
 import { toast } from "react-toastify";
 import { dislikeComment, likeComment } from "../api/Requests/likes";
 
@@ -22,7 +22,8 @@ const useCommentsStore = create((set) => ({
         try {
             set({ isLoading: true });
             const response = await sendAComment({ comment, id });
-            set({ isLoading: false, data: { ...data, response } });
+            set((prevState) => ({ ...prevState, data: [...prevState.data, comment] }));
+            set({ isLoading: false});
         }
         catch (error) {
             console.log(error.message);
@@ -76,6 +77,16 @@ const useCommentsStore = create((set) => ({
               ),
             }));
         }
+    },
+    deleteAComment: async (commentId) => {
+        const response = await deleteComment(commentId);
+        if (response.status === 200) {
+            set((state) => ({
+                data: state.data.filter((comment) => comment.id !== commentId),
+            }));
+            toast.success(response.data);
+        }
+        return response;
     }
 }))
 

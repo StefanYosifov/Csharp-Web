@@ -17,6 +17,7 @@ export function ResourceList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
   const [searchSort, setSearchSort] = useState("");
+  const [resourceCount,setResourceCount]=useState(0);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -30,13 +31,6 @@ export function ResourceList() {
     { id: "6", name: "Smallest content" },
   ];
   const { id } = useParams();
-
-
-  useEffect(() => {
-    getTotalPages().then((res) => {
-      setTotalPages(res)
-    });
-  }, []);
 
 
   useEffect(() => {
@@ -54,12 +48,13 @@ export function ResourceList() {
     getPublicResources(id, location.search)
       .then(response => {
         setResources(response.data);
+        setResourceCount((oldCount)=>oldCount=response.data[0].totalResourcesCount/12??0);
         setIsLoading((state) => false);
       })
       .catch(error => {
         console.error(error);
       });
-  }, [id]);
+  }, [id,location.search]);
 
   useEffect(() => {
     getCategories().then((res) => {
@@ -114,10 +109,11 @@ export function ResourceList() {
 
   console.log(`${searchCategory} ${searchSort}, ${searchTerm}`);
   console.log(`${searchCategory} ${searchSort}, ${searchTerm}`);
+  console.log(resources);
 
   return (
     <>
-      {resources && totalPages && id && category && (
+      {resources && id && category && (
         <>
           <div className="flex flex-col w-full p-10 bg-gray-100">
             <div className="text-center my-2">
@@ -161,7 +157,7 @@ export function ResourceList() {
             </div>
             <Pagination
               currentPage={Number(id)}
-              totalPages={Number(totalPages)}
+              totalPages={Number(resourceCount)}
               onPageChange={(pageNumber) => navigate(`/resources/${pageNumber}`)}
             />
           </div>

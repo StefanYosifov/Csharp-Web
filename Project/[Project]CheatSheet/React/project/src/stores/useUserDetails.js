@@ -1,22 +1,29 @@
-import { create } from "zustand"
-import { getComments } from "../api/Requests/comments";
+import create from "zustand"
+import { persist } from "zustand/middleware"
+import { login } from "../api/Requests/authentication";
 
-
-
-const useUserDetails = create((set) => ({
-    hasDetails:false,
-    data:[],
-   getUser:async (id) =>{
-    try{
-        set({isLoading:true});
-        const response=await getComments(id);
-        set({isLoading:false,data:response.data});
+export const useUserDetails = create(persist(
+    (set, get) => ({
+        user: null,
+        isAuthenticated: false,
+        login: async (userName, password) => {
+            try {
+                const response = await login(userName, password);
+                const data = response.data;
+                if (response.status === 200) {
+                    set({ user: data });
+                    set({isAuthenticated:true});
+                }
+                return response;
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    }),
+    {
+        name: "user-storage",
+        getStorage: () => sessionStorage,
     }
-    catch(error){
-        console.log(error.message);
-    }
-   }
+))
 
-  }))
 
-  export default useUserDetails;

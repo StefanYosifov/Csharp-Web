@@ -4,11 +4,13 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../../api/Requests/authentication';
 import useAuth from '../../hooks/useAuth';
 import { UserContext } from '../../context/UserDataProvider';
+import { useUserDetails } from '../../stores/useUserDetails';
 
 export function LoginPage() {
 
     const { setAuth } = useAuth();
-    const [user, setUser] = useContext(UserContext);
+    const setUser = useUserDetails((state) => state.login);
+
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -24,13 +26,11 @@ export function LoginPage() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await login(formData.userName, formData.password);
-
-            if (response.status === 200) {
+            const result=setUser(formData.userName,formData.password);
+            if (result.status === 200) {
                 const accessToken = response?.data?.accessToken;
                 const roles = response?.data?.roles;
                 setAuth({ user: formData.userName, roles, accessToken });
-                setUser(response.data)
                 console.log(`${formData.userName} ${accessToken} ${roles}`);
                 navigate(from, { replace: true });
             } else {

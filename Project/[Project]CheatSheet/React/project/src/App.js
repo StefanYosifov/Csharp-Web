@@ -23,6 +23,7 @@ import { UserDataProvider } from './context/UserDataProvider';
 import { Details2 } from './components/Detail/Details2';
 
 import RequireAuth from './components/Setup/RequireAuth';
+import { ResourceList2 } from './components/Resources/ResourceList2';
 
 
 
@@ -41,6 +42,7 @@ function App() {
               <Route path='/home' Component={HomePage} />
               <Route path='/logout' Component={Logout} />
               <Route path='/resources/:id' Component={ResourceList} />
+              <Route path='/resources2/:id' Component={ResourceList2} />
               <Route path='/details/:id' Component={Detail} />
               <Route path='/details2/:id' Component={Details2} />
               <Route path='/resource/add' Component={ResourceAdd} />

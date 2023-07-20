@@ -25,7 +25,7 @@ export const CommentForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='flex justify-center'>
+    <form onSubmit={handleSubmit} className='flex justify-center my-12'>
       <div class="h-80 px-7 w-[700px] rounded-[12px] bg-white p-4 shadow-md border">
         <p class="text-xl font-semibold text-blue-900 cursor-pointer transition-all hover:text-black">
           Add Comment
