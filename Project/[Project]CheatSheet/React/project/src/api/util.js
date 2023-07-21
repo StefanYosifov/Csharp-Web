@@ -16,3 +16,6 @@ export const clearUserData= ()=>{
     return  localStorage.removeItem('Authorization');
 }
 
+export const clearUserToken=()=>{
+    return localStorage.removeItem(`user-storage`);
+}

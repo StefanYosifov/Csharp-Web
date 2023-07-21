@@ -4,8 +4,6 @@ import { Route, Routes } from 'react-router-dom';
 import LoginPage from './components/Login/Login';
 import RegisterPage from './components/Register/Register';
 import HomePage from './components/Home/Home'
-import { ResourceList } from './components/Resources/ResourceList';
-import { Detail } from './components/Detail/Detail';
 import ResourceAdd from './components/Add/ResourceAdd';
 import Profile from './components/Profile/Profile'
 import { Layout } from "./components/Setup/Layout";
@@ -24,6 +22,7 @@ import { Details2 } from './components/Detail/Details2';
 
 import RequireAuth from './components/Setup/RequireAuth';
 import { ResourceList2 } from './components/Resources/ResourceList2';
+import { APP_URLS } from './constants/URLConstants';
 
 
 
@@ -35,26 +34,24 @@ function App() {
         <Navigation />
         <Routes>
           <Route path='/' element={<Layout />}>
-            <Route path='/register' Component={RegisterPage} />
-            <Route path='/login' Component={LoginPage} />
+            <Route path={APP_URLS.REGISTER} Component={RegisterPage} />
+            <Route path={APP_URLS.LOGIN} Component={LoginPage} />
 
             <Route element={<RequireAuth />}>
-              <Route path='/home' Component={HomePage} />
-              <Route path='/logout' Component={Logout} />
-              <Route path='/resources/:id' Component={ResourceList} />
-              <Route path='/resources2/:id' Component={ResourceList2} />
-              <Route path='/details/:id' Component={Detail} />
-              <Route path='/details2/:id' Component={Details2} />
-              <Route path='/resource/add' Component={ResourceAdd} />
-              <Route path='/profile/:id' Component={Profile} />
-              <Route path='/privacy' Component={Privacy} />
-              <Route path='/terms' Component={TermsAndConditions} />
-              <Route path='/course/:id' Component={CoursesList} />
-              <Route path='/course/all/:id' Component={CoursesList} />
-              <Route path="/course/trainings/:id/:courseTitle" Component={CoursePage} />
-              <Route path="/course/trainings/videos/:id/:courseTitle" Component={CourseVideo} />
-              <Route path='/course/join/:id' Component={CourseJoin} />
-              <Route path='/course/mine/:id' Component={CourseMy} />
+              <Route path={APP_URLS.HOME} Component={HomePage} />
+              <Route path={APP_URLS.LOGOUT} Component={Logout} />
+              <Route path={APP_URLS.RESOURCES} Component={ResourceList2} />
+              <Route path={APP_URLS.DETAILS} Component={Details2} />
+              <Route path={APP_URLS.RESOURCES_ADD} Component={ResourceAdd} />
+              <Route path={APP_URLS.PROFILE} Component={Profile} />
+              <Route path={APP_URLS.PRIVACY} Component={Privacy} />
+              <Route path={APP_URLS.TERMS} Component={TermsAndConditions} />
+              <Route path={APP_URLS.COURSES} Component={CoursesList} />
+              <Route path={APP_URLS.COURSES_ALL} Component={CoursesList} />
+              <Route path={APP_URLS.COURSES_TRAININGS} Component={CoursePage} />
+              <Route path={APP_URLS.COURSES_VIDEOS} Component={CourseVideo} />
+              <Route path={APP_URLS.COURSES_JOIN} Component={CourseJoin} />
+              <Route path={APP_URLS.COURSES_MINE} Component={CourseMy} />
             </Route>
           </Route>
         </Routes>

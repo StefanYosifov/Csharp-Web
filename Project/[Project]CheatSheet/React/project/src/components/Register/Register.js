@@ -3,16 +3,12 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { register } from '../../api/Requests/authentication'
 import LoginPage from '../Login/Login';
 import useAuth from '../../hooks/useAuth';
+import { useUserDetails } from '../../stores/useUserDetails';
+import { URLS } from '../../constants/URLConstants';
 
 function RegisterPage() {
-
-    const { setAuth } = useAuth();
-
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathName || "/";
-
-
     const [formData, setFormData] = useState({
         userName: "",
         password: "",
@@ -20,41 +16,15 @@ function RegisterPage() {
         repeatPass: ""
     });
 
+    const register=useUserDetails((state)=>state.register);
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        for (const value of Object.values(formData)) {
-            if (value.length < 3) {
-                alert("WEEE WOOO");
-                return;
-            }
+        const response=register(formData.userName,formData.email,formData.password);
+        if(response.status===200){
+            navigate(URLS.HOME);
         }
-        if (formData.password !== formData.repeatPass) {
-            alert("WEEEE WOOO PASSWORD");
-            return;
-        }
-
-        const userData = {
-            userName: formData.userName,
-            email: formData.email,
-            password: formData.password
-        };
-
-        register(userData)
-            .then((data) => {
-                if(data.status===200){
-                    const accessToken = response?.data?.accessToken;
-                    const roles = response?.data?.roles;
-                    setAuth({ user:formData.userName,roles, accessToken });
-                    navigate(from, { replace: true });
-                }
-            })
-            .catch((error) => {
-                console.log("Error registering:", error);
-            });
     };
-
-
 
 
     const handleChange = (event) => {

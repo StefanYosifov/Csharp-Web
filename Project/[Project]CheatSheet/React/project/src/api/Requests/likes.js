@@ -7,11 +7,11 @@ export const getLikes = (resourceId) => {
 
 
 export const likeResource=(resourceId)=>{
-    post(`like/resource/like/${resourceId}`,{resourceId});
+   return post(`like/resource/like/${resourceId}`,{resourceId});
 }
 
 export const dislikeResource=(resourceId)=>{
-    post(`like/resource/remove/${resourceId}`,{resourceId});
+   return post(`like/resource/remove/${resourceId}`,{resourceId});
 }
 
 export const likeComment=(commentId)=>{

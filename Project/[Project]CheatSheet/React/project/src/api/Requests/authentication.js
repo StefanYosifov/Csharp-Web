@@ -35,7 +35,8 @@ export const register = (userData) => {
       return response;
     })
     .catch((error) => {
-      toast.error(`There was an error when registering!`);
+      console.log(error);
+      toast.error(`${error}`);
       return Promise.reject(error);
     });
 }

@@ -1,4 +1,4 @@
-import {del, get,post} from '../Requests/requests'
+import {del, get,patch,post} from '../Requests/requests'
 
 export const getTotalPages=()=>{
    return get('resource/pages').then(res=>res.data);
@@ -31,4 +31,8 @@ export const addResource=(formData)=>{
 
 export const deleteResource=(id)=>{
     return del(`resource/delete/${id}`,id);
+}
+
+export const changeVisibility=(id)=>{
+    return patch(`resource/visibility/${id}`,id);
 }
