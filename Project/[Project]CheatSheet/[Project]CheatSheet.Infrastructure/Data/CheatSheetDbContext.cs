@@ -36,6 +36,8 @@
         public virtual DbSet<Video> Videos { get; set; } = null!;
         public virtual DbSet<Issue> Issues { get; set; } = null!;
         public virtual DbSet<CategoryIssue> CategoriesIssues { get; set; } = null!;
+        public virtual DbSet<CategoryCourse> CategoryCourses { get; set; } = null!;
+        public virtual DbSet<CategoryCourseCourses> CategoryCourseCourses { get; set; } = null!;
 
 
 
@@ -65,7 +67,6 @@
                 .HasForeignKey(r => r.ResourceId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // configure many-to-many relationship between User and Comment for CommentLikes
             modelBuilder.Entity<CommentLike>()
                 .HasKey(c => new { c.UserId, c.CommentId });
 
@@ -81,22 +82,20 @@
                 .HasForeignKey(c => c.CommentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // configure one-to-many relationship between User and Resource for Resources
             modelBuilder.Entity<Resource>()
                 .HasQueryFilter(r => !r.IsDeleted)
                 .HasOne(p => p.User)
                 .WithMany(u => u.Resources)
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
-            // configure one-to-many relationship between User and Comment for Comments
+
             modelBuilder.Entity<Comment>()
                 .HasQueryFilter(c => !c.IsDeleted)
                 .HasOne(c => c.User)
                 .WithMany(u => u.Comments)
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Restrict); // remove cascading delete behavior
+                .OnDelete(DeleteBehavior.Restrict); 
 
-            // configure one-to-many relationship between Resource and Comment for Comments
             modelBuilder.Entity<Comment>()
                 .HasQueryFilter(c => !c.IsDeleted)
                 .HasOne(c => c.Resource)
@@ -125,7 +124,6 @@
             modelBuilder.Entity<Topic>()
                 .HasKey(t => t.Id);
 
-
             modelBuilder.Entity<Topic>()
                 .HasOne(t => t.Course)
                 .WithMany(c => c.Topics)
@@ -146,6 +144,12 @@
                 .HasMany(v => v.Topics)
                 .WithOne(t => t.Video)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<CategoryCourseCourses>()
+                .HasKey(k=>new
+                {
+                    k.CourseId,k.CategoryCourseId
+                });
 
             DataSeeder.SeedRoles(modelBuilder);
             base.OnModelCreating(modelBuilder);

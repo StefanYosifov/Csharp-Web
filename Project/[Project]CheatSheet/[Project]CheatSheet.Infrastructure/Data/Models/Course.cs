@@ -9,8 +9,9 @@
     {
         public Course()
         {
-            Topics = new HashSet<Topic>();
-            UsersCourses = new HashSet<UserCourses>();
+            this.Topics = new HashSet<Topic>();
+            this.UsersCourses = new HashSet<UserCourses>();
+            this.CategoryCourseCourses=new HashSet<CategoryCourseCourses>();
         }
 
         public Guid Id { get; set; }
@@ -33,10 +34,11 @@
 
         public DateTime EndDate { get; set; }
 
-        public CourseCategoryEnum Category { get; set; }
-
         public ICollection<Topic> Topics { get; set; }
 
         public ICollection<UserCourses> UsersCourses { get; set; }
+
+        public ICollection<CategoryCourseCourses> CategoryCourseCourses{get;set; }
+
     }
 }
