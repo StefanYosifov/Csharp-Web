@@ -22,7 +22,7 @@ export const ResourceAdd = () => {
     useEffect(() => {
         getCategories()
             .then((response) => {
-                const categoriesData = response.data;
+                const categoriesData = response.data.categories;
                 setCategories(categoriesData);
                 const dictionary = {};
                 categoriesData.forEach((category) => {

@@ -17,6 +17,7 @@ export const CommentSection = () => {
     const deleteComment = useCommentsStore((state) => state.deleteAComment);
 
     const user = useUserDetails((state) => state.user);
+    const userId = user.userId;
 
 
     const [editingCommentId, setEditingCommentId] = useState(null);
@@ -41,6 +42,10 @@ export const CommentSection = () => {
     useEffect(() => {
         getComments(id);
     }, [getComments, id]);
+
+
+    console.log(user.userId);
+
 
 
     return (
@@ -88,7 +93,7 @@ export const CommentSection = () => {
                             </div>
                         </div>
                         <div>
-                            {!editingCommentId && (
+                            {comment.userId === user.userId &&  !editingCommentId && (
                                 <button
                                     onClick={() => handleEditClick(comment.id, comment.content)}
                                     className="bg-yellow-500 text-white py-1 px-2 rounded-lg mt-2"
@@ -96,7 +101,7 @@ export const CommentSection = () => {
                                     Edit
                                 </button>
                             )}
-                            {comment.userId === user.userId ? (
+                            {comment.userId === userId ? (
                                 <div className="flex items-end justify-end"
                                     onClick={() => handleDeleteClick(comment.id)}>
                                     <MdDelete color="#ff0019" />

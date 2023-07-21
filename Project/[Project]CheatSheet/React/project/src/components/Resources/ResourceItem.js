@@ -3,6 +3,7 @@ import { CategoryItem } from "../Helper components/CategoryItem";
 import { FaHeart } from 'react-icons/fa';
 import useResourceListStore from "../../stores/useResourceListStore";
 import { useEffect } from "react";
+import { URLS } from "../../constants/URLConstants";
 const parse = require('html-react-parser');
 
 
@@ -22,7 +23,7 @@ export const ResourceItem = () => {
 
   function navigationHandle(event) {
     event.preventDefault();
-    navigate(`/details/${resources.id}`)
+    navigate(`${URLS.RESOURCES_DETAILS}${resources.id}`)
   }
 
   return (
@@ -30,7 +31,7 @@ export const ResourceItem = () => {
       {!isLoading && resources && 
         <>
           {(resources.map((resource) =>
-            <div key={resource.id} className="max-w-lg my-4 bg-white rounded-lg shadow-md hover:shadow-2xl flex flex-col h-full flex-1">
+            <div key={resource.id} className="max-w-lg my-4 bg-white rounded-lg shadow-md hover:shadow-2xl flex flex-col h-full">
               <div className="flex justify-between items-center bg-gray-700 py-2">
                 <span className="text-sm font-light text-gray-50 px-4">Date: {resource.dateTime}</span>
                 <div className="flex items-end">
@@ -41,13 +42,14 @@ export const ResourceItem = () => {
                 <img className="w-full h-full object-cover" src={resource.imageUrl} alt="resourceImage" />
               </div>
               <div className="p-4">
-                <h1 className="text-3xl text-gray-700 font-bold hover:text-gray-700 my-2">{resource.title}</h1>
+                <h1 className="text-3xl text-gray-700 font-bold hover:text-gray-700 my-2 overflow-hidden">{resource.title}</h1>
                 <div className="text-gray-700 text-base max-h-36 overflow-hidden">{(resource.content.length > 100
                   ? parse(String(resource.content).substring(0, 100) + "...")
                   : parse(resource.content))}</div>
-                <a className="text-blue-600 hover:underline mt-4 inline-block cursor-pointer" onClick={navigationHandle}>Read more</a>
-                <Link to={`/details2/${resource.id}`} className="text-blue-600 hover:underline mt-4 inline-block cursor-pointer">Read more</Link>
               </div>
+                <Link to={`${URLS.RESOURCES_DETAILS}${resource.id}`} className="text-blue-600 hover:underline mt-4 cursor-pointer p-4">
+                  Read more
+                </Link>
               <div className="flex items-center justify-between p-4 mt-auto">
                 <div className="flex items-center">
                   <FaHeart size={32} color="red" className="mr-2" />
