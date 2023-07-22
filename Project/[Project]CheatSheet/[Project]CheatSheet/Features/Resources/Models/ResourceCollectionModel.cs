@@ -6,6 +6,6 @@
     {
 
         public int TotalPageCount{get;set;}
-        public Pagination<ResourceModel> Resources { get; set; }
+        public Pagination<ResourceModel>? Resources { get; set; }
     }
 }

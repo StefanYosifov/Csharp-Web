@@ -1,10 +1,17 @@
 ﻿namespace _Project_CheatSheet.Features.Course.Models
 {
+    using _Project_CheatSheet.Features.Topics.Models;
     using Infrastructure.Data.GlobalConstants.Course;
     using System.ComponentModel.DataAnnotations;
 
     public class CourseRespondModel
     {
+        public CourseRespondModel()
+        {
+            this.Categories = new HashSet<string>();
+            this.Topics = new HashSet<TopicsRespondModel>();
+        }
+
         public string Id { get; set; } = null!;
 
         [Required]
@@ -20,10 +27,11 @@
         public decimal Price { get; set; }
 
         [Required][Url] public string ImageUrl { get; set; }
-
+         
         public bool HasPaid { get; set; }
 
-        [Required] public string Category { get; set; } = null!;
+        [Required] 
+        public ICollection<string> Categories{ get; set; } = null!;
 
         public ICollection<TopicsRespondModel> Topics { get; set; } = null!;
     }

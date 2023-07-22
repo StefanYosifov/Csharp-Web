@@ -157,7 +157,12 @@
             var userId = currentUserService.GetUserId();
 
             var detailResource = details
-                .FirstOrDefault(dr => dr.IsPublic || dr.UserId == userId);
+                .FirstOrDefault(dr => dr.Id.ToLower()==resourceId.ToLower() && dr.IsPublic || dr.UserId == userId);
+
+            if (detailResource == null)
+            {
+                return null;
+            }
 
             if (detailResource.ResourceLikes.Any(rl => rl.UserId == userId))
             {
@@ -214,6 +219,22 @@
             context.Remove(resource);
             await context.SaveChangesAsync();
             return ResourceMessages.OnSuccessfulResourceRemove;
+        }
+
+        public async Task<string> ChangeVisibility(string id)
+        {
+            var userId=currentUserService.GetUserId();
+            var resource=await context.Resources.FindAsync(Guid.Parse(id));
+
+            if(resource==null||resource.UserId!= userId || resource.IsDeleted)
+            {
+                throw new ServiceException(ResourceMessages.NoPermission);
+            }
+
+            resource.IsPublic=!resource.IsPublic;
+            await context.SaveChangesAsync();
+
+            return ResourceMessages.SuccessfullyVisibilityChanged;
         }
     }
 }

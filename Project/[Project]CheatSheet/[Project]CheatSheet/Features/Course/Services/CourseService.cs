@@ -1,5 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Course.Services
 {
+    using _Project_CheatSheet.Common.CachingConstants;
+    using _Project_CheatSheet.Features.Course.Enums;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Common.Caching;
@@ -15,6 +17,9 @@
 
     public class CourseService : ICourseService
     {
+        private readonly string[] FeaturedCategories = { "C#", "JavaScript", "Python", "Java", "Web" };
+        private const int FeaturedCategoriesCount = 6;
+
         private readonly IMemoryCache cache;
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
@@ -84,7 +89,7 @@
             if (!string.IsNullOrWhiteSpace(query.Language))
             {
                 paginationResult = paginationResult
-                    .Where(p => p.Category == query.Language);
+                    .Where(p => p.Categories.Any(c => c == query.Language));
             }
 
             setCache.SetCache(cacheKey, paginationResult, PublicCoursesCache);
@@ -139,24 +144,37 @@
 
         public async Task<CourseRespondPaymentModel> GetPaymentDetails(string id)
         {
-            var getCourse = await context.Courses.FindAsync(id);
+            var getCourse = await context.Courses.FindAsync(Guid.Parse(id));
             return mapper.Map<CourseRespondPaymentModel>(getCourse);
         }
 
-        public async Task<ICollection<string>> GetCoursesLanguages()
+        public async Task<CourseFilterModel> GetCoursesFilteringData()
         {
-            var cacheKey = "Course_Languages_";
-            if (cache.TryGetValue(cacheKey, out ICollection<string> languages))
+            const string cacheKey = "Course_Languages";
+            if (cache.TryGetValue(cacheKey, out CourseFilterModel filters))
             {
-                return languages;
+                return filters;
             }
 
-            languages = await context.Courses.AsNoTracking().Select(c => c.Category.ToString()).Distinct()
+            var languages = await context.CategoryCourses
+                .AsNoTracking()
+                .Select(cc => cc.Name)
                 .ToArrayAsync();
 
-            setCache.SetCache(nameof(languages), languages, CategoriesCoursesCache);
+           string[] filterEnum = Enum.GetValues(typeof(CourseFilters))
+                           .Cast<CourseFilters>()
+                           .Select(x => x.ToString())
+                           .ToArray();
 
-            return languages;
+            var sortingModel=new CourseFilterModel
+            {
+                Categories=languages,
+                Sortings=filterEnum,
+            };
+
+            setCache.SetCache(cacheKey, sortingModel, CategoriesCoursesCache);
+
+            return sortingModel;
         }
 
         private IQueryable<CourseRespondAllModel> FilterWhetherArchiveOrNotQuery(bool isArchived,
@@ -178,6 +196,35 @@
             }
 
             return filteredResults;
+        }
+
+        public async Task<ICollection<CourseRespondUpcomingModel>> GetUpcomingCourses()
+        {
+            const string cacheKey = "upcomingCourses";
+            var userId=currentUserService.GetUserId();
+
+            if (cache.TryGetValue(cacheKey, out ICollection<CourseRespondUpcomingModel> upcomingCourses))
+            {
+                return upcomingCourses;
+            }
+
+            var getUpComingCourses = await context.Courses
+                //.Where(c => c.StartDate > DateTime.UtcNow && c.CategoryCourseCourses.Any(ccc => FeaturedCategories.Contains(ccc.CategoryCourse.Name)))
+                //.Take(FeaturedCategoriesCount)
+                .OrderBy(x => x.StartDate)
+                .ProjectTo<CourseRespondUpcomingModel>(mapper.ConfigurationProvider)
+                .ToArrayAsync();
+
+            foreach(var course in getUpComingCourses)
+            {
+                if(await context.UserCourses.AnyAsync(uc =>uc.CourseId.ToString()==course.Id && uc.UserId == userId))
+                {
+                    course.HasPaid=true;
+                }
+            }
+
+            setCache.SetCache(cacheKey, getUpComingCourses, CachingConstants.Course.UpComingCourses);
+            return getUpComingCourses;
         }
     }
 }

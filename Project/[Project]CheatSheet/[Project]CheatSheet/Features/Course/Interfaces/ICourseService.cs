@@ -9,6 +9,7 @@
         public Task<IEnumerable<CourseRespondAllModel>> GetMyCourses(int page, string? toggle);
         public Task<CourseRespondModel> GetCourseDetails(string id);
         public Task<CourseRespondPaymentModel> GetPaymentDetails(string id);
-        public Task<ICollection<string>> GetCoursesLanguages();
+        public Task<CourseFilterModel> GetCoursesFilteringData();
+        public Task<ICollection<CourseRespondUpcomingModel>> GetUpcomingCourses();
     }
 }

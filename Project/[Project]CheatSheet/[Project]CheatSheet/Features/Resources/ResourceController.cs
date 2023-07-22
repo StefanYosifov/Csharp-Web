@@ -63,5 +63,11 @@
         [ExceptionHandlingActionFilter]
         public async Task<string> RemoveResource(string id)
             => await resourceService.RemoveResource(id);
+
+        [HttpPatch("visibility/{id}")]
+        [ActionFilter]
+        [ExceptionHandlingActionFilter]
+        public async Task<string> ChangeVisibility(string id)
+            => await resourceService.ChangeVisibility(id);
     }
 }

@@ -4,6 +4,7 @@
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Filters;
     using Models;
 
     [Authorize]
@@ -40,6 +41,7 @@
 
         [HttpPost("resource/like/{id}")]
         [ActionFilter()]
+        [ExceptionHandlingActionFilter]
         public async Task<string> LikeAResource(LikeResourceModelAdd likeResource)
             => await likeService.LikeAResource(likeResource);
 

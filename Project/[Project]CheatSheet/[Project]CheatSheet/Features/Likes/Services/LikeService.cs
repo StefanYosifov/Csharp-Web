@@ -7,6 +7,7 @@
     using Infrastructure.Data;
     using Infrastructure.Data.Models;
     using Interfaces;
+    using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.EntityFrameworkCore;
     using Models;
 
@@ -59,6 +60,7 @@
             var userId = currentUserService.GetUserId();
             var commentLike =
                 await context.CommentLikes.FirstOrDefaultAsync(c => c.CommentId.ToString() == likeComment.CommentId);
+
             if (commentLike == null)
             {
                 throw new ServiceException(LikeMessages.OnFailedRemoveComment);

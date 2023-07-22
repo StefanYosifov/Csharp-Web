@@ -24,7 +24,7 @@
 
         public StatisticsModel GetAllStatistics()
         {
-            var cacheKey = "home";
+            const string cacheKey = "home";
             if (cache.TryGetValue(cacheKey, out StatisticsModel statisticModel))
             {
                 return statisticModel;
@@ -37,6 +37,23 @@
             };
 
             cacheService.SetCache(cacheKey, newStatisticsModel, CachingConstants.Course.HomeStatistics);
+            return newStatisticsModel;
+        }
+
+        public StatisticsCourseModel GetStatisticsCourse()
+        {
+            const string cacheKey="Course_Statistics";
+            if(cache.TryGetValue(cache,out StatisticsCourseModel statisticModel))
+            {
+                return statisticModel;
+            }
+
+            var newStatisticsModel=new StatisticsCourseModel
+            {
+                CoursesCount = context.Courses.Count(),
+                UserCoursesCount=context.UserCourses.Count()
+            };
+            cacheService.SetCache(cacheKey,newStatisticsModel,CachingConstants.Course.CourseStatistics);
             return newStatisticsModel;
         }
     }

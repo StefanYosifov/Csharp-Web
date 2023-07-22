@@ -1,5 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Identity.Services;
 
+using _Project_CheatSheet.Common.Exceptions;
+using _Project_CheatSheet.Common.GlobalConstants.Authentication;
 using _Project_CheatSheet.Common.UserService.Interfaces;
 using AutoMapper;
 using Infrastructure.Data.Models;
@@ -18,7 +20,6 @@ public class AuthenticateService : IAuthenticateService
 
     private readonly IConfiguration configuration;
     private readonly IMapper mapper;
-    private readonly ICurrentUser userService;
     private readonly SignInManager<User> signInManager;
     private readonly UserManager<User> userManager;
 
@@ -26,14 +27,12 @@ public class AuthenticateService : IAuthenticateService
         UserManager<User> userManager,
         SignInManager<User> signInManager,
         IConfiguration configuration,
-        IMapper mapper,
-        ICurrentUser userService)
+        IMapper mapper)
     {
         this.userManager = userManager;
         this.signInManager = signInManager;
         this.configuration = configuration;
         this.mapper = mapper;
-        this.userService = userService;
     }
 
     public async Task<Response> AuthenticateLogin(LoginModel loginModel)
@@ -41,13 +40,13 @@ public class AuthenticateService : IAuthenticateService
         var user = await userManager.FindByNameAsync(loginModel.Username);
         if (user == null)
         {
-            return null;
+            throw new ServiceException(AuthenticationMessages.WrongCredentials);
         }
 
         var result = await signInManager.CheckPasswordSignInAsync(user, loginModel.Password, false);
         if (!result.Succeeded)
         {
-            return null;
+            throw new ServiceException(AuthenticationMessages.WrongCredentials);
         }
 
         var userRoles = await userManager.GetRolesAsync(user);
@@ -75,13 +74,13 @@ public class AuthenticateService : IAuthenticateService
         var userNameExists = await userManager.FindByNameAsync(registerModel.UserName);
         if (userNameExists != null)
         {
-            return null;
+            throw new ServiceException(AuthenticationMessages.UserNameOrEmailExist);
         }
 
         var emailExists = await userManager.FindByEmailAsync(registerModel.Email);
         if (emailExists != null)
         {
-            return null;
+            throw new ServiceException(AuthenticationMessages.UserNameOrEmailExist);
         }
 
         var user = mapper.Map<User>(registerModel);
@@ -89,7 +88,7 @@ public class AuthenticateService : IAuthenticateService
 
         if (!result.Succeeded)
         {
-            return null;
+            throw new ServiceException(AuthenticationMessages.IssueWithRegister);
         }
 
         await userManager.AddToRoleAsync(user, ApplicationRolesEnum.User.ToString());
@@ -110,9 +109,9 @@ public class AuthenticateService : IAuthenticateService
     private async Task<Response> GetResponse(JwtSecurityToken token, User user)
     {
         var response = new Response();
-        response.accessToken = new JwtSecurityTokenHandler().WriteToken(token);
+        response.AccessToken = new JwtSecurityTokenHandler().WriteToken(token);
         response.Roles = await userManager.GetRolesAsync(user);
-        response.UserId = userService.GetUserId();
+        response.UserId = user.Id;
         return response;
     }
 

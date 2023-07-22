@@ -5,6 +5,11 @@
 
     public class CourseRespondAllModel
     {
+        public CourseRespondAllModel()
+        {
+            this.Categories = new HashSet<string>();
+        }
+
         public string Id { get; set; } = null!;
 
         [Required]
@@ -21,8 +26,6 @@
 
         [Required][Url] public string ImageUrl { get; set; }
 
-        [Required] public string Category { get; set; } = null!;
-
         public string StartDate { get; set; }
 
         public string EndDate { get; set; }
@@ -30,5 +33,8 @@
         public bool HasPaid { get; set; }
 
         public int TopicsCount { get; set; }
+
+        [Required]
+        public ICollection<string> Categories { get; set; }
     }
 }

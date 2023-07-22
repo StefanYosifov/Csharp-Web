@@ -5,6 +5,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
+    using System.Net;
 
     [Authorize]
     [Route("/statistics")]
@@ -17,10 +18,14 @@
             this.service = service;
         }
 
-        [Authorize]
         [HttpGet("all")]
         [ActionFilter("", "", StatusCodes.Status403Forbidden)]
-        public StatisticsModel GetAllStatistics()
+        public StatisticsModel GetHomePageStatistics()
             => service.GetAllStatistics();
+
+        [HttpGet("course")]
+        [ActionFilter("","",StatusCodes.Status403Forbidden)]
+        public StatisticsCourseModel GetCoursePageStatistics()
+            =>service.GetStatisticsCourse();
     }
 }

@@ -12,5 +12,6 @@
         public Task<DetailResources> GetResourceById(string? resourceId);
         public Task<string> EditResource(string id, ResourceEditModel resourceEdit);
         public Task<string> RemoveResource(string id);
+        public Task<string> ChangeVisibility(string id);
     }
 }

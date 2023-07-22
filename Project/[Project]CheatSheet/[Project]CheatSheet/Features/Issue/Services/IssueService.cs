@@ -87,7 +87,7 @@ public class IssueService : IIssueService
             await context.SaveChangesAsync();
             return IssueMessages.SuccessfullyDeletedIssue;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return IssueMessages.UnSuccessfullyDeletedIssue;
         }

@@ -4,6 +4,6 @@
 
     public interface ICategoryService
     {
-        public Task<IEnumerable<CategoryModel>> GetCategories();
+        public Task<CategorySortingModel> GetCategories();
     }
 }

@@ -90,7 +90,6 @@
             //Courses
             CreateMap<Course, CourseRespondModel>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.ToString()))
                 .ForMember(dest => dest.Topics, opt => opt.MapFrom(src => src.Topics.Select(t => new TopicsRespondModel
                 {
                     TopicId = t.Id.ToString(),
@@ -107,12 +106,28 @@
             CreateMap<Course, CourseRespondAllModel>()
                 .BeforeMap((src, dest) => dest.HasPaid = false)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
-                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.ToString()))
                 .ForMember(dest => dest.TopicsCount, opt => opt.MapFrom(src => src.Topics.Count))
                 .ForMember(dest => dest.StartDate,
                     opt => opt.MapFrom(src => src.StartDate.ToString(Formatter.DateOnlyFormatter)))
                 .ForMember(dest => dest.EndDate,
-                    opt => opt.MapFrom(src => src.EndDate.ToString(Formatter.DateOnlyFormatter)));
+                    opt => opt.MapFrom(src => src.EndDate.ToString(Formatter.DateOnlyFormatter)))
+                .ForMember(dest => dest.Categories,
+                    opt => opt.MapFrom(src => src.CategoryCourseCourses.Select(ccc => new
+                     {
+                         ccc.CategoryCourse,
+                         ccc.CourseId
+                     })
+                        .Where(ccc => ccc.CourseId == src.Id)
+                        .Select(cc => cc.CategoryCourse.Name)));
+
+            CreateMap<Course, CourseRespondUpcomingModel>()
+                .BeforeMap((src, dest) => dest.HasPaid = false)
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
+                .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
+                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate.ToString(Formatter.DateOnlyFormatter)))
+                .ForMember(dest => dest.WeeksDuration, opt => opt.MapFrom(src => (int)(src.EndDate - src.StartDate).TotalDays / 7));
+
 
             //Topics
 

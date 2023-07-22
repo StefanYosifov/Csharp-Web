@@ -5,5 +5,7 @@
     public interface IStatisticsService
     {
         public StatisticsModel GetAllStatistics();
+
+        public StatisticsCourseModel GetStatisticsCourse();
     }
 }

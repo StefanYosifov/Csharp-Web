@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Category.Models
 {
+    using _Project_CheatSheet.Features.Resources.Enums;
     using Common.GlobalConstants.Category;
     using System.ComponentModel.DataAnnotations;
 
@@ -10,5 +11,6 @@
         [Required]
         [StringLength(CategoryConstants.NameMaxCategory, MinimumLength = CategoryConstants.NameMinCategory)]
         public string Name { get; set; } = null!;
+
     }
 }

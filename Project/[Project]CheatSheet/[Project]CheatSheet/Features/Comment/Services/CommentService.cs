@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Services
 {
+    using _Project_CheatSheet.Common.GlobalConstants.Resource;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Common.Exceptions;
@@ -60,16 +61,15 @@
             var currentUserId = currentUserService.GetUserId();
             var comment = await context.Comments.FindAsync(Guid.Parse(id));
 
-            try
+            if (comment == null || comment.UserId != currentUserId || comment.IsDeleted)
             {
-                context.Entry(comment).CurrentValues.SetValues(commentModel);
-                await context.SaveChangesAsync();
-                return CommentMessages.OnSuccessfulEditComment;
+                throw new ServiceException(ResourceMessages.NoPermission);
             }
-            catch (DbUpdateException)
-            {
-                return CommentMessages.OnUnsuccessfulEditComment!;
-            }
+
+            context.Entry(comment).CurrentValues.SetValues(commentModel);
+            await context.SaveChangesAsync();
+            return CommentMessages.OnSuccessfulEditComment;
+
         }
 
         public async Task<string> DeleteComment(string id)
