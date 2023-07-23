@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Models
 {
-    using Common.GlobalConstants.Comment;
+    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Comment;
     using System.ComponentModel.DataAnnotations;
 
     public class InputCommentModel

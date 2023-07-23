@@ -1,9 +1,9 @@
 ﻿namespace _Project_CheatSheet.Features.Resources.Services
 {
+    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Resource;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Common.Exceptions;
-    using Common.GlobalConstants.Resource;
     using Common.Pagination;
     using Common.UserService.Interfaces;
     using Enums;

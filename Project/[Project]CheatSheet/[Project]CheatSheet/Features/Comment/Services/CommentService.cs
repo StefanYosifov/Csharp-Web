@@ -1,10 +1,10 @@
 ﻿namespace _Project_CheatSheet.Features.Comment.Services
 {
-    using _Project_CheatSheet.Common.GlobalConstants.Resource;
+    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Comment;
+    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Resource;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Common.Exceptions;
-    using Common.GlobalConstants.Comment;
     using Common.UserService.Interfaces;
 
     using Infrastructure.Data;

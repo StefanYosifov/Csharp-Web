@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\[Project]CheatSheet.Common\[Project]CheatSheet.Common.csproj" />
+    <ProjectReference Include="..\[Project]CheatSheet.Constants\[Project]CheatSheet.Constants.csproj" />
     <ProjectReference Include="..\[Project]CheatSheet.Infrastructure\[Project]CheatSheet.Infrastructure.csproj" />
   </ItemGroup>
 

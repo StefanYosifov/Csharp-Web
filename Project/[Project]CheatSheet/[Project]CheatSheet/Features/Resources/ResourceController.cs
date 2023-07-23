@@ -1,8 +1,7 @@
 ﻿namespace _Project_CheatSheet.Features.Resources
 {
+    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Resource;
     using Common.Filters;
-    using Common.GlobalConstants.Resource;
-    using Common.Pagination;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;

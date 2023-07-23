@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Common.Mapping
 {
+    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants;
     using AutoMapper;
     using Features.Comment.Models;
     using Features.Course.Models;
@@ -9,7 +10,6 @@
     using Features.Profile.Models;
     using Features.Resources.Models;
     using Features.Topics.Models;
-    using GlobalConstants;
     using Infrastructure.Data.Models;
 
     public class MapperProfile : Profile
@@ -125,7 +125,7 @@
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
-                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate.ToString(Formatter.DateOnlyFormatter)))
+                .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate.ToString(Formatter.DateFormatter)))
                 .ForMember(dest => dest.WeeksDuration, opt => opt.MapFrom(src => (int)(src.EndDate - src.StartDate).TotalDays / 7));
 
 

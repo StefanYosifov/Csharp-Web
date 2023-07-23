@@ -1,7 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Category.Models
 {
-    using _Project_CheatSheet.Features.Resources.Enums;
-    using Common.GlobalConstants.Category;
+    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Category;
     using System.ComponentModel.DataAnnotations;
 
     public class CategoryModel

@@ -1,6 +1,6 @@
-﻿namespace _Project_CheatSheet.Common.GlobalConstants.Likes
+﻿namespace _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Likes
 {
-    public class LikeMessages
+     public class LikeMessages
     {
         public const string OnFailedLikedComments = "There was an issue liking this comment, please try again";
         public const string OnSuccessfulLikedComment = "You have successfully liked the comment";

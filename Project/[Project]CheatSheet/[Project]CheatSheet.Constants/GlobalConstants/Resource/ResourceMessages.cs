@@ -1,4 +1,4 @@
-﻿namespace _Project_CheatSheet.Common.GlobalConstants.Resource
+﻿namespace _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Resource
 {
     public class ResourceMessages
     {

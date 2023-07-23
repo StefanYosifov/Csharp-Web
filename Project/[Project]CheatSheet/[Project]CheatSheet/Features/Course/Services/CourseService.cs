@@ -72,7 +72,6 @@
 
         public async Task<CourseRespondAllPaginated> GetAllCourses(int page, CourseRequestQueryModel query)
         {
-            var text = "1,2,3";
             var userId = currentUserService.GetUserId();
             string splitQueryCategoriesText = string.Join(',', query.Categories);
             string[] splitQueryCategoriesArr = splitQueryCategoriesText.Split(',');

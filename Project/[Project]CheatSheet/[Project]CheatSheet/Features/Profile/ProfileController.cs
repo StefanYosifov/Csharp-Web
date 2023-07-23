@@ -1,12 +1,13 @@
 ﻿namespace _Project_CheatSheet.Features.Profile
 {
+    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Profile;
     using Common.Filters;
     using Common.UserService.Interfaces;
     using Interfaces;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Models;
-    using ProfileMessages = Common.GlobalConstants.Profile.ProfileMessages;
+
 
     [Route("/profile")]
     public class ProfileController : ApiController

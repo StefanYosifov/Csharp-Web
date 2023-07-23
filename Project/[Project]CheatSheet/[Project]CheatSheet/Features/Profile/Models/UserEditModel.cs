@@ -1,6 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Profile.Models
 {
-    using Common.GlobalConstants.User;
+    using _Project_CheatSheet.Infrastructure.Data.GlobalConstants.User;
     using System.ComponentModel.DataAnnotations;
 
     public class UserEditModel

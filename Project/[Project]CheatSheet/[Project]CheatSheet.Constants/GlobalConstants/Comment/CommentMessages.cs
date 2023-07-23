@@ -1,6 +1,6 @@
-﻿namespace _Project_CheatSheet.Common.GlobalConstants.Comment
+﻿namespace _Project_CheatSheet.Infrastructure.Data.GlobalConstants.Comment
 {
-    public class CommentMessages
+     public class CommentMessages
     {
         public const string OnSuccessfulEditComment = "You have successfully edit your comment";
         public const string OnUnsuccessfulEditComment = "There was an error";
