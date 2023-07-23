@@ -108,7 +108,6 @@ export const ResourceList2 = () => {
                             <DropDown categories={sorting}
                                 selectedCategory={selectedSort}
                                 setState={setSelectedSort} />
-
                             <button type="button" className="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-norma bg-blue-600 m-2"
                                 onClick={changeURL}
                             >

@@ -25,18 +25,18 @@ export const CoursesItem = ({ course }) => {
                 <h2 className="mt-2 mb-2 font-bold">{course.title}</h2>
                 <p className="text-sm overflow-hidden">{course.description}</p>
               </div>
-              <div className="mt-3 flex items-center">
+              {/* <div className="mt-3 flex items-center">
                 <span className="font-bold text-xl">{course.price}</span>&nbsp;
                 <span className="text-sm font-semibold">€</span>
-              </div>
+              </div> */}
             </div>
             <div className="p-4 border-t border-b text-xs text-gray-700">
-              <span className="flex items-center mb-1">
+              {/* <span className="flex items-center mb-1">
                 <FaCalendar></FaCalendar><span className="ml-1">{course.startDate}</span>
               </span>
               <span className="flex items-center mb-1">
                 <FaCalendar></FaCalendar><span className="ml-1">{course.endDate}</span>
-              </span>
+              </span> */}
               <span className="flex items-center">
                 {course.hasPaid === true ? (
                   <span className="flex items-center">

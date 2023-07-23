@@ -76,11 +76,18 @@ const useDetailsStore = create((set) => ({
             set({ isLoading: true });
             const response = await changeVisibility(id);
             if (response.status === 200) {
-                setData((prevData) => prevData.filter((item) => item.id !== id));
+                toast.success(response.data);
+                set((state) => ({
+                    ...state,
+                    data: {
+                        ...state.data,
+                        isPublic: !state.data.isPublic,
+                    },
+                }));  
             }
             set({ isLoading: false });
         } catch (error) {
-            setIsLoading(false);
+            toast.error(error);
         }
     }
 })

@@ -23,6 +23,9 @@ import { Details2 } from './components/Detail/Details2';
 import RequireAuth from './components/Setup/RequireAuth';
 import { ResourceList2 } from './components/Resources/ResourceList2';
 import { APP_URLS } from './constants/URLConstants';
+import { CourseList2 } from './components/Courses/CourseList2';
+import { Private } from './components/Administrator/Private';
+import { CourseOverView } from './components/Courses/CourseOverview';
 
 
 
@@ -47,11 +50,13 @@ function App() {
               <Route path={APP_URLS.PRIVACY} Component={Privacy} />
               <Route path={APP_URLS.TERMS} Component={TermsAndConditions} />
               <Route path={APP_URLS.COURSES} Component={CoursesList} />
-              <Route path={APP_URLS.COURSES_ALL} Component={CoursesList} />
+              <Route path={APP_URLS.COURSES_ALL} Component={CourseList2} />
               <Route path={APP_URLS.COURSES_TRAININGS} Component={CoursePage} />
               <Route path={APP_URLS.COURSES_VIDEOS} Component={CourseVideo} />
               <Route path={APP_URLS.COURSES_JOIN} Component={CourseJoin} />
               <Route path={APP_URLS.COURSES_MINE} Component={CourseMy} />
+              <Route path={APP_URLS.PRIVATE} Component={Private}/>
+              <Route path={APP_URLS.COURSES_OVERVIEW} Component={CourseOverView} />
             </Route>
           </Route>
         </Routes>

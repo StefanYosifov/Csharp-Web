@@ -1,10 +1,7 @@
 import { get, post } from "./requests"
 
-export const getAllCourses = (page, language, price) => {
-    language = language === undefined ? '' : language;
-    price = price === undefined ? '' : price;
-
-    return get(`course/all/${page}?language=${language}&price=${price}`);
+export const getAllCourses = (page,query) => {
+    return get(`course/all/${page}${query}`);
 }
 
 export const getMyCourses=(page,toggle)=>{
@@ -16,9 +13,15 @@ export const getCoursePaymentDetails = (id) => {
     return get(`course/payment/${id}`);
 }
 
-export const getCoursesLanguages = () => {
+export const getCoursesCategories = () => {
     return get(`course/languages`);
 }
+
+export const getFeaturedCourses=()=>{
+    return get(`course/upcomingFeatured`);
+}
+
 export const joinCoursePayment = (id) => {
     return post(`course/payment/${id}`);
 }
+

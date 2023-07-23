@@ -14,7 +14,8 @@ export const URLS={
     COURSES_JOIN:`/course/join/`,
     PROFILE:`/profile`,
     TERMS:`/terms`,
-    PRIVACY:`/privacy`
+    PRIVACY:`/privacy`,
+    PRIVATE:`/private`,
 }
 
 export const APP_URLS = {
@@ -32,8 +33,12 @@ export const APP_URLS = {
     TERMS: '/terms',
     COURSES: '/course/:id',
     COURSES_ALL: '/course/all/:id',
+    COURSES_ALL2: '/course/all2/:id',
+    COURSES_OVERVIEW:`/course/view/:id`,
     COURSES_TRAININGS: '/course/trainings/:id/:courseTitle',
     COURSES_VIDEOS: '/course/trainings/videos/:id/:courseTitle',
     COURSES_JOIN: '/course/join/:id',
     COURSES_MINE: '/course/mine/:id',
+    PRIVATE:`/private`
   };
+

@@ -28,6 +28,8 @@ export const CourseMy = () => {
     navigate(`?${searchParams.toString()}`, { replace: true });
   };
 
+  console.log(courses);
+
   return (
     <>
       <div className="flex">

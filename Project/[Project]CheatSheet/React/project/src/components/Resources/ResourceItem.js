@@ -53,9 +53,7 @@ export const ResourceItem = () => {
               <div className="flex items-center justify-between p-4 mt-auto">
                 <div className="flex items-center">
                   <FaHeart size={32} color="red" className="mr-2" />
-                  {resource.categoryNames.map((category, id) => (
-                    <CategoryItem category={category} key={id} />
-                  ))}
+                  <CategoryItem categories={resource.categoryNames}/>
                 </div>
                 <div className="flex items-center">
                   <img className="mx-4 w-10 h-10 object-cover rounded-full hidden sm:block" src={resource.userProfileImage} alt="avatar" />

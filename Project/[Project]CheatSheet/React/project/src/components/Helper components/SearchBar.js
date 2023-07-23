@@ -3,7 +3,7 @@ import React from 'react';
 function SearchBar({input,setInput}) {
 
   return (
-    <div className='relative m-2'>
+    <div className='relative'>
       <label htmlFor="Search" className="sr-only"> Search </label>
 
       <input
