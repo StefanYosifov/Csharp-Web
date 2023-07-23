@@ -20,32 +20,36 @@
 
         [HttpGet("{id}")]
         [ActionFilter("", CourseMessages.OnUnsuccessfulCourseRetrieval, StatusCodes.Status404NotFound)]
-        public async Task<CourseRespondModel> GetCourse(string id) =>
-            await service.GetCourseDetails(id);
+        public async Task<CourseRespondModel> GetCourse(string id)
+            => await service.GetCourseDetails(id);
 
         [HttpGet("payment/{id}")]
         [ActionFilter("", CourseMessages.OnUnsuccessfulCourseRetrieval)]
-        public async Task<CourseRespondPaymentModel> GetCoursePaymentDetails(string id) =>
-            await service.GetPaymentDetails(id.ToLower());
+        public async Task<CourseRespondPaymentModel> GetCoursePaymentDetails(string id)
+            => await service.GetPaymentDetails(id.ToLower());
 
         [HttpGet("all/{page}")]
         [ActionFilter()]
-        public async Task<IEnumerable<CourseRespondAllModel>> GetAllCourses(int page, [FromQuery] CourseRequestQueryModel query) =>
-            await service.GetAllCourses(page, query);
+        public async Task<CourseRespondAllPaginated> GetAllCourses([FromRoute]int page, [FromQuery] CourseRequestQueryModel query)
+            => await service.GetAllCourses(page, query);
 
         [HttpGet("my/{page}")]
         [ActionFilter()]
-        public async Task<IEnumerable<CourseRespondAllModel>> GetMyCourses(int page, [FromQuery] string? toggle) =>
-            await service.GetMyCourses(page, toggle);
+        public async Task<IEnumerable<CourseRespondAllModel>> GetMyCourses(int page, [FromQuery] string? toggle)
+            => await service.GetMyCourses(page, toggle);
 
         [HttpGet("languages")]
         [ActionFilter()]
-        public async Task<ICollection<string>> GetLanguages() =>
-            await service.GetCoursesLanguages();
+        public async Task<CourseFilterModel> GetCoursesFilteringData()
+            => await service.GetCoursesFilteringData();
 
         [HttpPost("payment/{id}")]
         [ActionFilter(CourseMessages.OnSuccessfulPayment, CourseMessages.OnSuccessfulPayment, StatusCodes.Status403Forbidden)]
-        public async Task<bool> JoinCourse(string id) =>
-            await service.JoinCourse(id);
+        public async Task<bool> JoinCourse(string id)
+            => await service.JoinCourse(id);
+
+        [HttpGet("upcomingFeatured")]
+        public async Task<ICollection<CourseRespondUpcomingModel>> GetUpcomingCourses()
+            => await service.GetUpcomingCourses();
     }
 }

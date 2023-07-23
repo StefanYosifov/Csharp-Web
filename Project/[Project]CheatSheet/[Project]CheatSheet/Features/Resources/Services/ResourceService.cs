@@ -16,7 +16,7 @@
 
     public class ResourceService : IResourceService
     {
-        private const int ResourcesPerPage = 12;
+        private const byte ResourcesPerPage = 12;
         private readonly CheatSheetDbContext context;
         private readonly ICurrentUser currentUserService;
         private readonly IMapper mapper;

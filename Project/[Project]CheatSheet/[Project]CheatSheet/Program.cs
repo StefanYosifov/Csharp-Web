@@ -143,6 +143,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(e => { e.MapControllers(); });
+app.UseEndpoints(e => { e.MapControllers();});
 
 await app.RunAsync();

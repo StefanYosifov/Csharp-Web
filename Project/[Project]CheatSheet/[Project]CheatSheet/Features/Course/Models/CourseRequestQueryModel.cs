@@ -1,11 +1,20 @@
 ﻿namespace _Project_CheatSheet.Features.Course.Models
 {
+    using _Project_CheatSheet.Features.Course.Enums;
+
     public class CourseRequestQueryModel
     {
 
-        public string? Language { get; set; }
+        public CourseRequestQueryModel()
+        {
+            this.Categories = new List<string>();
+        }
 
-        public decimal? Price { get; set; }
+        public string? Search { get; set; }
+
+        public CourseFilters Sort { get; set; }
+
+        public ICollection<string> Categories { get; set; }
 
     }
 }

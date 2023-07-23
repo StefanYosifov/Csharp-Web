@@ -19,6 +19,8 @@
     {
         private readonly string[] FeaturedCategories = { "C#", "JavaScript", "Python", "Java", "Web" };
         private const int FeaturedCategoriesCount = 6;
+        private const byte CoursesPerPage = 6;
+
 
         private readonly IMemoryCache cache;
         private readonly CheatSheetDbContext context;
@@ -68,33 +70,58 @@
             return true;
         }
 
-        public async Task<IEnumerable<CourseRespondAllModel>> GetAllCourses(int page, CourseRequestQueryModel query)
+        public async Task<CourseRespondAllPaginated> GetAllCourses(int page, CourseRequestQueryModel query)
         {
+            var text = "1,2,3";
             var userId = currentUserService.GetUserId();
+            string splitQueryCategoriesText = string.Join(',', query.Categories);
+            string[] splitQueryCategoriesArr = splitQueryCategoriesText.Split(',');
+            var cacheKey = $"Courses_{page}_{query.Search}_{query.Sort}_{splitQueryCategoriesText}";
 
-            var cacheKey = $"Courses_{userId}_{page}_{query.Language}_{query.Price}";
-            if (cache.TryGetValue(cacheKey, out IEnumerable<CourseRespondAllModel> cachedResult))
+
+            if (cache.TryGetValue(cacheKey, out CourseRespondAllPaginated cachedResult))
             {
                 return cachedResult;
             }
 
-            var result = context.Courses
-                .AsNoTracking()
-                .Where(uc => !uc.UsersCourses.Any())
-                .ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
+            var courses = context.Courses.AsNoTracking();
 
-            IEnumerable<CourseRespondAllModel> paginationResult =
-                await Pagination<CourseRespondAllModel>.CreateAsync(result, page);
-
-            if (!string.IsNullOrWhiteSpace(query.Language))
+            if (!string.IsNullOrEmpty(query.Search))
             {
-                paginationResult = paginationResult
-                    .Where(p => p.Categories.Any(c => c == query.Language));
+                var wildcard = $"%{query.Search.ToLower()}%";
+
+                courses = courses.Where(c => EF.Functions.Like(c.Title.ToLower(), wildcard));
             }
 
-            setCache.SetCache(cacheKey, paginationResult, PublicCoursesCache);
+            if (query.Categories.Count > 0)
+            {
+               courses=courses.Where(c=>c.CategoryCourseCourses.Any(cc=>splitQueryCategoriesArr.Contains(cc.CategoryCourse.Name)));
+            }
 
-            return paginationResult;
+            if (query.Sort != null && query.Sort.ToString() != "All")
+            {
+                courses = query.Sort switch
+                {
+                    CourseFilters.Active => courses.Where(c => c.StartDate > DateTime.UtcNow),
+                    CourseFilters.Passed => courses.Where(c => c.StartDate < DateTime.UtcNow),
+                    CourseFilters.OnGoing => courses.Where(c => c.StartDate < DateTime.UtcNow && c.EndDate > DateTime.UtcNow),
+                };
+            }
+
+            var mappedCourses = courses.ProjectTo<CourseRespondAllModel>(mapper.ConfigurationProvider);
+
+            var paginationResult =
+                await Pagination<CourseRespondAllModel>.CreateAsync(mappedCourses, page, CoursesPerPage);
+
+            var allCoursesResult = new CourseRespondAllPaginated
+            {
+                Courses = paginationResult,
+                TotalPages = (int)Math.Ceiling((decimal)mappedCourses.Count() / CoursesPerPage)
+            };
+
+            setCache.SetCache(cacheKey, allCoursesResult, PublicCoursesCache);
+
+            return allCoursesResult;
         }
 
         public async Task<IEnumerable<CourseRespondAllModel>> GetMyCourses(int page, string? toggle)
@@ -161,15 +188,15 @@
                 .Select(cc => cc.Name)
                 .ToArrayAsync();
 
-           string[] filterEnum = Enum.GetValues(typeof(CourseFilters))
-                           .Cast<CourseFilters>()
-                           .Select(x => x.ToString())
-                           .ToArray();
+            string[] filterEnum = Enum.GetValues(typeof(CourseFilters))
+                            .Cast<CourseFilters>()
+                            .Select(x => x.ToString())
+                            .ToArray();
 
-            var sortingModel=new CourseFilterModel
+            var sortingModel = new CourseFilterModel
             {
-                Categories=languages,
-                Sortings=filterEnum,
+                Categories = languages,
+                Sortings = filterEnum,
             };
 
             setCache.SetCache(cacheKey, sortingModel, CategoriesCoursesCache);
@@ -201,7 +228,7 @@
         public async Task<ICollection<CourseRespondUpcomingModel>> GetUpcomingCourses()
         {
             const string cacheKey = "upcomingCourses";
-            var userId=currentUserService.GetUserId();
+            var userId = currentUserService.GetUserId();
 
             if (cache.TryGetValue(cacheKey, out ICollection<CourseRespondUpcomingModel> upcomingCourses))
             {
@@ -209,17 +236,17 @@
             }
 
             var getUpComingCourses = await context.Courses
-                //.Where(c => c.StartDate > DateTime.UtcNow && c.CategoryCourseCourses.Any(ccc => FeaturedCategories.Contains(ccc.CategoryCourse.Name)))
-                //.Take(FeaturedCategoriesCount)
+                .Where(c => c.StartDate > DateTime.UtcNow && c.CategoryCourseCourses.Any(ccc => FeaturedCategories.Contains(ccc.CategoryCourse.Name)))
+                .Take(FeaturedCategoriesCount)
                 .OrderBy(x => x.StartDate)
                 .ProjectTo<CourseRespondUpcomingModel>(mapper.ConfigurationProvider)
                 .ToArrayAsync();
 
-            foreach(var course in getUpComingCourses)
+            foreach (var course in getUpComingCourses)
             {
-                if(await context.UserCourses.AnyAsync(uc =>uc.CourseId.ToString()==course.Id && uc.UserId == userId))
+                if (await context.UserCourses.AnyAsync(uc => uc.CourseId.ToString() == course.Id && uc.UserId == userId))
                 {
-                    course.HasPaid=true;
+                    course.HasPaid = true;
                 }
             }
 
