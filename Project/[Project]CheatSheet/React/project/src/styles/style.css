@@ -1,10 +1,4 @@
-@import url(navigation.css);
-@import url(login.css);
-@import url(App.css);
-@import url(resourceItem.css);
-@import url(resourceItemList.css);
-@import url(searchBar.css);
-@import url(index.css);
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind variants;

@@ -2,6 +2,8 @@
 {
     using _Project_CheatSheet.Common.CachingConstants;
     using _Project_CheatSheet.Features.Course.Enums;
+    using _Project_CheatSheet.Infrastructure.MongoDb.Models;
+    using _Project_CheatSheet.Infrastructure.MongoDb.Services;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using Common.Caching;
@@ -13,7 +15,10 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
     using Models;
+    using System.Diagnostics;
+    using static _Project_CheatSheet.Common.CachingConstants.CachingConstants;
     using static Common.CachingConstants.CachingConstants.Course;
+    using Course = Infrastructure.Data.Models.Course;
 
     public class CourseService : ICourseService
     {
@@ -27,13 +32,15 @@
         private readonly ICurrentUser currentUserService;
         private readonly IMapper mapper;
         private readonly ICacheService setCache;
+        private readonly ICourseDetailsService contextDetails;
 
         public CourseService(
             CheatSheetDbContext context,
             IMapper mapper,
             ICurrentUser currentUserService,
             IMemoryCache cache,
-            ICacheService setCache)
+            ICacheService setCache
+            )
         {
             this.context = context;
             this.mapper = mapper;
@@ -94,7 +101,7 @@
 
             if (query.Categories.Count > 0)
             {
-               courses=courses.Where(c=>c.CategoryCourseCourses.Any(cc=>splitQueryCategoriesArr.Contains(cc.CategoryCourse.Name)));
+                courses = courses.Where(c => c.CategoryCourseCourses.Any(cc => splitQueryCategoriesArr.Contains(cc.CategoryCourse.Name)));
             }
 
             if (query.Sort != null && query.Sort.ToString() != "All")
@@ -226,8 +233,10 @@
 
         public async Task<ICollection<CourseRespondUpcomingModel>> GetUpcomingCourses()
         {
-            const string cacheKey = "upcomingCourses";
+
+
             var userId = currentUserService.GetUserId();
+            var cacheKey = $"upcomingCourses_{userId}";
 
             if (cache.TryGetValue(cacheKey, out ICollection<CourseRespondUpcomingModel> upcomingCourses))
             {
@@ -235,22 +244,43 @@
             }
 
             var getUpComingCourses = await context.Courses
+                .AsNoTracking()
+                .Include(c => c.CategoryCourseCourses)
+                .ThenInclude(cc => cc.Course)
                 .Where(c => c.StartDate > DateTime.UtcNow && c.CategoryCourseCourses.Any(ccc => FeaturedCategories.Contains(ccc.CategoryCourse.Name)))
                 .Take(FeaturedCategoriesCount)
                 .OrderBy(x => x.StartDate)
                 .ProjectTo<CourseRespondUpcomingModel>(mapper.ConfigurationProvider)
                 .ToArrayAsync();
 
-            foreach (var course in getUpComingCourses)
-            {
-                if (await context.UserCourses.AnyAsync(uc => uc.CourseId.ToString() == course.Id && uc.UserId == userId))
-                {
-                    course.HasPaid = true;
-                }
-            }
-
             setCache.SetCache(cacheKey, getUpComingCourses, CachingConstants.Course.UpComingCourses);
             return getUpComingCourses;
         }
+
+
+    public async Task<CoursePreviewModel> GetPreviewCourseData(string id)
+    {
+        var courseDetailsData = await context.Courses
+            .Include(c => c.Topics)
+            .ThenInclude(t => t.Video)
+            .Include(c => c.UsersCourses)
+            .FirstOrDefaultAsync(c => c.Id.ToString() == id);
+
+        return new CoursePreviewModel()
+        {
+            Id = courseDetailsData.Id.ToString(),
+            Name = courseDetailsData.Title,
+            Price = courseDetailsData.Price,
+            IntroductionVideoUrl = courseDetailsData.Topics.Where(t => t.CourseId.ToString() == id).Select(v => v.Video.VideoUrl).FirstOrDefault(),
+            PeopleParticipating = courseDetailsData.UsersCourses.Count(uc => uc.CourseId.ToString() == id),
+            Topics = courseDetailsData.Topics.Select(topic => new TopicDetailModel
+            {
+                Name = topic.Name,
+                Content = topic.Content,
+                Resources = new List<string> { topic.Video.Name }
+            }).ToList()
+        };
+
     }
+}
 }

@@ -1,6 +1,8 @@
 ﻿namespace _Project_CheatSheet.Common.Mapping
 {
+    using _Project_CheatSheet.Common.UserService.Interfaces;
     using _Project_CheatSheet.Infrastructure.Data.GlobalConstants;
+    using _Project_CheatSheet.Infrastructure.MongoDb.Models;
     using AutoMapper;
     using Features.Comment.Models;
     using Features.Course.Models;
@@ -14,8 +16,12 @@
 
     public class MapperProfile : Profile
     {
-        public MapperProfile()
+        private readonly ICurrentUser userService;
+
+        public MapperProfile(ICurrentUser userService)
         {
+            this.userService=userService;
+
             //Likes
             CreateMap<LikeResourceModel, ResourceLike>()
                 .ForMember(dest => dest.ResourceId, opt => opt.MapFrom(src => Guid.Parse(src.ResourceId)));
@@ -113,20 +119,23 @@
                     opt => opt.MapFrom(src => src.EndDate.ToString(Formatter.DateOnlyFormatter)))
                 .ForMember(dest => dest.Categories,
                     opt => opt.MapFrom(src => src.CategoryCourseCourses.Select(ccc => new
-                     {
-                         ccc.CategoryCourse,
-                         ccc.CourseId
-                     })
+                    {
+                        ccc.CategoryCourse,
+                        ccc.CourseId
+                    })
                         .Where(ccc => ccc.CourseId == src.Id)
                         .Select(cc => cc.CategoryCourse.Name)));
 
             CreateMap<Course, CourseRespondUpcomingModel>()
-                .BeforeMap((src, dest) => dest.HasPaid = false)
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id.ToString()))
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.ImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
                 .ForMember(dest => dest.StartDate, opt => opt.MapFrom(src => src.StartDate.ToString(Formatter.DateFormatter)))
-                .ForMember(dest => dest.WeeksDuration, opt => opt.MapFrom(src => (int)(src.EndDate - src.StartDate).TotalDays / 7));
+                .ForMember(dest => dest.WeeksDuration, opt => opt.MapFrom(src => (int)(src.EndDate - src.StartDate).TotalDays / 7))
+                .ForMember(dest=>dest.HasPaid,opt=>opt.MapFrom(src=>src.UsersCourses.Any(uc=>uc.CourseId==src.Id && uc.UserId==userService.GetUserId())));
+
+            CreateMap<CourseDetails, CourseDetails>()
+                .ForMember(dest => dest.TopicsCoverage, opt => opt.MapFrom(src => src.TopicsCoverage));
 
 
             //Topics
@@ -155,6 +164,7 @@
                 .ForMember(dest => dest.CategoryIssueId, opt => opt.MapFrom(src => src.IssueCategoryId));
 
             CreateMap<CategoryIssue, IssueCategoryModel>();
+            this.userService = userService;
         }
     }
 }

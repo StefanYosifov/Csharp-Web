@@ -1,5 +1,6 @@
 ﻿namespace _Project_CheatSheet.Features.Course
 {
+    using _Project_CheatSheet.Infrastructure.MongoDb.Models;
     using Common.Filters;
     using Infrastructure.Data.GlobalConstants.Course;
     using Interfaces;
@@ -12,10 +13,13 @@
     public class CourseController : ApiController
     {
         private readonly ICourseService service;
+        private readonly ICourseServiceMongo serviceMongo;
 
-        public CourseController(ICourseService service)
+        public CourseController(ICourseService service, 
+            ICourseServiceMongo serviceMongo)
         {
             this.service = service;
+            this.serviceMongo = serviceMongo;
         }
 
         [HttpGet("{id}")]
@@ -51,5 +55,13 @@
         [HttpGet("upcomingFeatured")]
         public async Task<ICollection<CourseRespondUpcomingModel>> GetUpcomingCourses()
             => await service.GetUpcomingCourses();
+
+        [HttpGet("preview/{id}")]
+        public async Task<CoursePreviewModel> GetCoursePreviewDetails(string id)
+            => await service.GetPreviewCourseData(id);
+
+        [HttpGet("preview/extra/{id}")]
+        public async Task<CourseDetails> GetCourseExtraDetails(string id)
+            => await serviceMongo.GetDetails(id);
     }
 }

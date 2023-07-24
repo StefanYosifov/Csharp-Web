@@ -1,31 +1,31 @@
-import './index.css'
-import { Navigation } from './components/Navigation/Navigation';
 import { Route, Routes } from 'react-router-dom';
-import LoginPage from './components/Login/Login';
-import RegisterPage from './components/Register/Register';
-import HomePage from './components/Home/Home'
+import { ToastContainer } from 'react-toastify';
 import ResourceAdd from './components/Add/ResourceAdd';
-import Profile from './components/Profile/Profile'
-import { Layout } from "./components/Setup/Layout";
-import { Footer } from './components/Footer/Footer';
-import { Logout } from './components/Logout/Logout';
-import { Privacy } from './components/Static pages/Privacy';
-import { TermsAndConditions } from './components/Static pages/Terms and conditions';
-import { CoursesList } from './components/Courses/CoursesList';
-import { CoursePage } from './components/Courses/CoursePage';
-import { CourseVideo } from './components/Courses/CourseVideo';
 import { CourseJoin } from './components/Courses/CourseJoin';
 import { CourseMy } from './components/Courses/CourseMy';
-import { ToastContainer } from 'react-toastify';
-import { UserDataProvider } from './context/UserDataProvider';
+import { CoursePage } from './components/Courses/CoursePage';
+import { CourseVideo } from './components/Courses/CourseVideo';
+import { CoursesList } from './components/Courses/CoursesList';
 import { Details2 } from './components/Detail/Details2';
+import { Footer } from './components/Footer/Footer';
+import HomePage from './components/Home/Home';
+import LoginPage from './components/Login/Login';
+import { Logout } from './components/Logout/Logout';
+import { Navigation } from './components/Navigation/Navigation';
+import Profile from './components/Profile/Profile';
+import RegisterPage from './components/Register/Register';
+import { Layout } from "./components/Setup/Layout";
+import { Privacy } from './components/Static pages/Privacy';
+import { TermsAndConditions } from './components/Static pages/Terms and conditions';
+import { UserDataProvider } from './context/UserDataProvider';
+import './index.css';
 
-import RequireAuth from './components/Setup/RequireAuth';
-import { ResourceList2 } from './components/Resources/ResourceList2';
-import { APP_URLS } from './constants/URLConstants';
-import { CourseList2 } from './components/Courses/CourseList2';
 import { Private } from './components/Administrator/Private';
+import { CourseList2 } from './components/Courses/CourseList2';
 import { CourseOverView } from './components/Courses/CourseOverview';
+import { ResourceList2 } from './components/Resources/ResourceList2';
+import RequireAuth from './components/Setup/RequireAuth';
+import { APP_URLS } from './constants/URLConstants';
 
 
 

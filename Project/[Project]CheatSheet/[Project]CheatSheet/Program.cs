@@ -1,4 +1,5 @@
 using _Project_CheatSheet.Common.Caching;
+using _Project_CheatSheet.Common.Mapping;
 using _Project_CheatSheet.Common.UserService;
 using _Project_CheatSheet.Common.UserService.Interfaces;
 using _Project_CheatSheet.Features.Category.Interfaces;
@@ -25,31 +26,38 @@ using _Project_CheatSheet.Features.Videos.Interfaces;
 using _Project_CheatSheet.Features.Videos.Services;
 using _Project_CheatSheet.Infrastructure.Data;
 using _Project_CheatSheet.Infrastructure.Data.Models;
+using _Project_CheatSheet.Infrastructure.MongoDb.Services;
+using _Project_CheatSheet.Infrastructure.MongoDb.Store;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using System.Text;
 using System.Text.Json.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddTransient<IAuthenticateService, AuthenticateService>();
-builder.Services.AddTransient<IResourceService, ResourceService>();
-builder.Services.AddTransient<ICategoryService, CategoryService>();
-builder.Services.AddTransient<ICommentService, CommentService>();
-builder.Services.AddTransient<ILikeService, LikeService>();
-builder.Services.AddTransient<IStatisticsService, StatisticService>();
-builder.Services.AddTransient<IProfileService, ProfileService>();
-builder.Services.AddTransient<ICourseService, CourseService>();
-builder.Services.AddTransient<ITopicService, TopicService>();
-builder.Services.AddTransient<IVideoService, VideoService>();
-builder.Services.AddTransient<IIssueService, IssueService>();
+builder.Services.AddScoped<IAuthenticateService, AuthenticateService>();
+builder.Services.AddScoped<IResourceService, ResourceService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<ILikeService, LikeService>();
+builder.Services.AddScoped<IStatisticsService, StatisticService>();
+builder.Services.AddScoped<IProfileService, ProfileService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ITopicService, TopicService>();
+builder.Services.AddScoped<IVideoService, VideoService>();
+builder.Services.AddScoped<IIssueService, IssueService>();
+builder.Services.AddScoped<ICourseServiceMongo, CourseServiceMongo>();
 
 builder.Services.AddScoped<ICurrentUser, CurrentUser>();
 builder.Services.AddScoped<ICacheService, CacheService>();
@@ -71,6 +79,10 @@ builder.Services.AddAuthorization(options =>
 });
 
 builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddScoped(provider => new MapperConfiguration(cfg =>
+{
+    cfg.AddProfile(new MapperProfile(provider.GetService<ICurrentUser>()));
+}).CreateMapper());
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
@@ -86,6 +98,12 @@ builder.Services.AddControllers();
 
 var provider = builder.Services.BuildServiceProvider();
 var configuration = provider.GetRequiredService<IConfiguration>();
+
+builder.Services.Configure<MongoDbSettings>(configuration.GetSection("MongoDbSettings"));
+builder.Services.AddSingleton<IMongoDbSettings>(s => s.GetRequiredService<IOptions<MongoDbSettings>>().Value);
+builder.Services.AddSingleton<IMongoClient>(s => new MongoClient(builder.Configuration.GetValue<string>("MongoDbSettings:ConnectionString")));
+builder.Services.AddScoped<ICourseDetailsService, CourseDetailsService>();
+
 
 builder.Services.AddCors(options =>
 {
@@ -143,6 +161,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(e => { e.MapControllers();});
+app.UseEndpoints(e => { e.MapControllers(); });
 
 await app.RunAsync();

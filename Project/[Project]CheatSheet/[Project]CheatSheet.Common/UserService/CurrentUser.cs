@@ -4,7 +4,6 @@
     using _Project_CheatSheet.Infrastructure.Data.Models;
     using Interfaces;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.EntityFrameworkCore;
     using System.Security.Claims;
 
     public class CurrentUser : ICurrentUser
@@ -23,7 +22,7 @@
         public async Task<User> GetUser()
         {
             var id = GetUserId();
-            return await context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return await context.Users.FindAsync(id);
         }
 
         public string GetUserId()

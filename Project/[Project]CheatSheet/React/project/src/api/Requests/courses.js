@@ -25,3 +25,11 @@ export const joinCoursePayment = (id) => {
     return post(`course/payment/${id}`);
 }
 
+export const getCoursePreviewDetails=(id)=>{
+    return get(`course/preview/${id}`);
+}
+
+export const getCoursePreviewDetailsExtra=(id)=>{
+    return get(`course/preview/extra/${id}`);
+}
+
